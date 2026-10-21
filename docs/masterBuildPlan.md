@@ -48,12 +48,12 @@ Status: `leer` · `in Klärung` · `fertig` · `angenommen` (fertig, aber mit un
 
 | § | Abschnitt | Status | Offene Fragen | Nötig für Gate |
 |---|---|---|---|---|
-| 1 | Projektkontext und Ziel | in Klärung | Termin, Abnahmekriterien | G1 |
-| 2 | Umfang | in Klärung | Q-05, Q-06, Q-07 | G1 |
+| 1 | Projektkontext und Ziel | angenommen | Termin, Abnahme bestätigen | G1 |
+| 2 | Umfang | angenommen | PE-13 bestätigen | G1 |
 | 3 | Tech-Stack | angenommen | PE-08 bestätigen | G1 |
-| 4 | Architektur, Datenmodell, Verträge | leer | – | G1 |
-| 5 | Sicherheit, Datenschutz, Recht, Limits | leer | – | G1 |
-| 6 | Umgebungen, Branches, Deployment | leer | – | G1 |
+| 4 | Architektur, Datenmodell, Verträge | angenommen | PE-14 bestätigen | G1 |
+| 5 | Sicherheit, Datenschutz, Recht, Limits | angenommen | PE-15 bestätigen | G1 |
+| 6 | Umgebungen, Branches, Deployment | angenommen | Q-08, PE-16 | G1 |
 | 7 | Team-Steuerung | fertig | – | G1 |
 | 8 | Lanes und Dateieigentum | leer | – | G2 |
 | 9 | Meilensteine und Wellen | leer | – | G2 |
@@ -90,16 +90,22 @@ Status: `leer` · `in Klärung` · `fertig` · `angenommen` (fertig, aber mit un
 | Einzeiler | Taschenrechner mit integriertem Flappy-Bird-Spiel und lokaler Bestenliste. |
 | Zielgruppe | Der Nutzer selbst, privat |
 | Lieferumfang | Repository; Web-App, die lokal auf dem PC des Nutzers unter `localhost` läuft. Keine Veröffentlichung (PE-02) |
-| Termin | {{JJJJ-MM-TT oder „keiner“}} |
-| Kommerzialisierung | {{nein / später möglich / geplant}} |
-| Projektdokumentation | {{Verweis oder „keine“}} |
+| Termin | keiner (angenommen) |
+| Kommerzialisierung | nein (angenommen) |
+| Projektdokumentation | keine; README entsteht im Gerüst-Paket |
 
-**Leitprinzipien (in Rangfolge):**
+**Leitprinzipien (in Rangfolge, angenommen):**
 
 1. Sicherheit und Datenschutz werden nie gekürzt.
-2. {{…}}
+2. Korrekt rechnender Taschenrechner vor Spiel-Feinschliff.
+3. Einfach und spielbar vor grafisch aufwendig.
 
-**Abnahmekriterien (G3):** {{prüfbare Liste}}
+**Abnahmekriterien (G3, angenommen):**
+- [ ] `npm ci && npm run dev` startet die App unter `localhost`; alle Checks aus §3 grün.
+- [ ] Rechner: `2+3*4=` → 14, `(2+3)*4=` → 20, `50%` → 0,5, `±` wechselt Vorzeichen, Division durch 0 zeigt „Error“ statt abzustürzen; Bedienung per Maus und Tastatur.
+- [ ] „🐦“ startet das Spiel im Display (LCD-Stil, π als Vogel); Ziffern flattern; „C“ führt zurück zum Rechner.
+- [ ] Nach einem Top-3-Ergebnis Kürzel (1–6 Ziffern) eingeben, „=“ speichert; Eintrag bleibt nach Neuladen erhalten.
+- [ ] „%“ zeigt im Spielmodus die Top 3; Doppel-„AC“ löscht sie nur bei angezeigter Liste.
 
 ---
 
@@ -117,8 +123,8 @@ Status: `leer` · `in Klärung` · `fertig` · `angenommen` (fertig, aber mit un
 | ID | Funktion | Beschreibung aus Nutzersicht | Kernfluss |
 |---|---|---|---|
 | F-01 | Taschenrechner | Rechnen mit + − × ÷, Klammern, Prozent, Vorzeichenwechsel (±), Löschen (C) und Rückschritt; Bedienung per Maus und Tastatur (PE-03) | ja |
-| F-02 | Flappy-Bird-Spiel | Über einen sichtbaren Button/Modus-Umschalter im Rechner das Spiel starten, spielen und zum Rechner zurückkehren (PE-04). Das Spiel läuft im Display des Taschenrechners; alle Bedienelemente sind Tasten des Rechners (PE-07, Tastenbelegung ⟦offen: Q-05⟧) | ja |
-| F-03 | Lokale Bestenliste | Die 3 besten Ergebnisse mit Kürzel (max. 6 Zeichen), Punkten und Datum sehen; nach einem Top-3-Ergebnis Kürzel eingeben; Liste per Button löschen. Speicherung nur im Browser (`localStorage`) (PE-05) | ja |
+| F-02 | Flappy-Bird-Spiel | Eine eigene Rechnertaste „🐦“ schaltet zwischen Rechner und Spiel um (PE-04). Das Spiel läuft im Display des Rechners im LCD-Stil (grau-schwarz, Pixel-Optik); der Vogel ist ein **π-Zeichen**, Röhren als Pixelbalken. Jede Zifferntaste (0–9, auch per PC-Tastatur) lässt π flattern; „C“ beendet das Spiel und führt zum Rechner zurück. 1 Punkt pro durchflogenem Röhrenpaar. Konstante Schwierigkeit, kein Ton (PE-07, PE-10, PE-12) | ja |
+| F-03 | Lokale Bestenliste | Top 3 mit Kürzel, Punkten und Datum. Kürzel = 1–6 **Ziffern**, eingegeben über die Rechnertasten, bestätigt mit „=“ (nach einem Top-3-Ergebnis). Nach jedem Spiel erscheint die Top 3 im Display; im Spielmodus zeigt „%“ sie jederzeit. Löschen: zweimal „AC“ hintereinander, **nur während die Bestenliste angezeigt wird**. Speicherung nur im Browser (`localStorage`) (PE-05, PE-11) | ja |
 
 ### Optional
 
@@ -175,15 +181,33 @@ Status: `leer` · `in Klärung` · `fertig` · `angenommen` (fertig, aber mit un
 [W] Wo liegen die gemeinsamen Verträge (Schemas, API-Typen), damit parallel gebaut werden kann?
 -->
 
-**Bausteine:** {{Diagramm (Mermaid oder ASCII) und je Baustein ein Satz}}
+**Bausteine (angenommen, PE-14):**
 
-**Grundregeln:** {{z. B. „Nur die API spricht mit der Datenbank“}}
+```mermaid
+flowchart LR
+  KP["ui/keypad<br/>Rechnertasten + PC-Tastatur"] --> APP["app/controller<br/>Modus-Zustandsmaschine"]
+  APP --> CALC["calc/<br/>Rechenkern (reine Funktionen)"]
+  APP --> GAME["game/<br/>Spiellogik (reine Funktionen)"]
+  APP --> LB["leaderboard/<br/>Top-3 + localStorage"]
+  APP --> DISP["ui/display<br/>Text- und Canvas-Display (LCD)"]
+  GAME -.->|"Zustand"| REND["game/render<br/>π + Röhren auf Canvas"]
+  REND --> DISP
+```
+
+- `src/contracts/` – gemeinsame Typen: `Key`, `Mode`, `CalcResult`, `GameState`, `ScoreEntry`, Schnittstellen der Bausteine.
+- `src/calc/` – Tokenizer + Parser für Ausdrücke (Klammern, Punkt vor Strich, %, ±), **kein `eval`/`Function`**.
+- `src/game/` – `step(state, dtMs, flap)` als reine Funktion (Physik, Röhren, Kollision, Punkte); `render(ctx, state)` zeichnet im LCD-Stil.
+- `src/leaderboard/` – `load()`, `qualifies(score)`, `add(entry)`, `clear()`; validiert Daten aus `localStorage`.
+- `src/ui/` – Tastenfeld und Display (DOM).
+- `src/app/` – Modi `calc` → `game` → `gameover/initials` → `leaderboard` und Tastenbelegung (PE-10, PE-11); `src/main.ts` verdrahtet alles.
+
+**Grundregeln:** Nur `leaderboard/` greift auf `localStorage` zu. `calc/` und `game/` (außer `render`) kennen kein DOM. Bausteine sprechen nur über die Typen aus `src/contracts/`. Keine Netzwerkzugriffe.
 
 | Entität | Wichtige Felder | Gehört zu | Löschverhalten |
 |---|---|---|---|
-| {{…}} | {{…}} | {{…}} | {{…}} |
+| ScoreEntry | `initials` (1–6 Ziffern), `score` (Ganzzahl ≥ 0), `date` (ISO-Datum `JJJJ-MM-TT`) | Browser des Nutzers, `localStorage`-Schlüssel `mataschen.leaderboard.v1`, max. 3 Einträge | Doppel-„AC“ bei angezeigter Liste löscht alles; ungültige gespeicherte Daten werden verworfen |
 
-**Verträge:** {{Ort und Format}}. Regel: Jeder Vertrag entsteht in einem eigenen Paket mindestens eine Welle vor seinen Nutzern.
+**Verträge:** `src/contracts/*.ts` (TypeScript-Typen und Interfaces). Regel: Jeder Vertrag entsteht in einem eigenen Paket mindestens eine Welle vor seinen Nutzern.
 
 ---
 
@@ -202,17 +226,27 @@ Es gelten immer R1–R6 (siehe Agent-Dateien). Dieser Abschnitt konkretisiert si
 
 | Regel | Umsetzung (grob) | Testart | Paket |
 |---|---|---|---|
-| {{z. B. Jede Abfrage filtert nach user_id}} | {{…}} | {{…}} | {{AP-xx}} |
-| Impressum und Datenschutzerklärung (R3) | {{…}} | {{Seite erreichbar}} | {{AP-xx}} |
-| Secrets nur in `.env`, `.env.example` gepflegt (R4) | {{…}} | {{Review}} | alle |
+(angenommen, PE-15) Keine Konten, kein Server, keine Auth nötig. Personenbezogene Daten: praktisch keine (Kürzel nur Ziffern, nur lokal).
+
+| Regel | Umsetzung (grob) | Testart | Paket |
+|---|---|---|---|
+| Kein Code-Ausführen aus Eingaben (R6, OWASP Injection) | Eigener Parser, kein `eval`/`new Function`/`innerHTML` mit Daten | Unit-Tests + Review | Rechenkern, UI |
+| Gespeicherte Daten validieren (R6) | `load()` prüft Struktur, Typen, Längen; bei Fehler leere Liste | Unit-Tests mit kaputten Daten | Bestenliste |
+| Datensparsamkeit, Löschbarkeit (R2) | Nur Ziffern-Kürzel, Punkte, Datum; Löschen per Doppel-„AC“ | Unit + Handtest | Bestenliste, App |
+| Keine externen Inhalte/Tracking | Keine CDNs, Fonts oder Requests nach außen; alles lokal gebündelt | Review | alle |
+| Impressum und Datenschutzerklärung (R3) | **entfällt**, solange nur lokal (PE-02). Bei Veröffentlichung neues Paket nötig | – | – |
+| Secrets nur in `.env`, `.env.example` gepflegt (R4) | Projekt braucht keine Secrets; `.env.example` bleibt ohne Werte | Review | alle |
+| Dev-Server nur lokal | Vite-Standard `localhost`, kein `--host` | Review | Gerüst |
 
 | Limit | Standard | Ebene |
 |---|---|---|
-| {{…}} | {{…}} | {{pro Nutzer / global}} |
+| Kürzel-Länge | 1–6 Ziffern | Eingabe |
+| Bestenliste | 3 Einträge | global (Browser) |
+| Rechner-Eingabe | max. 64 Zeichen | Eingabe |
 
-**Nie kürzbar:** {{Liste}}
+**Nie kürzbar:** kein `eval`, Validierung der `localStorage`-Daten, Lösch-Funktion.
 
-**Vom Nutzer rechtlich zu prüfen (vor Kommerzialisierung):** {{z. B. Impressumsangaben, AGB, Auftragsverarbeitungsverträge}}
+**Vom Nutzer rechtlich zu prüfen:** nur falls die App später veröffentlicht wird (Impressum, Datenschutzerklärung).
 
 ---
 
@@ -227,9 +261,11 @@ Es gelten immer R1–R6 (siehe Agent-Dateien). Dieser Abschnitt konkretisiert si
 
 | Umgebung | Frontend | Backend | Datenbank | Auslöser |
 |---|---|---|---|---|
-| lokal / dev | {{…}} | {{…}} | {{Dev-DB, Agents schreiben}} | – |
-| stage | {{…}} | {{…}} | {{Stage-DB, Agents höchstens lesen}} | {{Merge dev → stage durch den Nutzer}} |
-| Produktion | {{…}} | {{…}} | {{Prod-DB, Agents höchstens lesen}} | {{Merge stage → master durch den Nutzer}} |
+| lokal / dev | `npm run dev` im Hauptcheckout (`localhost:5173`) | – | `localStorage` des Browsers | – |
+| stage | Checkout von `stage`, `npm ci && npm run dev` lokal | – | `localStorage` | Merge dev → stage durch den Nutzer |
+| Produktion | Checkout von `master`, `npm ci && npm run build && npm run preview` lokal | – | `localStorage` | Merge stage → master durch den Nutzer |
+
+(angenommen, PE-16) Es gibt kein Hosting; „stage“ und „Produktion“ sind Stände, die der Nutzer lokal startet.
 
 | Branch | Zweck | Wer schreibt darauf |
 |---|---|---|
@@ -238,13 +274,13 @@ Es gelten immer R1–R6 (siehe Agent-Dateien). Dieser Abschnitt konkretisiert si
 | `dev` | Integration, Default-Branch | ma-lead (`merge --no-ff`, `push`), ma-planner (nur Plan-Commits) |
 | `agent/AP-<nr>-c<n>` | ein Arbeitspaket | ma-coder (`commit`), nur lokal, wird nach dem Merge gelöscht |
 
-**Worktrees:** werden beim Start eines Coders automatisch unter `.claude/worktrees/` angelegt (gitignored) und vom Lead nach dem Merge entfernt.
+**Worktrees:** ⟦offen: Q-08⟧ – Vorlage nennt `.claude/worktrees/`, die Agent-Regeln `<projekt>_worktree/`. Werden vom Lead nach dem Merge entfernt.
 
-**Parallele Coder und lokale Ressourcen:** {{z. B. jede Worktree-Instanz nutzt eigenen Port / eigenes DB-Schema, Variablen in .env.example: PORT, DB_SCHEMA}}
+**Parallele Coder und lokale Ressourcen:** Tests (Vitest/jsdom) brauchen keinen Port. Startet ein Coder den Dev-Server, nutzt er `npm run dev -- --port 51<coderNr>0` (c1 → 5110, c2 → 5120, c3 → 5130).
 
-**Env-Dateien:** `.env` füllt nur der Nutzer. Agents sehen `.env.example`. {{Welche Variablen braucht ein Worktree, und wie kommt er an sie, ohne dass ein Agent sie liest? z. B. Anwendung lädt ../../.env des Hauptcheckouts}}
+**Env-Dateien:** Das Projekt braucht keine Umgebungsvariablen und keine Secrets. `.env.example` bleibt ohne Einträge.
 
-**Deployment-Anleitung:** {{Verweis}}
+**Deployment-Anleitung:** README (entsteht im Gerüst-Paket): `npm ci`, `npm run dev`, `npm run build`, `npm run preview`.
 
 ---
 
@@ -486,6 +522,13 @@ flowchart LR
 | PE-07 | Spiel läuft im Display des Taschenrechners; alle Bedienelemente (Flattern, Start, Beenden, Bestenliste) sind Rechnertasten | Wunsch des Nutzers | Nutzer am 2026-10-21 |
 | PE-08 | Freigegebene devDependencies laut §3, keine Laufzeit-Abhängigkeiten | Standardwerkzeuge zu PE-06 | angenommen vom Planner |
 | PE-09 | Höchstens 3 Coder gleichzeitig; Freigabe pro Meilenstein; Ausschlüsse §2 bestätigt | Wunsch des Nutzers | Nutzer am 2026-10-21 |
+| PE-10 | Spieltasten: „🐦“ Umschalten, Ziffern 0–9 flattern, „C“ beendet | Wunsch des Nutzers (Option 9b) | Nutzer am 2026-10-21 |
+| PE-11 | Kürzel nur Ziffern (1–6) über Rechnertasten, „=“ bestätigt; „%“ zeigt Bestenliste; Doppel-„AC“ löscht nur bei angezeigter Bestenliste | Wunsch des Nutzers; Ziffern-Kürzel sind kaum personenbezogen (R2) | Nutzer am 2026-10-21 |
+| PE-12 | Grafik im LCD-Stil, Vogel = π-Zeichen | Wunsch des Nutzers | Nutzer am 2026-10-21 |
+| PE-13 | Konstante Schwierigkeit, kein Ton | Nicht explizit gewählt; geringster Aufwand | angenommen vom Planner |
+| PE-14 | Architektur §4: Bausteine calc/game/leaderboard/ui/app, Verträge in `src/contracts/` | Ermöglicht parallele Pakete ohne Dateikonflikte | angenommen vom Planner |
+| PE-15 | Sicherheit §5: kein `eval`, Validierung der Speicherdaten, keine externen Inhalte, R3 entfällt lokal | R2, R3, R6 | angenommen vom Planner |
+| PE-16 | Umgebungen §6: kein Hosting, stage/master werden lokal gestartet; keine Env-Variablen | Folgt aus PE-02 | angenommen vom Planner |
 
 ### Offene Fragen
 
@@ -495,9 +538,10 @@ flowchart LR
 | Q-02 | Funktionsumfang des Taschenrechners | K | §2 F-01 | Grundrechenarten + Klammern, %, ±, Löschen | geklärt → PE-03 |
 | Q-03 | Wie wird Flappy Bird aus dem Rechner gestartet? | K | §2 F-02 | sichtbarer Modus-Button | geklärt → PE-04 |
 | Q-04 | Inhalt und Speicherort der Bestenliste | K | §2 F-03, §4, §5 | Top 10, Kürzel + Punkte + Datum, localStorage | geklärt → PE-05 (Top 3, 6 Zeichen) |
-| Q-05 | Tastenbelegung im Spielmodus (Flattern, Pause/Beenden, Bestenliste, Löschen) | K | §2 F-02, F-03 | Taste „=“ flattert, „C“ beendet, Leertaste zusätzlich | offen |
-| Q-06 | Wie wird das Kürzel (6 Zeichen) eingegeben, wenn alle Tasten Rechnertasten sind? | K | §2 F-03 | PC-Tastatur, Bestätigung mit „=“ | offen |
-| Q-07 | Spielgrafik und Schwierigkeit im Display | W | §2 F-02 | einfache Formen, konstante Schwierigkeit, kein Ton | offen |
+| Q-05 | Tastenbelegung im Spielmodus (Flattern, Pause/Beenden, Bestenliste, Löschen) | K | §2 F-02, F-03 | Taste „=“ flattert, „C“ beendet, Leertaste zusätzlich | geklärt → PE-10 |
+| Q-06 | Wie wird das Kürzel (6 Zeichen) eingegeben, wenn alle Tasten Rechnertasten sind? | K | §2 F-03 | PC-Tastatur, Bestätigung mit „=“ | geklärt → PE-11 (nur Ziffern) |
+| Q-07 | Spielgrafik und Schwierigkeit im Display | W | §2 F-02 | einfache Formen, konstante Schwierigkeit, kein Ton | geklärt → PE-12, PE-13 |
+| Q-08 | Worktree-Ort: §6 der Vorlage nennt `.claude/worktrees/`, die Agent-Regeln nennen `<projekt>_worktree/` | W | §6 | `D:\Private Projekte\mAtaschenRechnerFlappybird_worktree\` (wie Agent-Regeln) | offen |
 
 ### Vorgeschlagene Änderungen (brauchen Freigabe des Nutzers)
 
