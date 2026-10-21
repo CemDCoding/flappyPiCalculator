@@ -364,7 +364,7 @@ Erst wenn M1 vollständig auf `dev` fertig ist (PE-24):
 - `stage` → `master` lokal mergen, `npm ci && npm run build && npm run preview`, Smoke-Test
 - **Smoke-Test:**
   - [ ] Seite öffnet unter `localhost`, Rechner mit LCD-Display und allen Tasten sichtbar (inkl. „🐦“)
-  - [ ] `2+3*4=` → 14 · `(2+3)*4=` → 20 · `50%` → 0,5 · `0,1+0,2=` → 0,3
+  - [ ] `2+3*4=` → 14 · `(2+3)*4=` → 20 · `50%=` → 0,5 (Postfix-%, wirkt erst bei `=`; `200+10%=` ergibt 200,1, nicht 220 – im Handtest erklären) · `0,1+0,2=` → 0,3
   - [ ] `7±` → −7 · `5÷0=` → „Error“, danach „AC“ → 0
   - [ ] „⌫“, „C“, „AC“ verhalten sich wie in F-01 beschrieben
   - [ ] Eingabe über PC-Tastatur (Ziffern, `+-*/`, `Enter`, `Backspace`, `Esc`) funktioniert
@@ -388,12 +388,12 @@ Status: `offen` · `bereit` · `in Arbeit` · `Review` · `fertig` (gemergt in d
 | ID | Titel | M | Lane | Welle | Abhängigkeiten | Aufwand | Modell | Coder / Branch | Status |
 |---|---|---|---|---|---|---|---|---|---|
 | AP-01 | Gerüst und Verträge | M1 | SH | W1 | H-01 | M | sonnet / high | c1 / agent/AP-01-c1 | fertig |
-| AP-02 | Rechenkern | M1 | CORE | W2 | AP-01 | L | opus / high | – | bereit |
-| AP-03 | Rechner-Oberfläche | M1 | WEB | W2 | AP-01 | M | sonnet / medium | – | bereit |
-| AP-07 | Bestenliste | M1 | CORE | W2 | AP-01 | M | sonnet / high | – | bereit |
-| AP-04 | App-Steuerung Rechnermodus | M1 | WEB | W3 | AP-02, AP-03 | S | sonnet / medium | – | offen |
-| AP-05 | Spiellogik | M1 | CORE | W3 | AP-01 | M | sonnet / high | – | offen |
-| AP-06 | LCD-Renderer | M1 | CORE | W3 | AP-01 | M | sonnet / medium | – | offen |
+| AP-02 | Rechenkern | M1 | CORE | W2 | AP-01 | L | opus / high | c2 / agent/AP-02-c2 | fertig |
+| AP-03 | Rechner-Oberfläche | M1 | WEB | W2 | AP-01 | M | sonnet / medium | c3 / agent/AP-03-c3 | fertig |
+| AP-07 | Bestenliste | M1 | CORE | W2 | AP-01 | M | sonnet / high | c4 / agent/AP-07-c4 | fertig |
+| AP-04 | App-Steuerung Rechnermodus | M1 | WEB | W3 | AP-02, AP-03 | S | sonnet / medium | – | bereit |
+| AP-05 | Spiellogik | M1 | CORE | W2 (vorgezogen aus W3) | AP-01 | M | sonnet / high | c5 / agent/AP-05-c5 | fertig |
+| AP-06 | LCD-Renderer | M1 | CORE | W3 | AP-01 | M | sonnet / medium | – | bereit |
 | AP-08 | App-Steuerung Spiel und Bestenliste | M1 | WEB | W4 | AP-04, AP-05, AP-06, AP-07 | L | opus / high | – | offen |
 | M1-DEP | Deployment M1 | M1 | HUM | W5 | AP-08, H-02, H-03 | H | – | Nutzer | offen |
 
@@ -814,3 +814,4 @@ Keine Konten, Käufe oder Secrets nötig. Kein Remote (PE-24).
 | 2026-10-21 | PE-25 (Spielablauf) vom Nutzer bestätigt | Antwort 20a | AP-08 | Nutzer |
 | 2026-10-21 | Handtest H-02 (Rechner) von nach W3/AP-04 ans Meilensteinende verlegt, läuft gemeinsam mit H-03 nach AP-08 (§9.2, §13, RI-11) | Entscheidung des Nutzers | – | Nutzer |
 | 2026-10-21 | AP-01 fertig (gemergt, Review Runde 1 bestanden, c1 / `agent/AP-01-c1`); AP-02, AP-03, AP-07 bereit (W2); M1-DEP-Abhängigkeiten um H-02 ergänzt. Erkenntnisse: (a) role-guard blockiert Bash-Befehle mit dem Wort „format“ (auch in Dateiinhalten) – Coder nutzen dafür das Write-Tool; (b) `.gitignore` (node_modules, dist, coverage) hat der Lead wegen des Guards auf `dev` ergänzt; (c) Reviewer-Hinweis, niedrig, akzeptiert: `no-eval`/`no-implied-eval` greifen nicht bei `setTimeout('str')`/`window.eval`, weil in `eslint.config.js` keine Browser-Globals konfiguriert sind – Review achtet manuell darauf, keine Nutzerfrage nötig; (d) installierte Versionen: eslint 10, vite 8, vitest 5, typescript 6, jsdom 30 | Merge AP-01, Pflegeauftrag Lead | AP-01, AP-02, AP-03, AP-07, M1-DEP | Lead |
+| 2026-10-21 | W2 fertig: AP-02 (c2), AP-03 (c3), AP-05 (c5, vorgezogen aus W3), AP-07 (c4) gemergt, Review Runde 1 bestanden, 183/183 Tests grün; AP-04, AP-06 bereit (W3). §9.2-Smoke-Test präzisiert: `50%=` → 0,5 (Postfix-%, wirkt erst bei `=`; `200+10%=` → 200,1). Erkenntnisse: (a) AP-05: Konfiguration weicht von den Richtwerten ab (gravity 300, flapVelocity -75, pipeGap 22); Spielbarkeit nur per Autopilot-Test belegt, Nachjustierung in `config.ts` nach H-03. `birdY` = Oberkante der Vogel-Box, `Pipe.x` = linke Kante, Boden bei `height - groundHeight` (AP-06/AP-08 beachten); (b) AP-03: Tastatur-Listener fängt zugeordnete Tasten global ab; Initialen-Eingabe in AP-08 läuft über Tasten, kein Textfeld nötig. UI-Struktur `.calc > .lcd + .keypad`, Ebenen `.lcd-text`, `.lcd-lines`, `canvas.lcd-canvas` per `hidden` umschalten; Import über `src/ui/index.ts`. Breite bis 360 px nur im CSS ausgelegt, im Handtest prüfen; (c) AP-02: `calcEngine` aus `src/calc/index.ts`; Anzeige immer aus `state.display` nehmen (Minus als U+2212), nicht die Formatierfunktion `format()` aufrufen; Zahlen mit Exponent gelten als abgeschlossen; (d) AP-07: `formatEntry` aus `src/leaderboard/index.ts`; Reviewer-Befunde niedrig: Zwischenspeicher geht verloren, wenn nur `setItem` fehlschlägt; Datum nur formgeprüft; Tests für Gleichstand fehlen; (e) AP-05, Reviewer niedrig: NaN-`dt` nicht abgefangen; (f) Guard: Reviewer/Coder können Commit-Texte mit dem Wort „format“ nicht per Datei schreiben; Budget-Wächter stand bei 30 % (H-05 offen, Nutzer muss auf 50 % stellen) | Merge W2, Pflegeauftrag Lead | AP-02, AP-03, AP-04, AP-05, AP-06, AP-07, AP-08, M1-DEP | Lead |
