@@ -59,7 +59,7 @@ Status: `leer` · `in Klärung` · `fertig` · `angenommen` (fertig, aber mit un
 | 9 | Meilensteine und Wellen | fertig | – | G2 |
 | 10 | Statusübersicht | fertig | – | G2 |
 | 11 | Abhängigkeitsgraph | fertig | – | G2 |
-| 12 | Arbeitspakete | angenommen | PE-25 (Spielablauf AP-08) bestätigen | G2 (je Meilenstein) |
+| 12 | Arbeitspakete | fertig | – | G2 (je Meilenstein) |
 | 13 | Menschliche Schritte | fertig | – | G2 |
 | 14 | Budget und Kürzungen | fertig | – | G2 |
 | 15 | Risiken | fertig | – | G2 |
@@ -67,7 +67,7 @@ Status: `leer` · `in Klärung` · `fertig` · `angenommen` (fertig, aber mit un
 | 17 | Abdeckungsmatrix | fertig | – | G2 |
 | 18 | Änderungsprotokoll | laufend | – | laufend |
 
-**Gate-Stand:** G1 **erfüllt** (2026-10-21). G2(M1) **erfüllt aus Plannersicht** (Prüfung durch den Lead): alle Pakete vollständig, Schnitt vom Nutzer bestätigt (PE-21); Spielablauf in AP-08 ist `(angenommen)` (PE-25) und kann vom Nutzer jederzeit vor W4 geändert werden. Interview am 2026-10-21 mit „stop“ beendet.
+**Gate-Stand:** G1 **erfüllt** (2026-10-21). G2(M1) **erfüllt aus Plannersicht** (Prüfung durch den Lead): alle Pakete vollständig, Schnitt vom Nutzer bestätigt (PE-21); Spielablauf in AP-08 bestätigt (PE-25). Keine offenen Annahmen. Interview am 2026-10-21 mit „stop“ beendet.
 
 | Gate | Bedingung | Wer prüft | Folge |
 |---|---|---|---|
@@ -640,7 +640,6 @@ AP-05 und AP-06 hängen nur an AP-01; der Lead darf sie bei freien Plätzen und 
 #### AP-08 – App-Steuerung Spiel und Bestenliste
 
 - **Meilenstein, Lane, Welle:** M1 · WEB · W4
-- **Hinweis:** Ablauf-Details (Pause per `%`, 800-ms-Sperre, Doppel-AC-Fenster 2 s, 0 Punkte nie in der Liste) sind `(angenommen)` (PE-25).
 - **Ziel:** Modus-Zustandsmaschine und Spielschleife: Rechner ↔ Spiel ↔ Kürzeleingabe ↔ Bestenliste mit exakt der vereinbarten Tastenbelegung.
 - **Pflichtlektüre:** §2 F-02/F-03, §5, `src/contracts/*`, `src/app/controller.ts`, `src/game/index.ts`, `src/game/render.ts`, `src/leaderboard/index.ts`; PE-10, PE-11
 - **Abhängigkeiten:** AP-04, AP-05, AP-06, AP-07
@@ -756,7 +755,7 @@ Keine Konten, Käufe oder Secrets nötig. Kein Remote (PE-24).
 | PE-22 | Modelle: opus/high für AP-02 (Parser, Sicherheit) und AP-08 (Zustandsmaschine); sonnet sonst | D11, Kernlogik | angenommen vom Planner |
 | PE-23 | Team-Budget für dieses Projekt: 50 % des 5-Stunden-Limits statt 30 % | Erster Durchlauf, Limit wird getestet | Nutzer am 2026-10-21 |
 | PE-24 | Rein lokal, kein Remote, kein Push. Gearbeitet wird nur auf `dev`, bis der Meilenstein fertig ist; danach merged der Nutzer lokal nach `stage` und `master` | Wunsch des Nutzers (Q-09) | Nutzer am 2026-10-21 |
-| PE-25 | Spielablauf AP-08: „🐦“/„C“ beenden ohne Wertung; „%“ pausiert und zeigt Liste, „%“ erneut setzt fort; 800 ms Sperre nach Game Over; Kürzel mit „⌫“/„=“/„C“; in der Liste Ziffer/„=“ = neues Spiel, „C“ = Rechner, Doppel-„AC“ binnen 2 s löscht; 0 Punkte nie in der Liste | Folgt aus PE-10/PE-11; Frage 20 vor „stop“ nicht beantwortet | angenommen vom Planner |
+| PE-25 | Spielablauf AP-08: „🐦“/„C“ beenden ohne Wertung; „%“ pausiert und zeigt Liste, „%“ erneut setzt fort; 800 ms Sperre nach Game Over; Kürzel mit „⌫“/„=“/„C“; in der Liste Ziffer/„=“ = neues Spiel, „C“ = Rechner, Doppel-„AC“ binnen 2 s löscht; 0 Punkte nie in der Liste | Folgt aus PE-10/PE-11; Frage 20a | Nutzer am 2026-10-21 |
 
 ### Offene Fragen
 
@@ -812,3 +811,4 @@ Keine Konten, Käufe oder Secrets nötig. Kein Remote (PE-24).
 | 2026-10-21 | Paketschnitt §8–§17: M1 (AP-01–AP-04), M2 (AP-05–AP-08) | G1 erfüllt | AP-01–AP-08 | Planner |
 | 2026-10-21 | M2 in M1 zusammengelegt (4 Wellen), Budget 50 %, rein lokal ohne Remote | Erster Durchlauf, Limit testen (PE-21, PE-23, PE-24) | AP-04–AP-08 | Nutzer |
 | 2026-10-21 | Interview beendet („stop“), Selbstprüfung, PE-25 angenommen | Abschluss Interview | AP-08 | Planner |
+| 2026-10-21 | PE-25 (Spielablauf) vom Nutzer bestätigt | Antwort 20a | AP-08 | Nutzer |
