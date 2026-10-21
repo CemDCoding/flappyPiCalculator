@@ -353,8 +353,8 @@ Bei Budgetengpass startet der Lead zuerst den kritischen Pfad (AP-02 in W2, AP-0
 
 **Integration:**
 - nach W1: `npm ci` + alle Checks grün, `npm run dev` zeigt Platzhalterseite.
-- nach W3: Zwischen-Handtest Rechner (H-02, Rechner-Punkte des Smoke-Tests unten), nicht blockierend.
-- nach W4: vollständiger Handtest (H-03) im Dev-Checkout inkl. Spielbarkeit.
+- nach W3: `npm ci` + alle Checks grün; kein Handtest (H-02 ist ans Meilensteinende verlegt).
+- nach W4: Handtest Rechner (H-02) und vollständiger Handtest (H-03) gemeinsam im Dev-Checkout inkl. Spielbarkeit.
 
 ##### M1-DEP – Deployment [Mensch]
 
@@ -673,7 +673,7 @@ AP-05 und AP-06 hängen nur an AP-01; der Lead darf sie bei freien Plätzen und 
 | ID | Schritt | Ab wann nötig | Blockiert | Erledigt |
 |---|---|---|---|---|
 | H-01 | M1 freigeben (beim Lead) | sofort | AP-01 | ☐ |
-| H-02 | Zwischen-Handtest Rechner im Dev-Checkout (Rechner-Punkte des Smoke-Tests) – optional, blockiert nichts | nach AP-04 | – | ☐ |
+| H-02 | Handtest Rechner im Dev-Checkout (Rechner-Punkte des Smoke-Tests) – zusammen mit H-03 am Meilensteinende | nach AP-08 (mit H-03) | M1-DEP | ☐ |
 | H-03 | Vollständiger Handtest im Dev-Checkout inkl. Spielbarkeit (Schwierigkeit ok?) | nach AP-08 | M1-DEP | ☐ |
 | H-04 | M1-DEP: `dev` → `stage` → `master` lokal mergen, Smoke-Tests, G3 bestätigen | nach H-03 | – | ☐ |
 | H-05 | Budget-Grenze des Wächters für dieses Projekt auf 50 % stellen, falls sie nicht pro Projekt automatisch gilt (PE-23) | vor AP-01 | Parallelität | ☐ |
@@ -721,7 +721,7 @@ Keine Konten, Käufe oder Secrets nötig. Kein Remote (PE-24).
 | RI-8 | `localStorage` gesperrt, voll oder manipuliert | `try/catch`, Validierung, In-Memory-Fallback | AP-07, AP-08 |
 | RI-9 | Verträge erweisen sich bei den Spiel-Paketen als unpassend | Vertragsänderung nur per eigenem Paket (Lead → Planner), vor AP-08 | AP-05–AP-08 |
 | RI-10 | Kein Remote: kein Backup außerhalb des PCs | Bewusst so (PE-24); Nutzer kann jederzeit ein Remote ergänzen | – |
-| RI-11 | Ein großer Meilenstein: Fehler fallen erst spät im Gesamttest auf | Zwischen-Handtest H-02 nach W3, Integrationspunkt nach jeder Welle | AP-04, AP-08 |
+| RI-11 | Ein großer Meilenstein: Fehler fallen erst spät im Gesamttest auf | Integrationspunkt (Checks) nach jeder Welle; Handtests H-02 + H-03 gemeinsam am Meilensteinende (Nutzerentscheidung) | AP-04, AP-08 |
 
 ---
 
@@ -812,3 +812,4 @@ Keine Konten, Käufe oder Secrets nötig. Kein Remote (PE-24).
 | 2026-10-21 | M2 in M1 zusammengelegt (4 Wellen), Budget 50 %, rein lokal ohne Remote | Erster Durchlauf, Limit testen (PE-21, PE-23, PE-24) | AP-04–AP-08 | Nutzer |
 | 2026-10-21 | Interview beendet („stop“), Selbstprüfung, PE-25 angenommen | Abschluss Interview | AP-08 | Planner |
 | 2026-10-21 | PE-25 (Spielablauf) vom Nutzer bestätigt | Antwort 20a | AP-08 | Nutzer |
+| 2026-10-21 | Handtest H-02 (Rechner) von nach W3/AP-04 ans Meilensteinende verlegt, läuft gemeinsam mit H-03 nach AP-08 (§9.2, §13, RI-11) | Entscheidung des Nutzers | – | Nutzer |
