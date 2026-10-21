@@ -48,8 +48,8 @@ Status: `leer` · `in Klärung` · `fertig` · `angenommen` (fertig, aber mit un
 
 | § | Abschnitt | Status | Offene Fragen | Nötig für Gate |
 |---|---|---|---|---|
-| 1 | Projektkontext und Ziel | in Klärung | Q-01 | G1 |
-| 2 | Umfang | in Klärung | Q-02, Q-03, Q-04 | G1 |
+| 1 | Projektkontext und Ziel | in Klärung | Termin, Abnahmekriterien | G1 |
+| 2 | Umfang | in Klärung | Ausschlüsse, Spieldetails | G1 |
 | 3 | Tech-Stack | leer | – | G1 |
 | 4 | Architektur, Datenmodell, Verträge | leer | – | G1 |
 | 5 | Sicherheit, Datenschutz, Recht, Limits | leer | – | G1 |
@@ -88,8 +88,8 @@ Status: `leer` · `in Klärung` · `fertig` · `angenommen` (fertig, aber mit un
 | Feld | Wert |
 |---|---|
 | Einzeiler | Taschenrechner mit integriertem Flappy-Bird-Spiel und lokaler Bestenliste. |
-| Zielgruppe | {{…}} |
-| Lieferumfang | {{…}} |
+| Zielgruppe | Der Nutzer selbst, privat |
+| Lieferumfang | Repository; Web-App, die lokal auf dem PC des Nutzers unter `localhost` läuft. Keine Veröffentlichung (PE-02) |
 | Termin | {{JJJJ-MM-TT oder „keiner“}} |
 | Kommerzialisierung | {{nein / später möglich / geplant}} |
 | Projektdokumentation | {{Verweis oder „keine“}} |
@@ -116,9 +116,9 @@ Status: `leer` · `in Klärung` · `fertig` · `angenommen` (fertig, aber mit un
 
 | ID | Funktion | Beschreibung aus Nutzersicht | Kernfluss |
 |---|---|---|---|
-| F-01 | Taschenrechner | Rechnungen eingeben und Ergebnis sehen (Umfang ⟦offen: Q-02⟧) | ja |
-| F-02 | Flappy-Bird-Spiel | Aus dem Rechner heraus ein Flappy-Bird-Spiel starten und spielen (Aufruf ⟦offen: Q-03⟧) | ja |
-| F-03 | Lokale Bestenliste | Nach dem Spiel die Punktzahl in einer lokal gespeicherten Bestenliste sehen (Details ⟦offen: Q-04⟧) | ja |
+| F-01 | Taschenrechner | Rechnen mit + − × ÷, Klammern, Prozent, Vorzeichenwechsel (±), Löschen (C) und Rückschritt; Bedienung per Maus und Tastatur (PE-03) | ja |
+| F-02 | Flappy-Bird-Spiel | Über einen sichtbaren Button/Modus-Umschalter im Rechner das Spiel starten, spielen und zum Rechner zurückkehren (PE-04) | ja |
+| F-03 | Lokale Bestenliste | Die 3 besten Ergebnisse mit Kürzel (max. 6 Zeichen), Punkten und Datum sehen; nach einem Top-3-Ergebnis Kürzel eingeben; Liste per Button löschen. Speicherung nur im Browser (`localStorage`) (PE-05) | ja |
 
 ### Optional
 
@@ -472,15 +472,19 @@ flowchart LR
 | ID | Entscheidung | Begründung | Quelle |
 |---|---|---|---|
 | PE-01 | Pflichtumfang: Taschenrechner + Flappy Bird + lokale Bestenliste (F-01–F-03) | Projektauftrag | Nutzer am 2026-10-21 |
+| PE-02 | Web-App, läuft nur lokal unter `localhost` auf dem PC des Nutzers; keine Veröffentlichung. Damit entfällt R3 (Impressum/Datenschutzerklärung), solange nicht veröffentlicht | Privatnutzung, kein Server, kein Hosting nötig | Nutzer am 2026-10-21 |
+| PE-03 | Rechnerumfang: + − × ÷, Klammern, %, ±, C, Rückschritt, Tastatureingabe | Wirkt wie ein echter Rechner bei mittlerem Aufwand | Nutzer am 2026-10-21 |
+| PE-04 | Spielstart über sichtbaren Button/Modus-Umschalter, kein Easter Egg | Eindeutig und testbar | Nutzer am 2026-10-21 |
+| PE-05 | Bestenliste: Top 3, Kürzel max. 6 Zeichen, Punkte, Datum, Lösch-Button; `localStorage` | Datensparsam, Löschbarkeit (R2) direkt erfüllt | Nutzer am 2026-10-21 |
 
 ### Offene Fragen
 
 | ID | Frage | Priorität | Betrifft | Empfehlung | Status |
 |---|---|---|---|---|---|
-| Q-01 | Plattform und Lieferform (Web, Desktop, Mobile; nur lokal oder veröffentlicht) | K | §1, §3, §5, §6 | Web-App, statisch, zunächst nur lokal | offen |
-| Q-02 | Funktionsumfang des Taschenrechners | K | §2 F-01 | Grundrechenarten + Klammern, %, ±, Löschen | offen |
-| Q-03 | Wie wird Flappy Bird aus dem Rechner gestartet? | K | §2 F-02 | sichtbarer Modus-Button | offen |
-| Q-04 | Inhalt und Speicherort der Bestenliste | K | §2 F-03, §4, §5 | Top 10, Kürzel + Punkte + Datum, localStorage | offen |
+| Q-01 | Plattform und Lieferform (Web, Desktop, Mobile; nur lokal oder veröffentlicht) | K | §1, §3, §5, §6 | Web-App, statisch, zunächst nur lokal | geklärt → PE-02 |
+| Q-02 | Funktionsumfang des Taschenrechners | K | §2 F-01 | Grundrechenarten + Klammern, %, ±, Löschen | geklärt → PE-03 |
+| Q-03 | Wie wird Flappy Bird aus dem Rechner gestartet? | K | §2 F-02 | sichtbarer Modus-Button | geklärt → PE-04 |
+| Q-04 | Inhalt und Speicherort der Bestenliste | K | §2 F-03, §4, §5 | Top 10, Kürzel + Punkte + Datum, localStorage | geklärt → PE-05 (Top 3, 6 Zeichen) |
 
 ### Vorgeschlagene Änderungen (brauchen Freigabe des Nutzers)
 
