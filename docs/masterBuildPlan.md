@@ -1,17 +1,17 @@
 <!--
-MASTER-BUILD-PLAN – VORLAGE (MultiAgent-System)
-
-setup-project.ps1 kopiert diese Vorlage nach docs/masterBuildPlan.md im Projekt.
-Der Planner-Agent (ma-planner) füllt sie im Interview mit dem Nutzer und pflegt sie danach.
+MASTER-BUILD-PLAN (MultiAgent-System)
+Der Planner-Agent (ma-planner) füllt diesen Plan im Interview mit dem Nutzer und pflegt ihn danach.
 Er ist der einzige Agent, der diese Datei ändert. Der Lead (ma-lead) steuert den Bau danach.
 Grundlage der Regeln: MultiAgent/entscheidungen.md
 -->
 
 # Master-Build-Plan mAtaschenRechnerFlappybird
 
-**Stand:** 2026-10-21 · **Planversion:** 0.1 · **Gepflegt von:** ma-planner · **Gesteuert von:** ma-lead · **Nutzer:** Cem Dogan
+**Stand:** 2026-10-21 · **Planversion:** 1.0 · **Gepflegt von:** ma-planner · **Gesteuert von:** ma-lead · **Nutzer:** Cem Dogan
 
-Ein Taschenrechner mit eingebautem Flappy-Bird-Spiel. Das Spiel führt eine lokale Bestenliste. Meilensteine und Pakete folgen nach G1.
+Ein Taschenrechner als lokale Web-App (TypeScript + Vite, `localhost`) mit eingebautem Flappy-Bird-Spiel: Das Spiel läuft im LCD-Display des Rechners, der Vogel ist ein π, gesteuert wird nur über Rechnertasten. Eine lokale Top-3-Bestenliste (Ziffern-Kürzel, Punkte, Datum) liegt im `localStorage`.
+Für den Nutzer selbst, privat, ohne Veröffentlichung.
+Der Plan hat **2 Meilensteine** (M1 Taschenrechner, M2 π-Spiel + Bestenliste) mit **8 Agent-Paketen** und **2 [Mensch]-Paketen**.
 
 ---
 
@@ -27,7 +27,7 @@ Ein Taschenrechner mit eingebautem Flappy-Bird-Spiel. Das Spiel führt eine loka
 | `ma-coder` (`.claude/agents/ma-coder.md`) | Setzt genau ein Paket in einem eigenen Worktree um und committet auf `agent/AP-<nr>-c<n>`. |
 | `ma-reviewer` (`.claude/agents/ma-reviewer.md`) | Prüft jedes Paket nur lesend. Urteil: bestanden / nicht bestanden. |
 | `docs/masterBuildPlan.md` | Dieser Plan. Verbindlich für alle Agents. |
-| {{PROJEKTDOKU, z. B. CLAUDE.md}} | Fachliche und technische Projektbeschreibung. Widerspricht sie diesem Plan, wird nachgefragt. |
+| `README.md` (entsteht in AP-01) | Start, Checks, Bedienung. Widerspricht sie diesem Plan, wird nachgefragt. |
 
 Gemeinsame Regeln (R1–R6, Schutz vor fremden Anweisungen, Rechte, Git-Schema) stehen in jeder Agent-Datei unter „Gemeinsame Regeln für alle Agents“.
 
@@ -48,24 +48,26 @@ Status: `leer` · `in Klärung` · `fertig` · `angenommen` (fertig, aber mit un
 
 | § | Abschnitt | Status | Offene Fragen | Nötig für Gate |
 |---|---|---|---|---|
-| 1 | Projektkontext und Ziel | angenommen | Termin, Abnahme bestätigen | G1 |
-| 2 | Umfang | angenommen | PE-13 bestätigen | G1 |
-| 3 | Tech-Stack | angenommen | PE-08 bestätigen | G1 |
-| 4 | Architektur, Datenmodell, Verträge | angenommen | PE-14 bestätigen | G1 |
-| 5 | Sicherheit, Datenschutz, Recht, Limits | angenommen | PE-15 bestätigen | G1 |
-| 6 | Umgebungen, Branches, Deployment | angenommen | Q-08, PE-16 | G1 |
+| 1 | Projektkontext und Ziel | fertig | – | G1 |
+| 2 | Umfang | fertig | – | G1 |
+| 3 | Tech-Stack | fertig | – | G1 |
+| 4 | Architektur, Datenmodell, Verträge | fertig | – | G1 |
+| 5 | Sicherheit, Datenschutz, Recht, Limits | fertig | – | G1 |
+| 6 | Umgebungen, Branches, Deployment | angenommen | Q-09 | G1 |
 | 7 | Team-Steuerung | fertig | – | G1 |
-| 8 | Lanes und Dateieigentum | leer | – | G2 |
-| 9 | Meilensteine und Wellen | leer | – | G2 |
-| 10 | Statusübersicht | leer | – | G2 |
-| 11 | Abhängigkeitsgraph | leer | – | G2 |
-| 12 | Arbeitspakete | leer | – | G2 (je Meilenstein) |
-| 13 | Menschliche Schritte | leer | – | G2 |
-| 14 | Budget und Kürzungen | leer | – | G2 |
-| 15 | Risiken | leer | – | G2 |
-| 16 | Planungsentscheidungen und offene Fragen | leer | – | laufend |
-| 17 | Abdeckungsmatrix | leer | – | G2 |
-| 18 | Änderungsprotokoll | leer | – | laufend |
+| 8 | Lanes und Dateieigentum | angenommen | Bestätigung M1/M2 | G2 |
+| 9 | Meilensteine und Wellen | angenommen | Bestätigung M1/M2 | G2 |
+| 10 | Statusübersicht | angenommen | – | G2 |
+| 11 | Abhängigkeitsgraph | angenommen | – | G2 |
+| 12 | Arbeitspakete | angenommen | Bestätigung M1/M2 | G2 (je Meilenstein) |
+| 13 | Menschliche Schritte | angenommen | Q-09 | G2 |
+| 14 | Budget und Kürzungen | angenommen | – | G2 |
+| 15 | Risiken | fertig | – | G2 |
+| 16 | Planungsentscheidungen und offene Fragen | laufend | Q-09 | laufend |
+| 17 | Abdeckungsmatrix | fertig | – | G2 |
+| 18 | Änderungsprotokoll | laufend | – | laufend |
+
+**Gate-Stand:** G1 **erfüllt** (2026-10-21). G2(M1) und G2(M2): Pakete vollständig, warten auf Bestätigung des Paketschnitts durch den Nutzer.
 
 | Gate | Bedingung | Wer prüft | Folge |
 |---|---|---|---|
@@ -77,30 +79,22 @@ Status: `leer` · `in Klärung` · `fertig` · `angenommen` (fertig, aber mit un
 
 ## 1. Projektkontext und Ziel
 
-<!-- LEITFRAGEN
-[K] Was ist das Projekt in einem Satz, und welches Problem löst es für wen?
-[K] Was wird ausgeliefert (Repository, Live-Deployment, App …), und gibt es einen Termin?
-[W] Ist eine Kommerzialisierung denkbar? (beeinflusst Recht, Lizenzen, Datenschutz-Tiefe)
-[W] Welche Leitprinzipien gelten bei Zielkonflikten (z. B. Sicherheit vor Funktionsumfang)?
-[O] Gibt es eine bestehende Projektdokumentation, auf die verwiesen werden soll?
--->
-
 | Feld | Wert |
 |---|---|
 | Einzeiler | Taschenrechner mit integriertem Flappy-Bird-Spiel und lokaler Bestenliste. |
 | Zielgruppe | Der Nutzer selbst, privat |
 | Lieferumfang | Repository; Web-App, die lokal auf dem PC des Nutzers unter `localhost` läuft. Keine Veröffentlichung (PE-02) |
-| Termin | keiner (angenommen) |
-| Kommerzialisierung | nein (angenommen) |
-| Projektdokumentation | keine; README entsteht im Gerüst-Paket |
+| Termin | keiner (PE-17) |
+| Kommerzialisierung | nein (PE-17) |
+| Projektdokumentation | keine; README entsteht in AP-01 |
 
-**Leitprinzipien (in Rangfolge, angenommen):**
+**Leitprinzipien (in Rangfolge, PE-17):**
 
 1. Sicherheit und Datenschutz werden nie gekürzt.
 2. Korrekt rechnender Taschenrechner vor Spiel-Feinschliff.
 3. Einfach und spielbar vor grafisch aufwendig.
 
-**Abnahmekriterien (G3, angenommen):**
+**Abnahmekriterien (G3, PE-18):**
 - [ ] `npm ci && npm run dev` startet die App unter `localhost`; alle Checks aus §3 grün.
 - [ ] Rechner: `2+3*4=` → 14, `(2+3)*4=` → 20, `50%` → 0,5, `±` wechselt Vorzeichen, Division durch 0 zeigt „Error“ statt abzustürzen; Bedienung per Maus und Tastatur.
 - [ ] „🐦“ startet das Spiel im Display (LCD-Stil, π als Vogel); Ziffern flattern; „C“ führt zurück zum Rechner.
@@ -111,26 +105,19 @@ Status: `leer` · `in Klärung` · `fertig` · `angenommen` (fertig, aber mit un
 
 ## 2. Umfang
 
-<!-- LEITFRAGEN
-[K] Welche Funktionen sind Pflicht? Pro Funktion: Was muss der Nutzer tun können?
-[K] Was ist ausdrücklich NICHT im Umfang?
-[W] Was ist optional und wird nur gebaut, wenn Budget bleibt?
-[W] Welcher Kernfluss muss als Erstes vollständig live sein?
--->
-
 ### Pflicht
 
 | ID | Funktion | Beschreibung aus Nutzersicht | Kernfluss |
 |---|---|---|---|
-| F-01 | Taschenrechner | Rechnen mit + − × ÷, Klammern, Prozent, Vorzeichenwechsel (±), Löschen (C) und Rückschritt; Bedienung per Maus und Tastatur (PE-03) | ja |
-| F-02 | Flappy-Bird-Spiel | Eine eigene Rechnertaste „🐦“ schaltet zwischen Rechner und Spiel um (PE-04). Das Spiel läuft im Display des Rechners im LCD-Stil (grau-schwarz, Pixel-Optik); der Vogel ist ein **π-Zeichen**, Röhren als Pixelbalken. Jede Zifferntaste (0–9, auch per PC-Tastatur) lässt π flattern; „C“ beendet das Spiel und führt zum Rechner zurück. 1 Punkt pro durchflogenem Röhrenpaar. Konstante Schwierigkeit, kein Ton (PE-07, PE-10, PE-12) | ja |
+| F-01 | Taschenrechner | Rechnen mit + − × ÷, Klammern, Prozent, Vorzeichenwechsel (±); „AC“ löscht alles, „C“ löscht die aktuelle Eingabe, „⌫“ löscht das letzte Zeichen; Bedienung per Maus und Tastatur (PE-03, PE-19) | ja |
+| F-02 | Flappy-Bird-Spiel | Eine eigene Rechnertaste „🐦“ schaltet zwischen Rechner und Spiel um (PE-04). Das Spiel läuft im Display des Rechners im LCD-Stil (grau-schwarz, Pixel-Optik); der Vogel ist ein **π-Zeichen**, Röhren als Pixelbalken. Jede Zifferntaste (0–9, auch per PC-Tastatur) lässt π flattern; „C“ beendet das Spiel und führt zum Rechner zurück. 1 Punkt pro durchflogenem Röhrenpaar. Konstante Schwierigkeit, kein Ton (PE-07, PE-10, PE-12, PE-13) | ja |
 | F-03 | Lokale Bestenliste | Top 3 mit Kürzel, Punkten und Datum. Kürzel = 1–6 **Ziffern**, eingegeben über die Rechnertasten, bestätigt mit „=“ (nach einem Top-3-Ergebnis). Nach jedem Spiel erscheint die Top 3 im Display; im Spielmodus zeigt „%“ sie jederzeit. Löschen: zweimal „AC“ hintereinander, **nur während die Bestenliste angezeigt wird**. Speicherung nur im Browser (`localStorage`) (PE-05, PE-11) | ja |
+
+**Kernfluss zuerst:** F-01 (M1), danach F-02 + F-03 (M2).
 
 ### Optional
 
-| ID | Funktion | Bedingung |
-|---|---|---|
-| O-01 | {{…}} | {{nur wenn alle Pflicht-Meilensteine live sind}} |
+Keine optionalen Funktionen vereinbart.
 
 ### Bewusst nicht im Umfang
 
@@ -147,14 +134,6 @@ Status: `leer` · `in Klärung` · `fertig` · `angenommen` (fertig, aber mit un
 
 ## 3. Tech-Stack
 
-<!-- LEITFRAGEN
-[K] Sprache(n), Frontend, Backend, Datenbank, Auth, Hosting?
-[W] Monorepo oder getrennte Repositories? Paketmanager?
-[W] Test-Werkzeuge und Code-Qualität (Lint, Format, Typecheck)?
-[W] Externe Dienste und ihre Kostenobergrenzen? (Konten legt nur der Nutzer an)
-[O] Freigegebene Abhängigkeiten: welche Pakete dürfen Coder ohne Rückfrage installieren?
--->
-
 | Bereich | Technologie | Begründung |
 |---|---|---|
 | Sprache | TypeScript (strict) | Typen fangen Fehler im Rechenkern früh ab (PE-06) |
@@ -169,82 +148,66 @@ Status: `leer` · `in Klärung` · `fertig` · `angenommen` (fertig, aber mit un
 
 **Checks, die jedes Paket bestehen muss:** `npm run lint`, `npm run typecheck`, `npm test`, `npm run build`
 
-**Freigegebene Abhängigkeiten (PE-08, angenommen):** nur als devDependencies: `vite`, `typescript`, `vitest`, `jsdom`, `eslint`, `@eslint/js`, `typescript-eslint`, `prettier`, `eslint-config-prettier`. Keine Laufzeit-Abhängigkeiten. Coder installieren nur diese, und nur wenn ihnen die betroffene `package.json` gehört. Alles andere geht über Lead und Nutzer.
+**Freigegebene Abhängigkeiten (PE-08):** nur als devDependencies: `vite`, `typescript`, `vitest`, `jsdom`, `eslint`, `@eslint/js`, `typescript-eslint`, `prettier`, `eslint-config-prettier`. Keine Laufzeit-Abhängigkeiten. Coder installieren nur diese, und nur wenn ihnen die betroffene `package.json` gehört (nur AP-01). Alles andere geht über Lead und Nutzer.
 
 ---
 
 ## 4. Architektur, Datenmodell und Verträge
 
-<!-- LEITFRAGEN
-[K] Welche Bausteine gibt es, und wer spricht mit wem?
-[K] Welche Kernentitäten und Beziehungen? Wem gehören die Daten?
-[W] Wo liegen die gemeinsamen Verträge (Schemas, API-Typen), damit parallel gebaut werden kann?
--->
-
-**Bausteine (angenommen, PE-14):**
+**Bausteine (PE-14):**
 
 ```mermaid
 flowchart LR
   KP["ui/keypad<br/>Rechnertasten + PC-Tastatur"] --> APP["app/controller<br/>Modus-Zustandsmaschine"]
   APP --> CALC["calc/<br/>Rechenkern (reine Funktionen)"]
-  APP --> GAME["game/<br/>Spiellogik (reine Funktionen)"]
+  APP --> GAME["game/engine<br/>Spiellogik (reine Funktionen)"]
   APP --> LB["leaderboard/<br/>Top-3 + localStorage"]
   APP --> DISP["ui/display<br/>Text- und Canvas-Display (LCD)"]
-  GAME -.->|"Zustand"| REND["game/render<br/>π + Röhren auf Canvas"]
+  APP --> REND["game/render<br/>π + Röhren auf Canvas"]
   REND --> DISP
 ```
 
-- `src/contracts/` – gemeinsame Typen: `Key`, `Mode`, `CalcResult`, `GameState`, `ScoreEntry`, Schnittstellen der Bausteine.
-- `src/calc/` – Tokenizer + Parser für Ausdrücke (Klammern, Punkt vor Strich, %, ±), **kein `eval`/`Function`**.
-- `src/game/` – `step(state, dtMs, flap)` als reine Funktion (Physik, Röhren, Kollision, Punkte); `render(ctx, state)` zeichnet im LCD-Stil.
-- `src/leaderboard/` – `load()`, `qualifies(score)`, `add(entry)`, `clear()`; validiert Daten aus `localStorage`.
-- `src/ui/` – Tastenfeld und Display (DOM).
-- `src/app/` – Modi `calc` → `game` → `gameover/initials` → `leaderboard` und Tastenbelegung (PE-10, PE-11); `src/main.ts` verdrahtet alles.
+- `src/contracts/` – gemeinsame Typen und Konstanten (Details AP-01).
+- `src/calc/` – Eingabelogik (Reducer) + Tokenizer + Parser für Ausdrücke (Klammern, Punkt vor Strich, %, ±), **kein `eval`/`Function`**.
+- `src/game/` – `engine`: `step(state, dtMs, flap, config, rng)` als reine Funktion (Physik, Röhren, Kollision, Punkte); `render`: zeichnet im LCD-Stil.
+- `src/leaderboard/` – `load()`, `qualifies(score)`, `add(initials, score)`, `clear()`; validiert Daten aus `localStorage`.
+- `src/ui/` – Tastenfeld, Tastatur-Zuordnung und Display (DOM).
+- `src/app/` – Modi `calc` → `game` → `initials` → `leaderboard` und Tastenbelegung (PE-10, PE-11); `src/main.ts` verdrahtet alles.
 
-**Grundregeln:** Nur `leaderboard/` greift auf `localStorage` zu. `calc/` und `game/` (außer `render`) kennen kein DOM. Bausteine sprechen nur über die Typen aus `src/contracts/`. Keine Netzwerkzugriffe.
+**Grundregeln:** Nur `leaderboard/` greift auf Storage zu (Storage wird injiziert). `calc/` und `game/engine` kennen kein DOM. Bausteine sprechen nur über die Typen aus `src/contracts/`. Keine Netzwerkzugriffe. Kein `innerHTML` mit Daten.
 
 | Entität | Wichtige Felder | Gehört zu | Löschverhalten |
 |---|---|---|---|
-| ScoreEntry | `initials` (1–6 Ziffern), `score` (Ganzzahl ≥ 0), `date` (ISO-Datum `JJJJ-MM-TT`) | Browser des Nutzers, `localStorage`-Schlüssel `mataschen.leaderboard.v1`, max. 3 Einträge | Doppel-„AC“ bei angezeigter Liste löscht alles; ungültige gespeicherte Daten werden verworfen |
+| ScoreEntry | `initials` (1–6 Ziffern), `score` (Ganzzahl 0–999999), `date` (`JJJJ-MM-TT`, lokales Datum) | Browser des Nutzers, `localStorage`-Schlüssel `mataschen.leaderboard.v1`, max. 3 Einträge | Doppel-„AC“ bei angezeigter Liste löscht alles; ungültige gespeicherte Daten werden verworfen |
 
-**Verträge:** `src/contracts/*.ts` (TypeScript-Typen und Interfaces). Regel: Jeder Vertrag entsteht in einem eigenen Paket mindestens eine Welle vor seinen Nutzern.
+**Verträge:** `src/contracts/*.ts`, angelegt in AP-01 (M1 W1) für **beide** Meilensteine. Regel: Jeder Vertrag entsteht mindestens eine Welle vor seinen Nutzern. Änderungen an Verträgen nur über ein eigenes Paket (Lead → Planner).
 
 ---
 
 ## 5. Sicherheit, Datenschutz, Recht und Limits
 
-<!-- LEITFRAGEN
-[K] Wie werden Nutzer authentifiziert, und wie wird Zugriff auf fremde Daten verhindert?
-[K] Welche personenbezogenen Daten werden verarbeitet? Welche DSGVO-Pflichten folgen daraus (Löschen, Export, EU-Hosting, Auftragsverarbeitung)?
-[K] Gibt es eine öffentliche Webseite? Dann: Impressum und Datenschutzerklärung (R3), Einwilligung für Cookies/Tracking/externe Inhalte.
-[W] Missbrauchs- und Kostenlimits (Raten, Größen, Tageslimits)?
-[W] Härtung (Header, CORS, Validierung, XSS, CSRF)?
-[O] Besondere Angriffsflächen (Uploads, KI-Eingaben/Prompt-Injection)?
--->
-
-Es gelten immer R1–R6 (siehe Agent-Dateien). Dieser Abschnitt konkretisiert sie für das Projekt.
+Es gelten immer R1–R6 (siehe Agent-Dateien). Dieser Abschnitt konkretisiert sie für das Projekt (PE-15). Keine Konten, kein Server, keine Auth nötig. Personenbezogene Daten: praktisch keine (Kürzel nur Ziffern, nur lokal).
 
 | Regel | Umsetzung (grob) | Testart | Paket |
 |---|---|---|---|
-(angenommen, PE-15) Keine Konten, kein Server, keine Auth nötig. Personenbezogene Daten: praktisch keine (Kürzel nur Ziffern, nur lokal).
-
-| Regel | Umsetzung (grob) | Testart | Paket |
-|---|---|---|---|
-| Kein Code-Ausführen aus Eingaben (R6, OWASP Injection) | Eigener Parser, kein `eval`/`new Function`/`innerHTML` mit Daten | Unit-Tests + Review | Rechenkern, UI |
-| Gespeicherte Daten validieren (R6) | `load()` prüft Struktur, Typen, Längen; bei Fehler leere Liste | Unit-Tests mit kaputten Daten | Bestenliste |
-| Datensparsamkeit, Löschbarkeit (R2) | Nur Ziffern-Kürzel, Punkte, Datum; Löschen per Doppel-„AC“ | Unit + Handtest | Bestenliste, App |
+| Kein Code-Ausführen aus Eingaben (R6, OWASP Injection) | Eigener Parser, kein `eval`/`new Function`; ESLint-Regeln `no-eval`, `no-implied-eval`, `no-new-func` | Unit-Tests + Lint + Review | AP-01, AP-02 |
+| Kein HTML aus Daten (R6, XSS) | Nur `textContent`; ESLint verbietet `innerHTML`/`outerHTML`/`insertAdjacentHTML` | Lint + Review | AP-01, AP-03, AP-08 |
+| Gespeicherte Daten validieren (R6) | `load()` prüft Struktur, Typen, Längen; bei Fehler leere Liste; Storage-Ausnahmen abgefangen | Unit-Tests mit kaputten Daten | AP-07 |
+| Datensparsamkeit, Löschbarkeit (R2) | Nur Ziffern-Kürzel, Punkte, Datum; Löschen per Doppel-„AC“ | Unit + Handtest | AP-07, AP-08 |
 | Keine externen Inhalte/Tracking | Keine CDNs, Fonts oder Requests nach außen; alles lokal gebündelt | Review | alle |
+| Urheberrecht (R1) | Keine Originalgrafiken/-töne/-namen-Logos von Flappy Bird; π und Balken selbst gezeichnet | Review | AP-06 |
 | Impressum und Datenschutzerklärung (R3) | **entfällt**, solange nur lokal (PE-02). Bei Veröffentlichung neues Paket nötig | – | – |
 | Secrets nur in `.env`, `.env.example` gepflegt (R4) | Projekt braucht keine Secrets; `.env.example` bleibt ohne Werte | Review | alle |
-| Dev-Server nur lokal | Vite-Standard `localhost`, kein `--host` | Review | Gerüst |
+| Dev-Server nur lokal | `server.host: 'localhost'` in `vite.config.ts`, kein `--host` | Review | AP-01 |
 
 | Limit | Standard | Ebene |
 |---|---|---|
 | Kürzel-Länge | 1–6 Ziffern | Eingabe |
-| Bestenliste | 3 Einträge | global (Browser) |
-| Rechner-Eingabe | max. 64 Zeichen | Eingabe |
+| Bestenliste | 3 Einträge | Browser |
+| Rechner-Ausdruck | max. 64 Zeichen | Eingabe |
+| Spiel-Zeitschritt | max. 50 ms pro `step` (gegen Sprünge nach Tab-Wechsel) | Spiel |
 
-**Nie kürzbar:** kein `eval`, Validierung der `localStorage`-Daten, Lösch-Funktion.
+**Nie kürzbar:** kein `eval`, kein `innerHTML` mit Daten, Validierung der `localStorage`-Daten, Lösch-Funktion.
 
 **Vom Nutzer rechtlich zu prüfen:** nur falls die App später veröffentlicht wird (Impressum, Datenschutzerklärung).
 
@@ -252,45 +215,34 @@ Es gelten immer R1–R6 (siehe Agent-Dateien). Dieser Abschnitt konkretisiert si
 
 ## 6. Umgebungen, Branches und Deployment
 
-<!-- LEITFRAGEN
-[K] Wo laufen stage und Produktion? Was löst ein Deployment aus?
-[W] Welche Konten und Secrets muss der Nutzer anlegen, und bis wann?
-[W] Datenbanken: welche Dev-Datenbank nutzen Agents? Eigene DB-Benutzer pro Rolle (agentDev / agentLead)?
-[O] Wie sieht ein Smoke-Test nach dem Deployment aus?
--->
-
 | Umgebung | Frontend | Backend | Datenbank | Auslöser |
 |---|---|---|---|---|
 | lokal / dev | `npm run dev` im Hauptcheckout (`localhost:5173`) | – | `localStorage` des Browsers | – |
 | stage | Checkout von `stage`, `npm ci && npm run dev` lokal | – | `localStorage` | Merge dev → stage durch den Nutzer |
 | Produktion | Checkout von `master`, `npm ci && npm run build && npm run preview` lokal | – | `localStorage` | Merge stage → master durch den Nutzer |
 
-(angenommen, PE-16) Es gibt kein Hosting; „stage“ und „Produktion“ sind Stände, die der Nutzer lokal startet.
+Es gibt kein Hosting; „stage“ und „Produktion“ sind Stände, die der Nutzer lokal startet (PE-16).
+
+**Remote:** Das Repository hat derzeit **kein Remote** (`git remote -v` leer). ⟦offen: Q-09⟧ – Empfehlung (angenommen): rein lokal arbeiten; der Lead überspringt `push origin dev`; der Nutzer merged `dev` → `stage` → `master` lokal statt per Pull Request.
 
 | Branch | Zweck | Wer schreibt darauf |
 |---|---|---|
-| `master` | Produktion | **[Mensch]**, per Pull Request von `stage` |
-| `stage` | Abnahme | **[Mensch]**, per Pull Request von `dev` |
-| `dev` | Integration, Default-Branch | ma-lead (`merge --no-ff`, `push`), ma-planner (nur Plan-Commits) |
+| `master` | Produktion | **[Mensch]**, lokaler Merge von `stage` (bzw. Pull Request, falls Remote) |
+| `stage` | Abnahme | **[Mensch]**, lokaler Merge von `dev` (bzw. Pull Request, falls Remote) |
+| `dev` | Integration, Default-Branch | ma-lead (`merge --no-ff`, ggf. `push`), ma-planner (nur Plan-Commits) |
 | `agent/AP-<nr>-c<n>` | ein Arbeitspaket | ma-coder (`commit`), nur lokal, wird nach dem Merge gelöscht |
 
-**Worktrees:** ⟦offen: Q-08⟧ – Vorlage nennt `.claude/worktrees/`, die Agent-Regeln `<projekt>_worktree/`. Werden vom Lead nach dem Merge entfernt.
+**Worktrees (PE-20):** unter `D:\Private Projekte\mAtaschenRechnerFlappybird_worktree\<name>` (wie in den Agent-Regeln). Der Lead legt sie an und entfernt sie nach dem Merge.
 
-**Parallele Coder und lokale Ressourcen:** Tests (Vitest/jsdom) brauchen keinen Port. Startet ein Coder den Dev-Server, nutzt er `npm run dev -- --port 51<coderNr>0` (c1 → 5110, c2 → 5120, c3 → 5130).
+**Parallele Coder und lokale Ressourcen:** Tests (Vitest/jsdom) brauchen keinen Port. Startet ein Coder den Dev-Server, nutzt er `npm run dev -- --port 51<coderNr>0` (c1 → 5110, c2 → 5120, c3 → 5130). Jeder Worktree führt selbst `npm ci` aus.
 
 **Env-Dateien:** Das Projekt braucht keine Umgebungsvariablen und keine Secrets. `.env.example` bleibt ohne Einträge.
 
-**Deployment-Anleitung:** README (entsteht im Gerüst-Paket): `npm ci`, `npm run dev`, `npm run build`, `npm run preview`.
+**Deployment-Anleitung:** `README.md` (AP-01): `npm ci`, `npm run dev`, `npm run build`, `npm run preview`.
 
 ---
 
 ## 7. Team-Steuerung
-
-<!-- LEITFRAGEN
-[K] Wie viele Coder dürfen höchstens gleichzeitig laufen? (Engpass: Budget, nicht Technik)
-[W] Freigabe: pro Welle oder pro Meilenstein?
-[W] Welche Modelle und welcher Aufwand für welche Paketgröße / welches Risiko?
--->
 
 ### 7.1 Ablauf
 
@@ -306,9 +258,9 @@ flowchart TD
   L -->|"Paket prüfen"| R["ma-reviewer"]
   R -->|"Urteil"| L
   L -.->|"Nachbesserung (max. 2 Review-Runden)"| C1
-  L -->|"merge --no-ff, push"| DEV["dev"]
+  L -->|"merge --no-ff"| DEV["dev"]
   L -->|"Pflegeauftrag"| P
-  N -->|"PR dev → stage → master"| PROD["stage / master"]
+  N -->|"Merge dev → stage → master"| PROD["stage / master"]
 ```
 
 ### 7.2 Parallelität, Budget, Modelle
@@ -342,85 +294,118 @@ flowchart TD
 
 ## 8. Lanes und Dateieigentum
 
-<!-- LEITFRAGEN
-[W] Welche parallelen Arbeitsstränge ergeben sich aus der Architektur?
-[W] Welche Dateien brauchen viele Pakete (Registrierung, Schema, package.json, Lockfile, Layouts)?
--->
-
 | Lane | Zuständigkeit | Ordner und Dateien |
 |---|---|---|
-| **{{SH}}** – Verträge | {{…}} | `{{…}}` |
-| **{{API}}** – Backend | {{…}} | `{{…}}` |
-| **{{WEB}}** – Frontend | {{…}} | `{{…}}` |
-| **{{OPS}}** – Infrastruktur und Doku | {{…}} | `{{…}}` (ohne `.github/workflows`, das macht der Nutzer) |
-| **HUM** – Mensch | Konten, Secrets, Deployments, Smoke-Tests | – |
+| **SH** – Gerüst und Verträge | Projektkonfiguration, Verträge | `package.json`, `package-lock.json`, `tsconfig.json`, `vite.config.ts`, `eslint.config.js`, `.prettierrc.json`, `.prettierignore`, `.gitignore`, `index.html`, `src/vite-env.d.ts`, `src/styles/base.css`, `src/contracts/**`, `README.md` (Grundgerüst) |
+| **CORE** – Logik | Rechenkern, Spiellogik, Bestenliste | `src/calc/**`, `src/game/**`, `src/leaderboard/**` |
+| **WEB** – Oberfläche und App | DOM-Ansicht, Steuerung, Einstieg | `src/ui/**`, `src/app/**`, `src/main.ts` |
+| **HUM** – Mensch | Freigaben, Merges nach stage/master, Smoke-Tests | – |
 
 **Grundregeln:**
 
 1. Innerhalb einer Welle gehört jede Datei höchstens einem Paket.
 2. Verträge entstehen mindestens eine Welle vor ihren Nutzern.
-3. Gemeinsame Dateien legt ein Gerüst-Paket in Welle 1 eines Meilensteins an.
-4. Konflikte im Lockfile sind erwartet. Der Lead löst sie beim Merge mit `{{npm install}}`.
+3. Gemeinsame Dateien legt das Gerüst-Paket AP-01 an. In M2 gibt es keine neuen Abhängigkeiten, daher kein eigenes Gerüst-Paket.
+4. Konflikte im Lockfile sind nicht zu erwarten (nur AP-01 installiert). Falls doch: der Lead löst sie beim Merge mit `npm install`.
 
 | Gemeinsame Datei | Wer ändert sie | Wann |
 |---|---|---|
-| `{{…}}` | {{…}} | {{…}} |
+| `package.json`, `package-lock.json` | AP-01 | M1 W1 (danach niemand ohne neues Paket) |
+| `src/contracts/**` | AP-01 | M1 W1 (danach nur per Vertragsänderungs-Paket) |
+| `src/main.ts` | AP-01 (Platzhalter) → AP-04 → AP-08 | M1 W1 → M1 W3 → M2 W2 |
+| `src/app/controller.ts` | AP-04 → AP-08 | M1 W3 → M2 W2 |
+| `README.md` | AP-01 → AP-08 (Abschnitt „Bedienung“) | M1 W1 → M2 W2 |
 
 ---
 
 ## 9. Meilensteine und Wellen
 
-<!-- LEITFRAGEN
-[K] In welche Meilensteine lässt sich der Umfang schneiden, sodass jeder für sich live geht?
-[W] Was ist nach jedem Meilenstein live prüfbar?
--->
-
 | # | Meilenstein | Inhalt | Live-Zustand |
 |---|---|---|---|
-| M0 | {{Fundament}} | {{…}} | {{…}} |
+| M1 | Taschenrechner | Gerüst, Verträge (auch für M2), Rechenkern, Oberfläche mit allen Tasten, Steuerung im Rechnermodus | Rechner läuft lokal und rechnet vollständig (F-01); „🐦“ ist sichtbar, aber noch ohne Funktion |
+| M2 | π-Spiel und Bestenliste | Spiellogik, LCD-Renderer, Bestenliste, Modus-Steuerung | Alle Abnahmekriterien §1 prüfbar (F-02, F-03) |
 
 ### 9.1 Ablauf einer Welle
 
 | Schritt | Inhalt | Wer |
 |---|---|---|
 | 0 Lagebild | `dev` sauber, Abhängigkeiten `fertig`, Eigentum ohne Überschneidung, Budget | Lead |
-| 1 Wellenplan | Pakete, Coder-Nr., Modell; Freigabe laut §7.2 | Lead → Nutzer |
+| 1 Wellenplan | Pakete, Coder-Nr., Modell; Freigabe pro Meilenstein (§7.2) | Lead → Nutzer |
 | 2 Delegieren | Coder im Hintergrund starten, je eigener Worktree | Lead |
 | 3 Umsetzen | Code, Tests, Commits auf `agent/AP-<nr>-c<n>`, Bericht | Coder |
 | 4 Review | Urteil; bei „nicht bestanden“ Nachbesserung durch denselben Coder, max. 2 Runden | Reviewer, Lead, Coder |
-| 5 Mergen | `merge --no-ff` in `dev`, Reihenfolge {{SH → API → WEB → OPS}} | Lead |
-| 6 Integrationspunkt | Install, Checks, Handtest-Checkliste; rot → Fix-Paket | Lead (+ Nutzer für Handtest) |
-| 7 Abschluss | `push origin dev`, Worktrees und Branches aufräumen, Plan pflegen | Lead, Planner |
+| 5 Mergen | `merge --no-ff` in `dev`, Reihenfolge SH → CORE → WEB | Lead |
+| 6 Integrationspunkt | `npm ci`, Checks, Handtest-Checkliste; rot → Fix-Paket | Lead (+ Nutzer für Handtest) |
+| 7 Abschluss | ggf. `push origin dev` (Q-09), Worktrees und Branches aufräumen, Plan pflegen | Lead, Planner |
 
 ### 9.2 Meilensteine im Detail
 
-#### M{{x}} – {{Name}}
+#### M1 – Taschenrechner
 
 | Welle | Pakete (parallel) |
 |---|---|
-| W1 | {{Gerüst- und Vertragspakete}} |
-| W{{n}} | M{{x}}-DEP [Mensch] |
+| W1 | AP-01 Gerüst und Verträge |
+| W2 | AP-02 Rechenkern · AP-03 Rechner-Oberfläche |
+| W3 | AP-04 App-Steuerung Rechnermodus |
+| W4 | M1-DEP [Mensch] |
 
-**Integration:** {{was nach welcher Welle von Hand geprüft wird}}
+**Integration:** nach W1: `npm ci` + alle Checks grün, `npm run dev` zeigt Platzhalterseite. Nach W3: Handtest wie M1-Smoke-Test im Dev-Checkout.
 
-##### M{{x}}-DEP – Deployment [Mensch]
+##### M1-DEP – Deployment [Mensch]
 
-- Pull Request `dev` → `stage`, mergen, Smoke-Test auf stage
-- Pull Request `stage` → `master`, mergen, Smoke-Test in Produktion
+- `dev` → `stage` mergen (lokal, Q-09), `npm ci && npm run dev`, Smoke-Test
+- `stage` → `master` mergen, `npm ci && npm run build && npm run preview`, Smoke-Test
 - **Smoke-Test:**
-  - [ ] {{prüfbarer Punkt}}
+  - [ ] Seite öffnet unter `localhost`, Rechner mit LCD-Display und allen Tasten sichtbar (inkl. „🐦“)
+  - [ ] `2+3*4=` → 14 · `(2+3)*4=` → 20 · `50%` → 0,5 · `0,1+0,2=` → 0,3
+  - [ ] `7±` → −7 · `5÷0=` → „Error“, danach „AC“ → 0
+  - [ ] „⌫“, „C“, „AC“ verhalten sich wie in F-01 beschrieben
+  - [ ] Eingabe über PC-Tastatur (Ziffern, `+-*/`, `Enter`, `Backspace`, `Esc`) funktioniert
+
+#### M2 – π-Spiel und Bestenliste
+
+| Welle | Pakete (parallel) |
+|---|---|
+| W1 | AP-05 Spiellogik · AP-06 LCD-Renderer · AP-07 Bestenliste |
+| W2 | AP-08 App-Steuerung Spiel und Bestenliste |
+| W3 | M2-DEP [Mensch] |
+
+**Integration:** nach W2: Handtest wie M2-Smoke-Test im Dev-Checkout (Nutzer spielt einige Runden, prüft Spielbarkeit).
+
+##### M2-DEP – Deployment [Mensch]
+
+- `dev` → `stage` mergen, `npm ci && npm run dev`, Smoke-Test
+- `stage` → `master` mergen, `npm ci && npm run build && npm run preview`, Smoke-Test
+- **Smoke-Test:**
+  - [ ] „🐦“ startet das Spiel im Display; π ist sichtbar, LCD-Optik
+  - [ ] Ziffern (Maus und Tastatur) lassen π flattern; Spiel ist spielbar, Punkte zählen
+  - [ ] „C“ beendet das Spiel → Rechner, alter Rechnerstand ist weg (AC-Zustand)
+  - [ ] Nach Game Over mit Top-3-Ergebnis: Kürzel `1234` eingeben, „=“ → Liste zeigt Eintrag mit Datum
+  - [ ] Seite neu laden → Eintrag ist noch da
+  - [ ] Im Spiel „%“ → Liste erscheint; „%“ erneut → zurück zum Spiel
+  - [ ] Bei angezeigter Liste zweimal „AC“ → Liste leer; „AC“ im Rechnermodus löscht keine Liste
+  - [ ] Alle Abnahmekriterien §1 erfüllt → G3
 
 ---
 
 ## 10. Statusübersicht
 
-Gepflegt von ma-planner (im Auftrag des Leads). Aufwand: S ≈ {{0,75}} h · M ≈ {{1,5}} h · L ≈ {{2,5}} h Agent-Zeit, H = Mensch.
+Gepflegt von ma-planner (im Auftrag des Leads). Aufwand: S ≈ 0,75 h · M ≈ 1,5 h · L ≈ 2,5 h Agent-Zeit, H = Mensch.
 
 Status: `offen` · `bereit` · `in Arbeit` · `Review` · `fertig` (gemergt in dev) · `blockiert`
 
 | ID | Titel | M | Lane | Welle | Abhängigkeiten | Aufwand | Modell | Coder / Branch | Status |
 |---|---|---|---|---|---|---|---|---|---|
-| AP-01 | {{…}} | M0 | {{SH}} | W1 | – | {{S}} | {{haiku}} | – | offen |
+| AP-01 | Gerüst und Verträge | M1 | SH | W1 | H-01 | M | sonnet / high | – | offen |
+| AP-02 | Rechenkern | M1 | CORE | W2 | AP-01 | L | opus / high | – | offen |
+| AP-03 | Rechner-Oberfläche | M1 | WEB | W2 | AP-01 | M | sonnet / medium | – | offen |
+| AP-04 | App-Steuerung Rechnermodus | M1 | WEB | W3 | AP-02, AP-03 | S | sonnet / medium | – | offen |
+| M1-DEP | Deployment M1 | M1 | HUM | W4 | AP-04 | H | – | Nutzer | offen |
+| AP-05 | Spiellogik | M2 | CORE | W1 | AP-01, H-04 | M | sonnet / high | – | offen |
+| AP-06 | LCD-Renderer | M2 | CORE | W1 | AP-01, H-04 | M | sonnet / medium | – | offen |
+| AP-07 | Bestenliste | M2 | CORE | W1 | AP-01, H-04 | M | sonnet / high | – | offen |
+| AP-08 | App-Steuerung Spiel und Bestenliste | M2 | WEB | W2 | AP-04, AP-05, AP-06, AP-07 | L | opus / high | – | offen |
+| M2-DEP | Deployment M2 | M2 | HUM | W3 | AP-08 | H | – | Nutzer | offen |
 
 ---
 
@@ -428,12 +413,28 @@ Status: `offen` · `bereit` · `in Arbeit` · `Review` · `fertig` (gemergt in d
 
 ```mermaid
 flowchart LR
-  subgraph M0["M0 {{Name}}"]
-    AP01["AP-01"] --> AP02["AP-02"]
+  subgraph M1["M1 Taschenrechner"]
+    AP01["AP-01 Gerüst+Verträge"] --> AP02["AP-02 Rechenkern"]
+    AP01 --> AP03["AP-03 Oberfläche"]
+    AP02 --> AP04["AP-04 Steuerung Rechner"]
+    AP03 --> AP04
+    AP04 --> M1DEP["M1-DEP [Mensch]"]
   end
+  subgraph M2["M2 π-Spiel + Bestenliste"]
+    AP05["AP-05 Spiellogik"] --> AP08["AP-08 Steuerung Spiel"]
+    AP06["AP-06 Renderer"] --> AP08
+    AP07["AP-07 Bestenliste"] --> AP08
+    AP08 --> M2DEP["M2-DEP [Mensch]"]
+  end
+  AP01 --> AP05
+  AP01 --> AP06
+  AP01 --> AP07
+  AP04 --> AP08
 ```
 
-**Kritischer Pfad:** {{…}}
+**Kritischer Pfad:** AP-01 → AP-02 → AP-04 → AP-08 → M2-DEP (≈ 8 h Agent-Zeit + Reviews).
+
+M2 W1 hängt technisch nur an AP-01; sie startet nach Freigabe von M2 durch den Nutzer (H-04), M1-DEP muss dafür nicht abgeschlossen sein.
 
 ---
 
@@ -443,30 +444,240 @@ flowchart LR
 - Ein Paket passt in eine Agent-Sitzung (1–3 h) und ergibt einen einzeln committbaren, getesteten Stand.
 - Ein Coder muss es allein mit Paket und Pflichtlektüre umsetzen können, ohne Rückfrage.
 - Knappe, konkrete Schritte, keine fertigen Code-Blöcke.
-- IDs fortlaufend über alle Meilensteine: AP-01, AP-02 …
 -->
 
-#### AP-{{nn}} – {{Titel}}
+#### AP-01 – Gerüst und Verträge
 
-- **Meilenstein, Lane, Welle:** M{{x}} · {{LANE}} · W{{n}}
-- **Ziel:** {{ein bis zwei Sätze}}
-- **Pflichtlektüre:** {{Datei und Abschnitt, PE-xx}}
-- **Abhängigkeiten:** {{AP-IDs, H-xx}}
-- **Parallel möglich mit:** {{AP-IDs}}
-- **Dateien (Eigentum):** {{Pfade}}
-- **Nicht anfassen:** {{Dateien paralleler Pakete}}
-- **Freigegebene Abhängigkeiten:** {{Pakete oder „keine“}}
+- **Meilenstein, Lane, Welle:** M1 · SH · W1
+- **Ziel:** Lauffähiges Vite-TypeScript-Projekt mit allen Checks und sämtlichen Verträgen für M1 und M2, damit danach parallel gebaut werden kann.
+- **Pflichtlektüre:** §3, §4, §5, §8; PE-06, PE-08, PE-10, PE-11, PE-14, PE-15
+- **Abhängigkeiten:** H-01
+- **Parallel möglich mit:** –
+- **Dateien (Eigentum):** `package.json`, `package-lock.json`, `tsconfig.json`, `vite.config.ts`, `eslint.config.js`, `.prettierrc.json`, `.prettierignore`, `.gitignore`, `index.html`, `src/main.ts`, `src/vite-env.d.ts`, `src/styles/base.css`, `src/contracts/keys.ts`, `src/contracts/calc.ts`, `src/contracts/ui.ts`, `src/contracts/game.ts`, `src/contracts/leaderboard.ts`, `src/contracts/app.ts`, `src/contracts/index.ts`, `src/contracts/contracts.test.ts`, `README.md`
+- **Nicht anfassen:** `.claude/`, `.env*` (außer lesen von `.env.example`), `docs/`
+- **Freigegebene Abhängigkeiten:** alle aus §3 (nur devDependencies)
 - **Umsetzung:**
-  1. {{…}}
-- **Schnittstellen:** {{genutzte oder bereitgestellte Verträge}}
+  1. `package.json` (`"type": "module"`, `"private": true`), devDependencies aus §3 installieren. Scripts: `dev` (`vite`), `build` (`tsc --noEmit && vite build`), `preview` (`vite preview`), `test` (`vitest run`), `lint` (`eslint .`), `typecheck` (`tsc --noEmit`), `format` (`prettier --write .`).
+  2. `tsconfig.json` strict (inkl. `noUncheckedIndexedAccess`), `moduleResolution: "bundler"`, `lib` mit DOM. `vite.config.ts`: `server.host: 'localhost'`, Vitest-Block mit `environment: 'jsdom'`.
+  3. `eslint.config.js` (flat config, `@eslint/js` + `typescript-eslint` + `eslint-config-prettier`), zusätzlich: `no-eval`, `no-implied-eval`, `no-new-func` als Fehler; `no-restricted-properties` für `innerHTML`, `outerHTML`; `no-restricted-syntax` bzw. `no-restricted-properties` für `insertAdjacentHTML`, `document.write`. `dist/`, `coverage/` ignorieren.
+  4. `.gitignore` ergänzen (bestehende Zeilen behalten): `node_modules/`, `dist/`, `coverage/`.
+  5. `index.html` (lang `de`, Titel „π-Rechner“, `<div id="app">`, lädt `/src/main.ts`), `src/styles/base.css` (Reset, Seitenhintergrund, zentriert), `src/main.ts` als Platzhalter (importiert `base.css`, schreibt per `textContent` „π-Rechner lädt…“ in `#app`). Keine externen Fonts/CDNs.
+  6. Verträge anlegen (nur Typen, Konstanten und triviale Typ-Guards, keine Logik):
+     - `keys.ts`: `KEYS` als `const`-Array: `'0'…'9'`, `'.'`, `'+'`, `'-'`, `'*'`, `'/'`, `'('`, `')'`, `'%'`, `'±'`, `'='`, `'AC'`, `'C'`, `'BACK'`, `'BIRD'`; `type Key`; `type DigitKey`; `isDigitKey(k)`; `type CalcKey = Exclude<Key, 'BIRD'>`.
+     - `calc.ts`: `interface CalcState { expression: string; display: string; error: boolean; justEvaluated: boolean }` (`expression` intern ASCII mit `.` als Dezimaltrenner, `display` fertig formatiert für die Anzeige); `type CalcResult = { ok: true; value: number } | { ok: false; error: 'Error' }`; `interface CalcEngine { initialState(): CalcState; press(state: CalcState, key: CalcKey): CalcState; evaluate(expression: string): CalcResult; format(value: number): string }`; Konstante `MAX_EXPRESSION_LENGTH = 64`.
+     - `ui.ts`: `DISPLAY_CANVAS = { width: 120, height: 48 }` (logische Pixel); `interface DisplayView { showText(main: string, sub?: string): void; showLines(lines: string[]): void; showCanvas(): CanvasRenderingContext2D | null; hideCanvas(): void }`; `interface KeypadView { onKey(handler: (key: Key) => void): () => void }`; `interface CalculatorView { display: DisplayView; keypad: KeypadView }`; `type CreateCalculatorView = (root: HTMLElement) => CalculatorView`.
+     - `game.ts`: `interface GameConfig { width; height; gravity /* px/s² */; flapVelocity /* px/s, negativ = hoch */; pipeSpeed /* px/s */; pipeGap; pipeWidth; pipeSpacing; birdX; birdSize; groundHeight }` (alle `number`); `interface Pipe { x: number; gapY: number /* Oberkante Lücke */; passed: boolean }`; `type GameStatus = 'ready' | 'running' | 'over'`; `interface GameState { status: GameStatus; birdY: number; birdVy: number; pipes: Pipe[]; score: number }`; `type Rng = () => number /* [0,1) */`; `interface GameEngine { create(config: GameConfig): GameState; step(state: GameState, dtMs: number, flap: boolean, config: GameConfig, rng: Rng): GameState }`; `type GameRenderer = (ctx: CanvasRenderingContext2D, state: GameState, config: GameConfig) => void`; `MAX_STEP_MS = 50`.
+     - `leaderboard.ts`: `interface ScoreEntry { initials: string; score: number; date: string }`; `type StorageLike = Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>`; `interface LeaderboardStore { load(): ScoreEntry[]; qualifies(score: number): boolean; add(initials: string, score: number): ScoreEntry[]; clear(): void }`; `type CreateLeaderboard = (storage: StorageLike, today?: () => string) => LeaderboardStore`; Konstanten `LEADERBOARD_KEY = 'mataschen.leaderboard.v1'`, `MAX_ENTRIES = 3`, `MAX_INITIALS = 6`, `MAX_SCORE = 999999`, `INITIALS_PATTERN = /^\d{1,6}$/`.
+     - `app.ts`: `type Mode = 'calc' | 'game' | 'initials' | 'leaderboard'`; `interface Scheduler { request(cb: (timeMs: number) => void): number; cancel(id: number): void }`.
+     - `index.ts` exportiert alles.
+  7. `contracts.test.ts`: prüft z. B. `KEYS` enthält 24 eindeutige Einträge, `isDigitKey`, `INITIALS_PATTERN` (gültig/ungültig), damit `npm test` grün ist.
+  8. `README.md`: Zweck, Voraussetzungen (Node 24), `npm ci`, `npm run dev`, Checks, `build`/`preview`; Platzhalter-Abschnitt „Bedienung“ (füllt AP-08).
+  9. Alle Checks aus §3 lokal grün; `npm run dev` startet unter `localhost`.
+- **Schnittstellen:** stellt alle Verträge bereit (AP-02 bis AP-08).
 - **Akzeptanzkriterien:**
-  - {{prüfbar formuliert}}
-- **Tests:** {{welche Tests das Paket schreibt}}
-- **Review-Schwerpunkte:** {{z. B. Autorisierung, DSGVO, Impressum, Eingabevalidierung}}
-- **Doku-Pflichten:** {{z. B. .env.example, README}}
-- **Aufwand:** {{S / M / L}} · **Modell:** {{haiku / sonnet / opus}} · **Effort:** {{low / medium / high}}
-- **Kürzbar bei Budgetnot:** {{ja / nein, mit Begründung}}
-- **Commit-Typ:** `{{feat|fix|…}}(AP-{{nn}}): {{what}}`
+  - `npm ci && npm run lint && npm run typecheck && npm test && npm run build` grün.
+  - ESLint meldet Fehler bei `eval(...)` und `el.innerHTML = ...` (Coder prüft kurz mit Wegwerf-Datei, committet sie nicht).
+  - Verträge exakt wie oben benannt; keine Laufzeit-Abhängigkeiten in `package.json`.
+- **Tests:** `src/contracts/contracts.test.ts`.
+- **Review-Schwerpunkte:** nur freigegebene Abhängigkeiten, Lint-Sicherheitsregeln, `server.host`, keine externen Ressourcen, Verträge vollständig für M2.
+- **Doku-Pflichten:** `README.md`; `.env.example` unverändert lassen.
+- **Aufwand:** M · **Modell:** sonnet · **Effort:** high
+- **Kürzbar bei Budgetnot:** nein (Fundament)
+- **Commit-Typ:** `chore(AP-01): scaffold vite project and add contracts`
+
+#### AP-02 – Rechenkern
+
+- **Meilenstein, Lane, Welle:** M1 · CORE · W2
+- **Ziel:** Vollständige, DOM-freie Rechner-Logik als `CalcEngine`: Tasteneingabe → Zustand, sicherer Parser ohne `eval`, deutsche Zahlenformatierung.
+- **Pflichtlektüre:** §2 F-01, §5, `src/contracts/calc.ts`, `src/contracts/keys.ts`; PE-03, PE-19
+- **Abhängigkeiten:** AP-01
+- **Parallel möglich mit:** AP-03
+- **Dateien (Eigentum):** `src/calc/**` (z. B. `tokenizer.ts`, `parser.ts`, `format.ts`, `engine.ts`, `index.ts`, `*.test.ts`)
+- **Nicht anfassen:** `src/ui/**`, `src/contracts/**`, `src/main.ts`, `package.json`
+- **Freigegebene Abhängigkeiten:** keine
+- **Umsetzung:**
+  1. Tokenizer: Zahlen (mit `.`), `+ - * / ( ) %`; unbekannte Zeichen → Fehler.
+  2. Parser (rekursiver Abstieg oder Shunting-Yard): Punkt vor Strich, Klammern, unäres Minus (am Anfang, nach Operator, nach `(`), Postfix `%` = Wert ÷ 100. Fehlende schließende Klammern werden bei `=` automatisch ergänzt. Ergebnis nicht endlich (z. B. ÷ 0) → `{ ok: false, error: 'Error' }`.
+  3. `format(value)`: auf 12 signifikante Stellen runden (damit `0.1+0.2` → `0,3`), Dezimalkomma, kein Tausendertrenner; ab |x| ≥ 1e12 oder 0 < |x| < 1e-9 Exponentialschreibweise (z. B. `1,5e+15`); `-0` → `0`.
+  4. `press(state, key)`:
+     - Ziffern, `.`, Operatoren, Klammern anhängen; max. `MAX_EXPRESSION_LENGTH`, darüber ignorieren.
+     - `.` nur einmal pro Zahl; `.` am Zahlanfang → `0.`.
+     - Operator nach Operator ersetzt den vorigen (Ausnahme: `-` als unäres Minus nach `*`, `/`, `(` oder am Anfang).
+     - `(` direkt nach Zahl, `)` oder `%` fügt implizit `*` ein.
+     - `±` schaltet das Vorzeichen der letzten Zahl um (unäres Minus davor einfügen/entfernen); ohne Zahl ignorieren.
+     - `=` wertet aus: Erfolg → `expression` = Ergebnis (ASCII), `justEvaluated: true`; Fehler → `error: true`, `display: 'Error'`.
+     - Nach `justEvaluated`: Ziffer/`.` startet neuen Ausdruck, Operator rechnet mit dem Ergebnis weiter.
+     - `BACK` löscht das letzte Zeichen; `C` löscht die letzte Zahl (Clear Entry); `AC` → `initialState()`.
+     - Im Fehlerzustand: `AC`/`C` → Anfangszustand; Ziffer/`(` startet neu; andere Tasten ignorieren.
+     - `display`: Ausdruck mit `×`, `÷`, `−`, Dezimalkomma; leer → `0`.
+  5. `index.ts` exportiert `calcEngine: CalcEngine`.
+- **Schnittstellen:** implementiert `CalcEngine` aus `src/contracts/calc.ts`.
+- **Akzeptanzkriterien:**
+  - Alle Rechenbeispiele aus §1 und M1-Smoke-Test als Tests grün; dazu `-3+5`, `2*-3`, `((2))`, `(1+2`→3, `10/4`→`2,5`, `1/3`→`0,333333333333`, `5/0`→Error.
+  - Kein `eval`, `Function`, `with`, keine dynamischen Imports; keine DOM-Zugriffe.
+  - Zustände werden nicht mutiert (neues Objekt pro `press`).
+- **Tests:** `tokenizer.test.ts`, `parser.test.ts`, `format.test.ts`, `engine.test.ts` (Tastenfolgen → `display`).
+- **Review-Schwerpunkte:** kein `eval` (R6), Rundung, Randfälle (leere Eingabe, nur Operator, mehrfache Klammern), Längenlimit.
+- **Doku-Pflichten:** JSDoc an den exportierten Funktionen.
+- **Aufwand:** L · **Modell:** opus · **Effort:** high
+- **Kürzbar bei Budgetnot:** nein (Kernlogik, Sicherheit); Modell ggf. sonnet/high (K2)
+- **Commit-Typ:** `feat(AP-02): add safe calculator engine`
+
+#### AP-03 – Rechner-Oberfläche
+
+- **Meilenstein, Lane, Welle:** M1 · WEB · W2
+- **Ziel:** DOM-Ansicht des Rechners: LCD-Display (Text + Canvas-Ebene) und Tastenfeld mit allen Tasten inkl. „🐦“, Tastatur-Zuordnung.
+- **Pflichtlektüre:** §2 F-01/F-02/F-03, §5, `src/contracts/ui.ts`, `src/contracts/keys.ts`; PE-07, PE-10, PE-12, PE-19
+- **Abhängigkeiten:** AP-01
+- **Parallel möglich mit:** AP-02
+- **Dateien (Eigentum):** `src/ui/**` (z. B. `view.ts`, `display.ts`, `keypad.ts`, `keyboard.ts`, `ui.css`, `index.ts`, `*.test.ts`)
+- **Nicht anfassen:** `src/calc/**`, `src/contracts/**`, `src/main.ts`, `index.html`, `package.json`
+- **Freigegebene Abhängigkeiten:** keine
+- **Umsetzung:**
+  1. `createCalculatorView(root)` (Typ `CreateCalculatorView`) baut per `document.createElement` Rechnergehäuse, Display und Tastenfeld; importiert `./ui.css` selbst.
+  2. Display im LCD-Stil (grau-grünlicher Hintergrund, fast schwarze „Pixel“, Monospace aus Systemschriften): Zeile `sub` (klein, Ausdruck) und `main` (groß, rechtsbündig). `showLines` zeigt bis zu 4 Zeilen linksbündig (für die Bestenliste). Ein `<canvas>` mit `DISPLAY_CANVAS` als logischer Größe liegt im Display, per CSS auf Displaygröße skaliert (`image-rendering: pixelated`); `showCanvas()` blendet Text aus und Canvas ein, liefert den 2D-Kontext (`imageSmoothingEnabled = false`); `hideCanvas()` umgekehrt. Nur `textContent`.
+  3. Tastenfeld (4 Spalten × 6 Reihen): `AC C ⌫ 🐦` / `( ) % ÷` / `7 8 9 ×` / `4 5 6 −` / `1 2 3 +` / `± 0 , =`. `<button type="button" data-key="…">`, `aria-label` je Taste (z. B. „Spiel“ für 🐦). Beschriftung `,` sendet `'.'`, `×` → `'*'`, `÷` → `'/'`, `−` → `'-'`, `⌫` → `'BACK'`, `🐦` → `'BIRD'`.
+  4. Tastatur (`keydown` auf `window`): `0–9`, `.` und `,` → `'.'`, `+ - * /`, `( )`, `%`, `Enter`/`=` → `'='`, `Backspace` → `'BACK'`, `Escape` → `'AC'`, `Delete` → `'C'`, `F9` → `'±'`, `b` → `'BIRD'`; `preventDefault` nur für zugeordnete Tasten; gedrückte Taste kurz optisch hervorheben.
+  5. `onKey(handler)` registriert Handler und liefert eine Abmeldefunktion (entfernt auch den Tastatur-Listener).
+- **Schnittstellen:** implementiert `CreateCalculatorView`, `DisplayView`, `KeypadView`.
+- **Akzeptanzkriterien:**
+  - Alle 24 Tasten sichtbar, jede löst genau den richtigen `Key` aus (Klick und Tastatur).
+  - `showText`, `showLines`, `showCanvas`/`hideCanvas` wechseln die Anzeige korrekt.
+  - Kein `innerHTML`; keine externen Ressourcen; responsive bis 360 px Breite.
+- **Tests:** jsdom: Klick je Taste → Handler-Key; Tastaturereignisse → Key; Abmelden entfernt Listener; Display-Methoden setzen `textContent`/Sichtbarkeit. (Canvas-Kontext in jsdom ggf. `null` – Test darauf auslegen.)
+- **Review-Schwerpunkte:** XSS (nur `textContent`), Barrierefreiheit (Labels), Tastenzuordnung vollständig.
+- **Doku-Pflichten:** Tastaturbelegung als Kommentar in `keyboard.ts`.
+- **Aufwand:** M · **Modell:** sonnet · **Effort:** medium
+- **Kürzbar bei Budgetnot:** nein; Feinschliff der Optik ja (K1)
+- **Commit-Typ:** `feat(AP-03): add calculator view with lcd display and keypad`
+
+#### AP-04 – App-Steuerung Rechnermodus
+
+- **Meilenstein, Lane, Welle:** M1 · WEB · W3
+- **Ziel:** Rechner verdrahten: Tasten → `calcEngine.press` → Display. Damit ist M1 live.
+- **Pflichtlektüre:** §2 F-01, §4, `src/contracts/*`, `src/calc/index.ts`, `src/ui/index.ts`
+- **Abhängigkeiten:** AP-02, AP-03
+- **Parallel möglich mit:** –
+- **Dateien (Eigentum):** `src/app/controller.ts`, `src/app/controller.test.ts`, `src/main.ts`
+- **Nicht anfassen:** `src/calc/**`, `src/ui/**`, `src/contracts/**`
+- **Freigegebene Abhängigkeiten:** keine
+- **Umsetzung:**
+  1. `createApp({ view, calc })` hält `CalcState`; bei jedem Key außer `'BIRD'`: `calc.press`, dann `display.showText(state.display, state.justEvaluated ? '=' : '')`. `'BIRD'` wird in M1 ignoriert (Kommentar: Spielmodus folgt in AP-08).
+  2. `src/main.ts`: `base.css` importieren, `#app` suchen, `createCalculatorView`, `createApp` starten; Platzhaltertext entfernen.
+- **Schnittstellen:** nutzt `CalcEngine`, `CalculatorView`.
+- **Akzeptanzkriterien:** Tastenfolge `2 + 3 * 4 =` über Fake-View → Display zeigt `14`; `BIRD` ändert nichts; M1-Smoke-Test im Browser bestanden.
+- **Tests:** `controller.test.ts` mit Fake-`CalculatorView` (zeichnet Aufrufe auf) und echtem `calcEngine`.
+- **Review-Schwerpunkte:** saubere Trennung (keine Rechenlogik im Controller).
+- **Doku-Pflichten:** keine
+- **Aufwand:** S · **Modell:** sonnet · **Effort:** medium
+- **Kürzbar bei Budgetnot:** nein
+- **Commit-Typ:** `feat(AP-04): wire calculator mode`
+
+#### AP-05 – Spiellogik
+
+- **Meilenstein, Lane, Welle:** M2 · CORE · W1
+- **Ziel:** Deterministische, DOM-freie Flappy-Logik als `GameEngine` mit gut spielbarer Standard-Konfiguration für das kleine Display.
+- **Pflichtlektüre:** §2 F-02, `src/contracts/game.ts`, `src/contracts/ui.ts` (`DISPLAY_CANVAS`); PE-10, PE-13
+- **Abhängigkeiten:** AP-01, H-04
+- **Parallel möglich mit:** AP-06, AP-07
+- **Dateien (Eigentum):** `src/game/config.ts`, `src/game/engine.ts`, `src/game/engine.test.ts`, `src/game/index.ts`
+- **Nicht anfassen:** `src/game/render.ts`, `src/game/render.test.ts`, `src/leaderboard/**`, `src/contracts/**`
+- **Freigegebene Abhängigkeiten:** keine
+- **Umsetzung:**
+  1. `config.ts`: `DEFAULT_GAME_CONFIG: GameConfig` mit `width/height` aus `DISPLAY_CANVAS`; Startwerte z. B. gravity ≈ 360, flapVelocity ≈ −110, pipeSpeed ≈ 40, pipeGap ≈ 18, pipeWidth ≈ 8, pipeSpacing ≈ 50, birdX ≈ 24, birdSize ≈ 8, groundHeight ≈ 2 (Coder justiert für Spielbarkeit).
+  2. `create(config)`: `status: 'ready'`, π in der Mitte, keine Röhren, `score: 0`.
+  3. `step(...)`: `dtMs` auf `MAX_STEP_MS` begrenzen. `ready`: π schwebt still; `flap` → `running` + Flattern. `running`: `flap` setzt `birdVy = flapVelocity`; Schwerkraft; Röhren mit `pipeSpeed` nach links; neue Röhre, wenn Abstand ≥ `pipeSpacing`; `gapY` per `rng` mit Rand ≥ 4 px; Röhren links außerhalb entfernen; `score+1` und `passed = true`, wenn Röhre `birdX` passiert; Kollision (Box `birdSize`) mit Röhre, Decke oder Boden → `over`. `over`: Zustand bleibt unverändert.
+  4. Reine Funktionen, Zustand nie mutieren. `index.ts` exportiert `gameEngine`, `DEFAULT_GAME_CONFIG`.
+- **Schnittstellen:** implementiert `GameEngine`.
+- **Akzeptanzkriterien:** deterministisch mit fester `rng`; Tests decken Start, Schwerkraft, Flattern, Röhren-Spawn/-Entfernen, Punkte, Kollision Röhre/Boden/Decke, dt-Begrenzung ab.
+- **Tests:** `engine.test.ts`.
+- **Review-Schwerpunkte:** Reinheit, Randfälle, keine DOM-/Zeitabhängigkeit.
+- **Doku-Pflichten:** Kommentar zu den Konfigurationswerten.
+- **Aufwand:** M · **Modell:** sonnet · **Effort:** high
+- **Kürzbar bei Budgetnot:** nein
+- **Commit-Typ:** `feat(AP-05): add flappy pi game engine`
+
+#### AP-06 – LCD-Renderer
+
+- **Meilenstein, Lane, Welle:** M2 · CORE · W1
+- **Ziel:** `GameRenderer`, der den Spielzustand im LCD-Stil auf den Display-Canvas zeichnet, mit π als Vogel.
+- **Pflichtlektüre:** §2 F-02, §5 (R1), `src/contracts/game.ts`, `src/contracts/ui.ts`; PE-12
+- **Abhängigkeiten:** AP-01, H-04
+- **Parallel möglich mit:** AP-05, AP-07
+- **Dateien (Eigentum):** `src/game/render.ts`, `src/game/render.test.ts`
+- **Nicht anfassen:** `src/game/engine.ts`, `src/game/config.ts`, `src/game/index.ts`, `src/contracts/**`
+- **Freigegebene Abhängigkeiten:** keine
+- **Umsetzung:**
+  1. `renderGame(ctx, state, config)`: Hintergrund LCD-Grau (gleiche Farbwerte wie AP-03-Display, als Konstanten in `render.ts`), Zeichenfarbe fast schwarz; alle Koordinaten mit `Math.round` (Pixel-Optik).
+  2. π per `fillText('π', …)` in Monospace-Systemschrift, Größe ≈ `birdSize`, an `(birdX, birdY)`; leicht geneigt je nach `birdVy` (optional).
+  3. Röhren als gefüllte Rechtecke oben/unten mit 1-px-Kante; Boden als Linie (`groundHeight`).
+  4. Punktzahl oben rechts. `ready`: Hinweis „0-9 drücken“; `over`: „GAME OVER“ mittig.
+  5. Optional: schwaches LCD-Raster (jede 2. Zeile leicht aufgehellt) – kürzbar (K1).
+  6. Exportiert `renderGame` (Name fix, AP-08 importiert aus `src/game/render.ts`).
+- **Schnittstellen:** implementiert `GameRenderer`.
+- **Akzeptanzkriterien:** zeichnet ohne Fehler für `ready`/`running`/`over`; `fillText` mit `'π'` wird aufgerufen; Anzahl Röhren-Rechtecke = 2 × Röhren; keine Bilder/Fonts von außen.
+- **Tests:** `render.test.ts` mit selbstgebautem Mock-Kontext (zeichnet Aufrufe auf).
+- **Review-Schwerpunkte:** R1 (keine Fremdgrafiken), keine externen Ressourcen.
+- **Doku-Pflichten:** keine
+- **Aufwand:** M · **Modell:** sonnet · **Effort:** medium
+- **Kürzbar bei Budgetnot:** teilweise (LCD-Raster, Neigung – K1)
+- **Commit-Typ:** `feat(AP-06): add lcd style pi renderer`
+
+#### AP-07 – Bestenliste
+
+- **Meilenstein, Lane, Welle:** M2 · CORE · W1
+- **Ziel:** Robuste Top-3-Bestenliste mit Validierung und Löschfunktion über injizierten Storage.
+- **Pflichtlektüre:** §2 F-03, §4 Entität ScoreEntry, §5, `src/contracts/leaderboard.ts`; PE-05, PE-11
+- **Abhängigkeiten:** AP-01, H-04
+- **Parallel möglich mit:** AP-05, AP-06
+- **Dateien (Eigentum):** `src/leaderboard/**` (z. B. `store.ts`, `validate.ts`, `format.ts`, `index.ts`, `*.test.ts`)
+- **Nicht anfassen:** `src/game/**`, `src/contracts/**`
+- **Freigegebene Abhängigkeiten:** keine
+- **Umsetzung:**
+  1. `createLeaderboard(storage, today?)` (Typ `CreateLeaderboard`); `today` liefert lokales Datum `JJJJ-MM-TT` (Standard aus `new Date()`).
+  2. `load()`: `getItem(LEADERBOARD_KEY)` in `try/catch`; `JSON.parse` in `try/catch`; nur Array; jeden Eintrag prüfen (`initials` passt `INITIALS_PATTERN`, `score` Ganzzahl 0…`MAX_SCORE`, `date` `^\d{4}-\d{2}-\d{2}$`), ungültige verwerfen; sortieren (Punkte absteigend, bei Gleichstand älteres Datum zuerst bzw. stabile Reihenfolge); auf `MAX_ENTRIES` kürzen.
+  3. `qualifies(score)`: `score > 0` und (weniger als 3 Einträge oder `score >` kleinste Punktzahl).
+  4. `add(initials, score)`: ungültige Eingaben → Liste unverändert zurückgeben; sonst einfügen, sortieren, kürzen, speichern (`setItem` in `try/catch`, bei Fehler weiter im Speicher).
+  5. `clear()`: `removeItem` in `try/catch`.
+  6. `formatEntry(entry, rank)` → z. B. `1. 123456   42  21.10.26` (Datum `TT.MM.JJ`), Hilfsfunktion für AP-08.
+  7. `index.ts` exportiert `createLeaderboard`, `formatEntry`.
+- **Schnittstellen:** implementiert `LeaderboardStore`/`CreateLeaderboard`; stellt `formatEntry` bereit.
+- **Akzeptanzkriterien:** max. 3 Einträge; kaputte/manipulierte Daten (kein JSON, Objekt statt Array, zu lange Kürzel, Buchstaben, negative/riesige Punkte, Skript-Strings) führen nie zu Absturz oder Anzeige ungültiger Werte; Storage, der Ausnahmen wirft, führt nicht zum Absturz.
+- **Tests:** Fake-Storage (Map-basiert) und werfender Storage; alle Kriterien oben.
+- **Review-Schwerpunkte:** Validierung (R6), Datensparsamkeit/Löschbarkeit (R2).
+- **Doku-Pflichten:** Kommentar zum Storage-Format (Schlüssel, Version).
+- **Aufwand:** M · **Modell:** sonnet · **Effort:** high
+- **Kürzbar bei Budgetnot:** nein (Sicherheit/Datenschutz)
+- **Commit-Typ:** `feat(AP-07): add local top-3 leaderboard`
+
+#### AP-08 – App-Steuerung Spiel und Bestenliste
+
+- **Meilenstein, Lane, Welle:** M2 · WEB · W2
+- **Ziel:** Modus-Zustandsmaschine und Spielschleife: Rechner ↔ Spiel ↔ Kürzeleingabe ↔ Bestenliste mit exakt der vereinbarten Tastenbelegung.
+- **Pflichtlektüre:** §2 F-02/F-03, §5, `src/contracts/*`, `src/app/controller.ts`, `src/game/index.ts`, `src/game/render.ts`, `src/leaderboard/index.ts`; PE-10, PE-11
+- **Abhängigkeiten:** AP-04, AP-05, AP-06, AP-07
+- **Parallel möglich mit:** –
+- **Dateien (Eigentum):** `src/app/**` (u. a. `controller.ts`, `modes.ts`, `gameLoop.ts`, Tests), `src/main.ts`, `README.md`
+- **Nicht anfassen:** `src/calc/**`, `src/ui/**`, `src/game/**`, `src/leaderboard/**`, `src/contracts/**`
+- **Freigegebene Abhängigkeiten:** keine
+- **Umsetzung:**
+  1. Reine Übergangsfunktion in `modes.ts` (App-Zustand + Ereignis → neuer Zustand + Effekte); Controller führt Effekte aus (Display, Storage, Schleife). Zeitquelle und `Scheduler` injizierbar (Tests mit Fake).
+  2. **calc:** wie AP-04; `BIRD` → `game` (neues Spiel `ready`, Canvas einblenden, Schleife starten). Rechnerzustand wird beim Wechsel ins Spiel auf `initialState` gesetzt.
+  3. **game:** Ziffer → `flap` beim nächsten `step` (erste Ziffer startet); `C` oder `BIRD` → Spiel verwerfen, Schleife stoppen, Canvas ausblenden, `calc`; `%` → Spiel pausieren (Zustand merken, Schleife stoppen) → `leaderboard`; andere Tasten ignorieren. Schleife: pro Frame `step` + `renderGame`.
+  4. **Game Over:** 800 ms Eingabesperre (verhindert, dass Flatter-Ziffern als Kürzel zählen); danach `qualifies(score)` → `initials`, sonst → `leaderboard`.
+  5. **initials:** Anzeige `NEUER REKORD <score>` / `Kürzel: <ziffern>_`; Ziffern anhängen (max. 6), `BACK` löscht, `=` speichert (nur mit ≥ 1 Ziffer) → `leaderboard`; `C` verwirft → `leaderboard`.
+  6. **leaderboard:** `showLines` mit Überschrift `BESTENLISTE` + bis zu 3 `formatEntry`-Zeilen bzw. `– leer –`. `AC` einmal → Hinweis „AC nochmal = löschen“; zweites `AC` innerhalb von 2 s → `clear()`, Anzeige aktualisieren; jede andere Taste setzt die AC-Folge zurück. `%` → zurück zum pausierten Spiel (falls vorhanden, Fortsetzen mit nächster Ziffer), sonst neues Spiel; Ziffer oder `=` → neues Spiel; `C` oder `BIRD` → `calc`.
+  7. `AC` außerhalb der Bestenliste löscht nie die Liste.
+  8. `main.ts`: `createLeaderboard(window.localStorage)` injizieren (Zugriff in `try/catch`; ohne Storage → In-Memory-Fallback).
+  9. `README.md`: Abschnitt „Bedienung“ (Tastenbelegung Rechner, Spiel, Bestenliste).
+- **Schnittstellen:** nutzt `CalcEngine`, `CalculatorView`, `GameEngine`, `renderGame`, `LeaderboardStore`, `formatEntry`, `Scheduler`.
+- **Akzeptanzkriterien:** alle Übergänge oben als Tests; M2-Smoke-Test im Browser bestanden; Rechnermodus unverändert (AP-04-Tests grün).
+- **Tests:** `modes.test.ts` (alle Übergänge, Doppel-AC mit Fake-Zeit, Eingabesperre), `controller.test.ts` erweitert (Fake-View, Fake-Scheduler, Fake-Storage).
+- **Review-Schwerpunkte:** Löschen nur in Bestenliste (PE-11), kein `innerHTML`, keine Speicherlecks der Schleife, Tastenbelegung exakt laut PE-10/PE-11.
+- **Doku-Pflichten:** README „Bedienung“.
+- **Aufwand:** L · **Modell:** opus · **Effort:** high
+- **Kürzbar bei Budgetnot:** nein; Pause-Fortsetzen bei `%` kürzbar (K3: `%` beendet stattdessen das Spiel)
+- **Commit-Typ:** `feat(AP-08): add game and leaderboard modes`
 
 ---
 
@@ -474,24 +685,38 @@ flowchart LR
 
 | ID | Schritt | Ab wann nötig | Blockiert | Erledigt |
 |---|---|---|---|---|
-| H-01 | {{z. B. .env aus .env.example anlegen und füllen}} | {{sofort}} | {{…}} | ☐ |
+| H-01 | Paketschnitt M1 bestätigen und M1 freigeben (beim Lead) | sofort | AP-01 | ☐ |
+| H-02 | Q-09 beantworten: rein lokal (empfohlen) oder privates GitHub-Repo als Remote anlegen | vor erstem Merge | `push` des Leads | ☐ |
+| H-03 | Handtest nach M1 W3 (M1-Smoke-Test im Dev-Checkout) | nach AP-04 | M1-DEP | ☐ |
+| H-04 | M2 freigeben (beim Lead) | nach Bestätigung des Paketschnitts M2 | AP-05, AP-06, AP-07 | ☐ |
+| H-05 | M1-DEP: `dev` → `stage` → `master`, Smoke-Tests | nach H-03 | – | ☐ |
+| H-06 | Handtest nach M2 W2 inkl. Spielbarkeit (Schwierigkeit ok?) | nach AP-08 | M2-DEP | ☐ |
+| H-07 | M2-DEP: `dev` → `stage` → `master`, Smoke-Tests, G3 bestätigen | nach H-06 | – | ☐ |
+
+Keine Konten, Käufe oder Secrets nötig.
 
 ---
 
 ## 14. Budget und Kürzungen
 
+**Annahme für die Rechnung:** 30 % eines 5-h-Fensters ≈ 1,5 Agent-Stunden (Coder + Reviewer + Lead-Anteil). Reviews und Nachbesserungen schlagen mit ≈ +25 % zu Buche. Der Lead misst den echten Verbrauch über `.claude/ma-usage.json` und meldet Abweichungen.
+
 | Meilenstein | Pakete | Agent-Aufwand | Geschätzte 5-h-Fenster bei 30 % Team-Budget |
 |---|---|---|---|
-| M{{x}} | {{n}} | {{h}} | {{n}} |
-| **Gesamt** | | | |
+| M1 | 4 (M, L, M, S) | 6,25 h + 25 % ≈ 7,8 h | ≈ 5–6 |
+| M2 | 4 (M, M, M, L) | 7,0 h + 25 % ≈ 8,8 h | ≈ 6 |
+| **Gesamt** | 8 | ≈ 16,6 h | **≈ 11–12 Fenster** |
 
-**Zeit des Nutzers:** {{Freigaben, Entscheidungen, Deployments, Smoke-Tests – geschätzt h}}
+**Zeit des Nutzers:** Freigaben, Antworten auf Rückfragen, 2 Handtests, 2 Deployments mit Smoke-Tests ≈ 1,5–2 h.
 
-**Ehrliche Einschätzung:** {{…}}
+**Ehrliche Einschätzung:** Das Budget, nicht die Zahl der Coder, begrenzt das Tempo. 3 parallele Coder (M2 W1) verbrauchen das Fenster-Budget entsprechend schneller; der Wächter wird dann vermutlich bremsen. Bei durchgehendem Lauf ist mit etwa 2–3 Kalendertagen zu rechnen. Opus-Pakete (AP-02, AP-08) sind die teuersten.
 
 | Stufe | Kürzung | Ersparnis | Betroffene Pakete |
 |---|---|---|---|
-| K1 | {{…}} | {{…}} | {{…}} |
+| K1 | Optik-Feinschliff weglassen (LCD-Raster, π-Neigung, Tasten-Highlight) | ≈ 0,5 h | AP-03, AP-06 |
+| K2 | AP-02 mit sonnet/high statt opus/high | ≈ 1 Fenster-Anteil | AP-02 |
+| K3 | `%` im laufenden Spiel beendet das Spiel statt zu pausieren | ≈ 0,5 h | AP-08 |
+| – | **Nie:** Sicherheitsregeln §5, Validierung, Löschfunktion, Tests | – | – |
 
 ---
 
@@ -500,10 +725,15 @@ flowchart LR
 | # | Risiko | Gegenmaßnahme | Betroffene Pakete |
 |---|---|---|---|
 | RI-1 | Parallele Pakete ändern dieselbe Datei | Eigentum §8, Prüfung durch den Lead | alle |
-| RI-2 | Vertrag aus derselben Welle wird genutzt | Verträge eine Welle früher | Vertragsnutzer |
+| RI-2 | Vertrag aus derselben Welle wird genutzt | Alle Verträge in AP-01 (M1 W1) | alle |
 | RI-3 | Budget reicht nicht für die geplante Parallelität | Parallelität §7.2, Kürzungen §14 | alle |
 | RI-4 | Prompt-Injection über Abhängigkeiten, Doku oder Daten | Wächter, Review-Punkt „Verdächtige Inhalte“, nur freigegebene Abhängigkeiten | alle |
-| RI-{{n}} | {{…}} | {{…}} | {{…}} |
+| RI-5 | Fließkomma-Artefakte (`0,30000000000000004`) | Rundung auf 12 Stellen, Tests | AP-02 |
+| RI-6 | Spiel im 120×48-Display zu schwer/ruckelig | Konfiguration in `config.ts`, `MAX_STEP_MS`, Handtest H-06, Fix-Paket bei Bedarf | AP-05, AP-08 |
+| RI-7 | Flatter-Ziffern landen versehentlich im Kürzel | 800 ms Eingabesperre nach Game Over | AP-08 |
+| RI-8 | `localStorage` gesperrt, voll oder manipuliert | `try/catch`, Validierung, In-Memory-Fallback | AP-07, AP-08 |
+| RI-9 | Verträge erweisen sich in M2 als unpassend | Vertragsänderung nur per eigenem Paket (Lead → Planner), vor AP-08 | AP-05–AP-08 |
+| RI-10 | Kein Remote: `push` des Leads schlägt fehl | Q-09; bis dahin rein lokal | Lead-Abschluss |
 
 ---
 
@@ -515,39 +745,47 @@ flowchart LR
 |---|---|---|---|
 | PE-01 | Pflichtumfang: Taschenrechner + Flappy Bird + lokale Bestenliste (F-01–F-03) | Projektauftrag | Nutzer am 2026-10-21 |
 | PE-02 | Web-App, läuft nur lokal unter `localhost` auf dem PC des Nutzers; keine Veröffentlichung. Damit entfällt R3 (Impressum/Datenschutzerklärung), solange nicht veröffentlicht | Privatnutzung, kein Server, kein Hosting nötig | Nutzer am 2026-10-21 |
-| PE-03 | Rechnerumfang: + − × ÷, Klammern, %, ±, C, Rückschritt, Tastatureingabe | Wirkt wie ein echter Rechner bei mittlerem Aufwand | Nutzer am 2026-10-21 |
+| PE-03 | Rechnerumfang: + − × ÷, Klammern, %, ±, Löschen, Rückschritt, Tastatureingabe | Wirkt wie ein echter Rechner bei mittlerem Aufwand | Nutzer am 2026-10-21 |
 | PE-04 | Spielstart über sichtbaren Button/Modus-Umschalter, kein Easter Egg | Eindeutig und testbar | Nutzer am 2026-10-21 |
 | PE-05 | Bestenliste: Top 3, Kürzel max. 6 Zeichen, Punkte, Datum, Lösch-Button; `localStorage` | Datensparsam, Löschbarkeit (R2) direkt erfüllt | Nutzer am 2026-10-21 |
 | PE-06 | Tech-Stack: TypeScript + Vite (Vanilla), Vitest, ESLint, Prettier | Einfach, gut testbar, Node vorhanden | Nutzer am 2026-10-21 |
 | PE-07 | Spiel läuft im Display des Taschenrechners; alle Bedienelemente (Flattern, Start, Beenden, Bestenliste) sind Rechnertasten | Wunsch des Nutzers | Nutzer am 2026-10-21 |
-| PE-08 | Freigegebene devDependencies laut §3, keine Laufzeit-Abhängigkeiten | Standardwerkzeuge zu PE-06 | angenommen vom Planner |
+| PE-08 | Freigegebene devDependencies laut §3, keine Laufzeit-Abhängigkeiten | Standardwerkzeuge zu PE-06 | Nutzer am 2026-10-21 |
 | PE-09 | Höchstens 3 Coder gleichzeitig; Freigabe pro Meilenstein; Ausschlüsse §2 bestätigt | Wunsch des Nutzers | Nutzer am 2026-10-21 |
 | PE-10 | Spieltasten: „🐦“ Umschalten, Ziffern 0–9 flattern, „C“ beendet | Wunsch des Nutzers (Option 9b) | Nutzer am 2026-10-21 |
 | PE-11 | Kürzel nur Ziffern (1–6) über Rechnertasten, „=“ bestätigt; „%“ zeigt Bestenliste; Doppel-„AC“ löscht nur bei angezeigter Bestenliste | Wunsch des Nutzers; Ziffern-Kürzel sind kaum personenbezogen (R2) | Nutzer am 2026-10-21 |
 | PE-12 | Grafik im LCD-Stil, Vogel = π-Zeichen | Wunsch des Nutzers | Nutzer am 2026-10-21 |
-| PE-13 | Konstante Schwierigkeit, kein Ton | Nicht explizit gewählt; geringster Aufwand | angenommen vom Planner |
-| PE-14 | Architektur §4: Bausteine calc/game/leaderboard/ui/app, Verträge in `src/contracts/` | Ermöglicht parallele Pakete ohne Dateikonflikte | angenommen vom Planner |
-| PE-15 | Sicherheit §5: kein `eval`, Validierung der Speicherdaten, keine externen Inhalte, R3 entfällt lokal | R2, R3, R6 | angenommen vom Planner |
-| PE-16 | Umgebungen §6: kein Hosting, stage/master werden lokal gestartet; keine Env-Variablen | Folgt aus PE-02 | angenommen vom Planner |
+| PE-13 | Konstante Schwierigkeit, kein Ton | Geringster Aufwand | Nutzer am 2026-10-21 |
+| PE-14 | Architektur §4: Bausteine calc/game/leaderboard/ui/app, Verträge in `src/contracts/` | Ermöglicht parallele Pakete ohne Dateikonflikte | Nutzer am 2026-10-21 |
+| PE-15 | Sicherheit §5: kein `eval`, kein `innerHTML`, Validierung der Speicherdaten, keine externen Inhalte, R3 entfällt lokal | R2, R3, R6 | Nutzer am 2026-10-21 |
+| PE-16 | Umgebungen §6: kein Hosting, stage/master werden lokal gestartet; keine Env-Variablen | Folgt aus PE-02 | Nutzer am 2026-10-21 |
+| PE-17 | Kein Termin, keine Kommerzialisierung; Leitprinzipien §1 | Privatprojekt | Nutzer am 2026-10-21 |
+| PE-18 | Abnahmekriterien §1 | Prüfbare Liste | Nutzer am 2026-10-21 |
+| PE-19 | Rechner-Löschtasten: „AC“ alles, „C“ aktuelle Eingabe (im Spiel: beenden), „⌫“ letztes Zeichen | Option 15a | Nutzer am 2026-10-21 |
+| PE-20 | Worktrees unter `D:\Private Projekte\mAtaschenRechnerFlappybird_worktree\` | Agent-Regeln; Widerspruch zur Vorlage aufgelöst (Q-08) | Nutzer am 2026-10-21 |
+| PE-21 | Zwei Meilensteine (M1 Rechner, M2 Spiel + Bestenliste); alle Verträge beider Meilensteine im Gerüst-Paket AP-01 | Rechner früh nutzbar; M2 W1 voll parallel ohne eigenes Vertragspaket | angenommen vom Planner |
+| PE-22 | Modelle: opus/high für AP-02 (Parser, Sicherheit) und AP-08 (Zustandsmaschine); sonnet sonst | D11, Kernlogik | angenommen vom Planner |
 
 ### Offene Fragen
 
 | ID | Frage | Priorität | Betrifft | Empfehlung | Status |
 |---|---|---|---|---|---|
-| Q-01 | Plattform und Lieferform (Web, Desktop, Mobile; nur lokal oder veröffentlicht) | K | §1, §3, §5, §6 | Web-App, statisch, zunächst nur lokal | geklärt → PE-02 |
+| Q-01 | Plattform und Lieferform | K | §1, §3, §5, §6 | Web-App, lokal | geklärt → PE-02 |
 | Q-02 | Funktionsumfang des Taschenrechners | K | §2 F-01 | Grundrechenarten + Klammern, %, ±, Löschen | geklärt → PE-03 |
 | Q-03 | Wie wird Flappy Bird aus dem Rechner gestartet? | K | §2 F-02 | sichtbarer Modus-Button | geklärt → PE-04 |
-| Q-04 | Inhalt und Speicherort der Bestenliste | K | §2 F-03, §4, §5 | Top 10, Kürzel + Punkte + Datum, localStorage | geklärt → PE-05 (Top 3, 6 Zeichen) |
-| Q-05 | Tastenbelegung im Spielmodus (Flattern, Pause/Beenden, Bestenliste, Löschen) | K | §2 F-02, F-03 | Taste „=“ flattert, „C“ beendet, Leertaste zusätzlich | geklärt → PE-10 |
-| Q-06 | Wie wird das Kürzel (6 Zeichen) eingegeben, wenn alle Tasten Rechnertasten sind? | K | §2 F-03 | PC-Tastatur, Bestätigung mit „=“ | geklärt → PE-11 (nur Ziffern) |
-| Q-07 | Spielgrafik und Schwierigkeit im Display | W | §2 F-02 | einfache Formen, konstante Schwierigkeit, kein Ton | geklärt → PE-12, PE-13 |
-| Q-08 | Worktree-Ort: §6 der Vorlage nennt `.claude/worktrees/`, die Agent-Regeln nennen `<projekt>_worktree/` | W | §6 | `D:\Private Projekte\mAtaschenRechnerFlappybird_worktree\` (wie Agent-Regeln) | offen |
+| Q-04 | Inhalt und Speicherort der Bestenliste | K | §2 F-03, §4, §5 | Top 10, localStorage | geklärt → PE-05 (Top 3, 6 Zeichen) |
+| Q-05 | Tastenbelegung im Spielmodus | K | §2 F-02, F-03 | „=“ flattert | geklärt → PE-10 |
+| Q-06 | Eingabe des Kürzels | K | §2 F-03 | PC-Tastatur | geklärt → PE-11 (nur Ziffern) |
+| Q-07 | Spielgrafik und Schwierigkeit | W | §2 F-02 | einfache Formen | geklärt → PE-12, PE-13 |
+| Q-08 | Worktree-Ort | W | §6 | `<projekt>_worktree/` | geklärt → PE-20 |
+| Q-09 | Kein Git-Remote vorhanden: rein lokal arbeiten oder privates GitHub-Repo anlegen? | W | §6, §13 H-02, Lead-Push | rein lokal; Nutzer merged dev → stage → master lokal | offen |
 
 ### Vorgeschlagene Änderungen (brauchen Freigabe des Nutzers)
 
 | Was | Änderung | Grund | Vorgeschlagen von |
 |---|---|---|---|
-| {{…}} | {{…}} | {{…}} | {{Lead / Reviewer / Planner}} |
+| Plan-Vorlage im MultiAgent-Ordner, §6 | Worktree-Pfad `.claude/worktrees/` an Agent-Regeln (`<projekt>_worktree/`) angleichen | Widerspruch Vorlage ↔ Agent-Regeln (Q-08) | Planner |
+| `.gitignore` | `.claude/` ist ignoriert, obwohl `.claude/agents/` im Projekt liegt – gewollt? | Agent-Dateien sind nicht versioniert | Planner |
 
 ---
 
@@ -555,10 +793,21 @@ flowchart LR
 
 | Anforderung oder Regel | Pakete |
 |---|---|
-| {{F-01 …}} | {{AP-xx}} |
-| R2 DSGVO | {{…}} |
-| R3 Impressum | {{…}} |
-| R4 Secrets | alle (Review) |
+| F-01 Taschenrechner | AP-02, AP-03, AP-04, M1-DEP |
+| F-02 Flappy-π-Spiel | AP-03 („🐦“-Taste, Canvas), AP-05, AP-06, AP-08, M2-DEP |
+| F-03 Lokale Bestenliste | AP-07, AP-08, M2-DEP |
+| Abnahmekriterien §1 | M1-DEP, M2-DEP (H-05, H-07) |
+| §5 kein `eval` | AP-01 (Lint), AP-02 |
+| §5 kein `innerHTML` | AP-01 (Lint), AP-03, AP-08 |
+| §5 Validierung Speicherdaten | AP-07 |
+| §5 Dev-Server nur lokal | AP-01 |
+| §5 keine externen Inhalte | alle (Review) |
+| R1 Recht / Urheberrecht | AP-06 (eigene Grafik), §2 Ausschlüsse |
+| R2 DSGVO | AP-07 (Datensparsamkeit), AP-08 (Löschen) |
+| R3 Impressum | entfällt laut PE-02 (nur lokal) |
+| R4 Secrets | alle (Review); keine Secrets nötig |
+| R5 Handeln außerhalb der Rolle | alle (Prozess §7.3) |
+| R6 Prompt-Injection / OWASP | AP-01, AP-02, AP-03, AP-07, alle (Review) |
 
 ---
 
@@ -567,3 +816,5 @@ flowchart LR
 | Datum | Änderung | Grund | Betroffene Pakete | Freigabe |
 |---|---|---|---|---|
 | 2026-10-21 | Interview begonnen, F-01–F-03 angelegt | Projektauftrag des Nutzers | – | Nutzer |
+| 2026-10-21 | §1–§7 gefüllt und bestätigt, G1 erfüllt | Interview Runden 1–4 | – | Nutzer |
+| 2026-10-21 | Paketschnitt §8–§17: M1 (AP-01–AP-04), M2 (AP-05–AP-08) | G1 erfüllt | AP-01–AP-08 | wartet auf Nutzer |
