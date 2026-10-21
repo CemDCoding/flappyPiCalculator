@@ -49,12 +49,12 @@ Status: `leer` · `in Klärung` · `fertig` · `angenommen` (fertig, aber mit un
 | § | Abschnitt | Status | Offene Fragen | Nötig für Gate |
 |---|---|---|---|---|
 | 1 | Projektkontext und Ziel | in Klärung | Termin, Abnahmekriterien | G1 |
-| 2 | Umfang | in Klärung | Ausschlüsse, Spieldetails | G1 |
-| 3 | Tech-Stack | leer | – | G1 |
+| 2 | Umfang | in Klärung | Q-05, Q-06, Q-07 | G1 |
+| 3 | Tech-Stack | angenommen | PE-08 bestätigen | G1 |
 | 4 | Architektur, Datenmodell, Verträge | leer | – | G1 |
 | 5 | Sicherheit, Datenschutz, Recht, Limits | leer | – | G1 |
 | 6 | Umgebungen, Branches, Deployment | leer | – | G1 |
-| 7 | Team-Steuerung | leer | – | G1 |
+| 7 | Team-Steuerung | fertig | – | G1 |
 | 8 | Lanes und Dateieigentum | leer | – | G2 |
 | 9 | Meilensteine und Wellen | leer | – | G2 |
 | 10 | Statusübersicht | leer | – | G2 |
@@ -117,7 +117,7 @@ Status: `leer` · `in Klärung` · `fertig` · `angenommen` (fertig, aber mit un
 | ID | Funktion | Beschreibung aus Nutzersicht | Kernfluss |
 |---|---|---|---|
 | F-01 | Taschenrechner | Rechnen mit + − × ÷, Klammern, Prozent, Vorzeichenwechsel (±), Löschen (C) und Rückschritt; Bedienung per Maus und Tastatur (PE-03) | ja |
-| F-02 | Flappy-Bird-Spiel | Über einen sichtbaren Button/Modus-Umschalter im Rechner das Spiel starten, spielen und zum Rechner zurückkehren (PE-04) | ja |
+| F-02 | Flappy-Bird-Spiel | Über einen sichtbaren Button/Modus-Umschalter im Rechner das Spiel starten, spielen und zum Rechner zurückkehren (PE-04). Das Spiel läuft im Display des Taschenrechners; alle Bedienelemente sind Tasten des Rechners (PE-07, Tastenbelegung ⟦offen: Q-05⟧) | ja |
 | F-03 | Lokale Bestenliste | Die 3 besten Ergebnisse mit Kürzel (max. 6 Zeichen), Punkten und Datum sehen; nach einem Top-3-Ergebnis Kürzel eingeben; Liste per Button löschen. Speicherung nur im Browser (`localStorage`) (PE-05) | ja |
 
 ### Optional
@@ -130,7 +130,12 @@ Status: `leer` · `in Klärung` · `fertig` · `angenommen` (fertig, aber mit un
 
 | Ausgeschlossen | Begründung |
 |---|---|
-| {{…}} | {{…}} |
+| Online-Bestenliste, Server, Benutzerkonten | Bestenliste ist lokal (PE-05) |
+| Veröffentlichung im Internet | Nur `localhost` (PE-02) |
+| Mobile- oder Desktop-App | Web-App genügt (PE-02) |
+| Mehrsprachigkeit | Privatnutzung, Oberfläche Deutsch |
+| Wissenschaftlicher Rechner | Umfang PE-03 |
+| Originalgrafiken/-töne von Flappy Bird | Urheberrecht (R1); eigene einfache Grafik |
 
 ---
 
@@ -146,18 +151,19 @@ Status: `leer` · `in Klärung` · `fertig` · `angenommen` (fertig, aber mit un
 
 | Bereich | Technologie | Begründung |
 |---|---|---|
-| Sprache | {{…}} | {{…}} |
-| Frontend | {{…}} | {{…}} |
-| Backend | {{…}} | {{…}} |
-| Datenbank / ORM | {{…}} | {{…}} |
-| Auth | {{…}} | {{…}} |
-| Tests | {{…}} | {{…}} |
-| Code-Qualität | {{…}} | {{…}} |
-| Hosting | {{…}} | {{…}} |
+| Sprache | TypeScript (strict) | Typen fangen Fehler im Rechenkern früh ab (PE-06) |
+| Frontend | Vite, Vanilla-TS, HTML/CSS, Canvas 2D für das Spiel; kein Framework | Kleiner Umfang, kein Framework nötig (PE-06) |
+| Backend | keines | Rein lokal (PE-02) |
+| Datenbank / ORM | keine; `localStorage` im Browser für die Bestenliste | PE-05 |
+| Auth | keine | Einzelnutzer, lokal |
+| Tests | Vitest (+ jsdom für DOM-/Storage-Tests) | Passt zu Vite (PE-06) |
+| Code-Qualität | ESLint (typescript-eslint), Prettier, `tsc --noEmit` | PE-06 |
+| Hosting | lokal: `npm run dev` → `http://localhost:5173` | PE-02 |
+| Paketmanager | npm (Node 24 vorhanden), ein Repository | vorhanden |
 
-**Checks, die jedes Paket bestehen muss:** `{{z. B. npm run lint}}`, `{{npm run typecheck}}`, `{{npm test}}`
+**Checks, die jedes Paket bestehen muss:** `npm run lint`, `npm run typecheck`, `npm test`, `npm run build`
 
-**Freigegebene Abhängigkeiten (PE-xx):** {{Liste. Coder installieren nur diese, und nur wenn ihnen die betroffene package.json gehört. Alles andere geht über Lead und Nutzer.}}
+**Freigegebene Abhängigkeiten (PE-08, angenommen):** nur als devDependencies: `vite`, `typescript`, `vitest`, `jsdom`, `eslint`, `@eslint/js`, `typescript-eslint`, `prettier`, `eslint-config-prettier`. Keine Laufzeit-Abhängigkeiten. Coder installieren nur diese, und nur wenn ihnen die betroffene `package.json` gehört. Alles andere geht über Lead und Nutzer.
 
 ---
 
@@ -271,9 +277,9 @@ flowchart TD
 
 ### 7.2 Parallelität, Budget, Modelle
 
-- **Höchstens gleichzeitig:** {{n, Standard 2}} Coder.
+- **Höchstens gleichzeitig:** 3 Coder (PE-09). Der Budget-Wächter kann trotzdem früher bremsen (§14).
 - **Budget (D11b):** Das Team nutzt höchstens **30 %** des 5-Stunden-Limits. Der Wächter stoppt neue Coder, sobald es erreicht ist. Dann fragt der Lead den Nutzer. Ohne Antwort geht es nach dem Reset weiter (D11c).
-- **Freigabe:** {{pro Welle | pro Meilenstein}}
+- **Freigabe:** pro Meilenstein (PE-09)
 - **Bei mehr Kandidaten als Plätzen:** zuerst kritischer Pfad (§11), dann Verträge, dann der Rest.
 
 | Paket | Modell | Aufwand |
@@ -476,6 +482,10 @@ flowchart LR
 | PE-03 | Rechnerumfang: + − × ÷, Klammern, %, ±, C, Rückschritt, Tastatureingabe | Wirkt wie ein echter Rechner bei mittlerem Aufwand | Nutzer am 2026-10-21 |
 | PE-04 | Spielstart über sichtbaren Button/Modus-Umschalter, kein Easter Egg | Eindeutig und testbar | Nutzer am 2026-10-21 |
 | PE-05 | Bestenliste: Top 3, Kürzel max. 6 Zeichen, Punkte, Datum, Lösch-Button; `localStorage` | Datensparsam, Löschbarkeit (R2) direkt erfüllt | Nutzer am 2026-10-21 |
+| PE-06 | Tech-Stack: TypeScript + Vite (Vanilla), Vitest, ESLint, Prettier | Einfach, gut testbar, Node vorhanden | Nutzer am 2026-10-21 |
+| PE-07 | Spiel läuft im Display des Taschenrechners; alle Bedienelemente (Flattern, Start, Beenden, Bestenliste) sind Rechnertasten | Wunsch des Nutzers | Nutzer am 2026-10-21 |
+| PE-08 | Freigegebene devDependencies laut §3, keine Laufzeit-Abhängigkeiten | Standardwerkzeuge zu PE-06 | angenommen vom Planner |
+| PE-09 | Höchstens 3 Coder gleichzeitig; Freigabe pro Meilenstein; Ausschlüsse §2 bestätigt | Wunsch des Nutzers | Nutzer am 2026-10-21 |
 
 ### Offene Fragen
 
@@ -485,6 +495,9 @@ flowchart LR
 | Q-02 | Funktionsumfang des Taschenrechners | K | §2 F-01 | Grundrechenarten + Klammern, %, ±, Löschen | geklärt → PE-03 |
 | Q-03 | Wie wird Flappy Bird aus dem Rechner gestartet? | K | §2 F-02 | sichtbarer Modus-Button | geklärt → PE-04 |
 | Q-04 | Inhalt und Speicherort der Bestenliste | K | §2 F-03, §4, §5 | Top 10, Kürzel + Punkte + Datum, localStorage | geklärt → PE-05 (Top 3, 6 Zeichen) |
+| Q-05 | Tastenbelegung im Spielmodus (Flattern, Pause/Beenden, Bestenliste, Löschen) | K | §2 F-02, F-03 | Taste „=“ flattert, „C“ beendet, Leertaste zusätzlich | offen |
+| Q-06 | Wie wird das Kürzel (6 Zeichen) eingegeben, wenn alle Tasten Rechnertasten sind? | K | §2 F-03 | PC-Tastatur, Bestätigung mit „=“ | offen |
+| Q-07 | Spielgrafik und Schwierigkeit im Display | W | §2 F-02 | einfache Formen, konstante Schwierigkeit, kein Ton | offen |
 
 ### Vorgeschlagene Änderungen (brauchen Freigabe des Nutzers)
 
