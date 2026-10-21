@@ -387,15 +387,15 @@ Status: `offen` · `bereit` · `in Arbeit` · `Review` · `fertig` (gemergt in d
 
 | ID | Titel | M | Lane | Welle | Abhängigkeiten | Aufwand | Modell | Coder / Branch | Status |
 |---|---|---|---|---|---|---|---|---|---|
-| AP-01 | Gerüst und Verträge | M1 | SH | W1 | H-01 | M | sonnet / high | – | offen |
-| AP-02 | Rechenkern | M1 | CORE | W2 | AP-01 | L | opus / high | – | offen |
-| AP-03 | Rechner-Oberfläche | M1 | WEB | W2 | AP-01 | M | sonnet / medium | – | offen |
-| AP-07 | Bestenliste | M1 | CORE | W2 | AP-01 | M | sonnet / high | – | offen |
+| AP-01 | Gerüst und Verträge | M1 | SH | W1 | H-01 | M | sonnet / high | c1 / agent/AP-01-c1 | fertig |
+| AP-02 | Rechenkern | M1 | CORE | W2 | AP-01 | L | opus / high | – | bereit |
+| AP-03 | Rechner-Oberfläche | M1 | WEB | W2 | AP-01 | M | sonnet / medium | – | bereit |
+| AP-07 | Bestenliste | M1 | CORE | W2 | AP-01 | M | sonnet / high | – | bereit |
 | AP-04 | App-Steuerung Rechnermodus | M1 | WEB | W3 | AP-02, AP-03 | S | sonnet / medium | – | offen |
 | AP-05 | Spiellogik | M1 | CORE | W3 | AP-01 | M | sonnet / high | – | offen |
 | AP-06 | LCD-Renderer | M1 | CORE | W3 | AP-01 | M | sonnet / medium | – | offen |
 | AP-08 | App-Steuerung Spiel und Bestenliste | M1 | WEB | W4 | AP-04, AP-05, AP-06, AP-07 | L | opus / high | – | offen |
-| M1-DEP | Deployment M1 | M1 | HUM | W5 | AP-08, H-03 | H | – | Nutzer | offen |
+| M1-DEP | Deployment M1 | M1 | HUM | W5 | AP-08, H-02, H-03 | H | – | Nutzer | offen |
 
 ---
 
@@ -813,3 +813,4 @@ Keine Konten, Käufe oder Secrets nötig. Kein Remote (PE-24).
 | 2026-10-21 | Interview beendet („stop“), Selbstprüfung, PE-25 angenommen | Abschluss Interview | AP-08 | Planner |
 | 2026-10-21 | PE-25 (Spielablauf) vom Nutzer bestätigt | Antwort 20a | AP-08 | Nutzer |
 | 2026-10-21 | Handtest H-02 (Rechner) von nach W3/AP-04 ans Meilensteinende verlegt, läuft gemeinsam mit H-03 nach AP-08 (§9.2, §13, RI-11) | Entscheidung des Nutzers | – | Nutzer |
+| 2026-10-21 | AP-01 fertig (gemergt, Review Runde 1 bestanden, c1 / `agent/AP-01-c1`); AP-02, AP-03, AP-07 bereit (W2); M1-DEP-Abhängigkeiten um H-02 ergänzt. Erkenntnisse: (a) role-guard blockiert Bash-Befehle mit dem Wort „format“ (auch in Dateiinhalten) – Coder nutzen dafür das Write-Tool; (b) `.gitignore` (node_modules, dist, coverage) hat der Lead wegen des Guards auf `dev` ergänzt; (c) Reviewer-Hinweis, niedrig, akzeptiert: `no-eval`/`no-implied-eval` greifen nicht bei `setTimeout('str')`/`window.eval`, weil in `eslint.config.js` keine Browser-Globals konfiguriert sind – Review achtet manuell darauf, keine Nutzerfrage nötig; (d) installierte Versionen: eslint 10, vite 8, vitest 5, typescript 6, jsdom 30 | Merge AP-01, Pflegeauftrag Lead | AP-01, AP-02, AP-03, AP-07, M1-DEP | Lead |
