@@ -7,11 +7,11 @@ Er ist der einzige Agent, der diese Datei ändert. Der Lead (ma-lead) steuert de
 Grundlage der Regeln: MultiAgent/entscheidungen.md
 -->
 
-# Master-Build-Plan {{PROJEKTNAME}}
+# Master-Build-Plan mAtaschenRechnerFlappybird
 
-**Stand:** {{JJJJ-MM-TT}} · **Planversion:** {{n}} · **Gepflegt von:** ma-planner · **Gesteuert von:** ma-lead · **Nutzer:** {{NAME}}
+**Stand:** 2026-10-21 · **Planversion:** 0.1 · **Gepflegt von:** ma-planner · **Gesteuert von:** ma-lead · **Nutzer:** Cem Dogan
 
-{{KURZÜBERBLICK: höchstens zehn Zeilen. Was baut das Projekt, für wen? Wie viele Meilensteine und Pakete hat der Plan?}}
+Ein Taschenrechner mit eingebautem Flappy-Bird-Spiel. Das Spiel führt eine lokale Bestenliste. Meilensteine und Pakete folgen nach G1.
 
 ---
 
@@ -48,8 +48,8 @@ Status: `leer` · `in Klärung` · `fertig` · `angenommen` (fertig, aber mit un
 
 | § | Abschnitt | Status | Offene Fragen | Nötig für Gate |
 |---|---|---|---|---|
-| 1 | Projektkontext und Ziel | leer | – | G1 |
-| 2 | Umfang | leer | – | G1 |
+| 1 | Projektkontext und Ziel | in Klärung | Q-01 | G1 |
+| 2 | Umfang | in Klärung | Q-02, Q-03, Q-04 | G1 |
 | 3 | Tech-Stack | leer | – | G1 |
 | 4 | Architektur, Datenmodell, Verträge | leer | – | G1 |
 | 5 | Sicherheit, Datenschutz, Recht, Limits | leer | – | G1 |
@@ -87,7 +87,7 @@ Status: `leer` · `in Klärung` · `fertig` · `angenommen` (fertig, aber mit un
 
 | Feld | Wert |
 |---|---|
-| Einzeiler | {{…}} |
+| Einzeiler | Taschenrechner mit integriertem Flappy-Bird-Spiel und lokaler Bestenliste. |
 | Zielgruppe | {{…}} |
 | Lieferumfang | {{…}} |
 | Termin | {{JJJJ-MM-TT oder „keiner“}} |
@@ -116,7 +116,9 @@ Status: `leer` · `in Klärung` · `fertig` · `angenommen` (fertig, aber mit un
 
 | ID | Funktion | Beschreibung aus Nutzersicht | Kernfluss |
 |---|---|---|---|
-| F-01 | {{…}} | {{…}} | {{ja/nein}} |
+| F-01 | Taschenrechner | Rechnungen eingeben und Ergebnis sehen (Umfang ⟦offen: Q-02⟧) | ja |
+| F-02 | Flappy-Bird-Spiel | Aus dem Rechner heraus ein Flappy-Bird-Spiel starten und spielen (Aufruf ⟦offen: Q-03⟧) | ja |
+| F-03 | Lokale Bestenliste | Nach dem Spiel die Punktzahl in einer lokal gespeicherten Bestenliste sehen (Details ⟦offen: Q-04⟧) | ja |
 
 ### Optional
 
@@ -469,13 +471,16 @@ flowchart LR
 
 | ID | Entscheidung | Begründung | Quelle |
 |---|---|---|---|
-| PE-01 | {{…}} | {{…}} | {{Nutzer am JJJJ-MM-TT / angenommen vom Planner}} |
+| PE-01 | Pflichtumfang: Taschenrechner + Flappy Bird + lokale Bestenliste (F-01–F-03) | Projektauftrag | Nutzer am 2026-10-21 |
 
 ### Offene Fragen
 
 | ID | Frage | Priorität | Betrifft | Empfehlung | Status |
 |---|---|---|---|---|---|
-| Q-01 | {{…}} | {{K/W/O}} | {{…}} | {{…}} | offen |
+| Q-01 | Plattform und Lieferform (Web, Desktop, Mobile; nur lokal oder veröffentlicht) | K | §1, §3, §5, §6 | Web-App, statisch, zunächst nur lokal | offen |
+| Q-02 | Funktionsumfang des Taschenrechners | K | §2 F-01 | Grundrechenarten + Klammern, %, ±, Löschen | offen |
+| Q-03 | Wie wird Flappy Bird aus dem Rechner gestartet? | K | §2 F-02 | sichtbarer Modus-Button | offen |
+| Q-04 | Inhalt und Speicherort der Bestenliste | K | §2 F-03, §4, §5 | Top 10, Kürzel + Punkte + Datum, localStorage | offen |
 
 ### Vorgeschlagene Änderungen (brauchen Freigabe des Nutzers)
 
@@ -500,4 +505,4 @@ flowchart LR
 
 | Datum | Änderung | Grund | Betroffene Pakete | Freigabe |
 |---|---|---|---|---|
-| {{JJJJ-MM-TT}} | {{…}} | {{…}} | {{…}} | {{Nutzer / Lead + Planner}} |
+| 2026-10-21 | Interview begonnen, F-01–F-03 angelegt | Projektauftrag des Nutzers | – | Nutzer |
