@@ -7,11 +7,11 @@ Grundlage der Regeln: MultiAgent/entscheidungen.md
 
 # Master-Build-Plan mAtaschenRechnerFlappybird
 
-**Stand:** 2026-10-21 · **Planversion:** 1.0 · **Gepflegt von:** ma-planner · **Gesteuert von:** ma-lead · **Nutzer:** Cem Dogan
+**Stand:** 2026-10-21 · **Planversion:** 1.1 · **Gepflegt von:** ma-planner · **Gesteuert von:** ma-lead · **Nutzer:** Cem Dogan
 
 Ein Taschenrechner als lokale Web-App (TypeScript + Vite, `localhost`) mit eingebautem Flappy-Bird-Spiel: Das Spiel läuft im LCD-Display des Rechners, der Vogel ist ein π, gesteuert wird nur über Rechnertasten. Eine lokale Top-3-Bestenliste (Ziffern-Kürzel, Punkte, Datum) liegt im `localStorage`.
 Für den Nutzer selbst, privat, ohne Veröffentlichung.
-Der Plan hat **2 Meilensteine** (M1 Taschenrechner, M2 π-Spiel + Bestenliste) mit **8 Agent-Paketen** und **2 [Mensch]-Paketen**.
+Der Plan hat **1 Meilenstein** (M1: Rechner, π-Spiel und Bestenliste) mit **8 Agent-Paketen** in 4 Wellen und **1 [Mensch]-Paket**. Erster Durchlauf des MultiAgent-Systems; Team-Budget für dieses Projekt 50 % (PE-23).
 
 ---
 
@@ -53,21 +53,21 @@ Status: `leer` · `in Klärung` · `fertig` · `angenommen` (fertig, aber mit un
 | 3 | Tech-Stack | fertig | – | G1 |
 | 4 | Architektur, Datenmodell, Verträge | fertig | – | G1 |
 | 5 | Sicherheit, Datenschutz, Recht, Limits | fertig | – | G1 |
-| 6 | Umgebungen, Branches, Deployment | angenommen | Q-09 | G1 |
+| 6 | Umgebungen, Branches, Deployment | fertig | – | G1 |
 | 7 | Team-Steuerung | fertig | – | G1 |
-| 8 | Lanes und Dateieigentum | angenommen | Bestätigung M1/M2 | G2 |
-| 9 | Meilensteine und Wellen | angenommen | Bestätigung M1/M2 | G2 |
-| 10 | Statusübersicht | angenommen | – | G2 |
-| 11 | Abhängigkeitsgraph | angenommen | – | G2 |
-| 12 | Arbeitspakete | angenommen | Bestätigung M1/M2 | G2 (je Meilenstein) |
-| 13 | Menschliche Schritte | angenommen | Q-09 | G2 |
-| 14 | Budget und Kürzungen | angenommen | – | G2 |
+| 8 | Lanes und Dateieigentum | fertig | – | G2 |
+| 9 | Meilensteine und Wellen | fertig | – | G2 |
+| 10 | Statusübersicht | fertig | – | G2 |
+| 11 | Abhängigkeitsgraph | fertig | – | G2 |
+| 12 | Arbeitspakete | angenommen | Detailschnitt AP-05–AP-08 bestätigen | G2 (je Meilenstein) |
+| 13 | Menschliche Schritte | fertig | – | G2 |
+| 14 | Budget und Kürzungen | fertig | – | G2 |
 | 15 | Risiken | fertig | – | G2 |
-| 16 | Planungsentscheidungen und offene Fragen | laufend | Q-09 | laufend |
+| 16 | Planungsentscheidungen und offene Fragen | laufend | – | laufend |
 | 17 | Abdeckungsmatrix | fertig | – | G2 |
 | 18 | Änderungsprotokoll | laufend | – | laufend |
 
-**Gate-Stand:** G1 **erfüllt** (2026-10-21). G2(M1) und G2(M2): Pakete vollständig, warten auf Bestätigung des Paketschnitts durch den Nutzer.
+**Gate-Stand:** G1 **erfüllt** (2026-10-21). G2(M1): Pakete vollständig, Schnitt vom Nutzer bestätigt (PE-21); Feinschnitt der Spiel-Pakete AP-05–AP-08 noch zur Kenntnis.
 
 | Gate | Bedingung | Wer prüft | Folge |
 |---|---|---|---|
@@ -113,7 +113,7 @@ Status: `leer` · `in Klärung` · `fertig` · `angenommen` (fertig, aber mit un
 | F-02 | Flappy-Bird-Spiel | Eine eigene Rechnertaste „🐦“ schaltet zwischen Rechner und Spiel um (PE-04). Das Spiel läuft im Display des Rechners im LCD-Stil (grau-schwarz, Pixel-Optik); der Vogel ist ein **π-Zeichen**, Röhren als Pixelbalken. Jede Zifferntaste (0–9, auch per PC-Tastatur) lässt π flattern; „C“ beendet das Spiel und führt zum Rechner zurück. 1 Punkt pro durchflogenem Röhrenpaar. Konstante Schwierigkeit, kein Ton (PE-07, PE-10, PE-12, PE-13) | ja |
 | F-03 | Lokale Bestenliste | Top 3 mit Kürzel, Punkten und Datum. Kürzel = 1–6 **Ziffern**, eingegeben über die Rechnertasten, bestätigt mit „=“ (nach einem Top-3-Ergebnis). Nach jedem Spiel erscheint die Top 3 im Display; im Spielmodus zeigt „%“ sie jederzeit. Löschen: zweimal „AC“ hintereinander, **nur während die Bestenliste angezeigt wird**. Speicherung nur im Browser (`localStorage`) (PE-05, PE-11) | ja |
 
-**Kernfluss zuerst:** F-01 (M1), danach F-02 + F-03 (M2).
+**Kernfluss zuerst:** F-01 (kritischer Pfad), F-02 und F-03 parallel dazu; alles in M1.
 
 ### Optional
 
@@ -180,7 +180,7 @@ flowchart LR
 |---|---|---|---|
 | ScoreEntry | `initials` (1–6 Ziffern), `score` (Ganzzahl 0–999999), `date` (`JJJJ-MM-TT`, lokales Datum) | Browser des Nutzers, `localStorage`-Schlüssel `mataschen.leaderboard.v1`, max. 3 Einträge | Doppel-„AC“ bei angezeigter Liste löscht alles; ungültige gespeicherte Daten werden verworfen |
 
-**Verträge:** `src/contracts/*.ts`, angelegt in AP-01 (M1 W1) für **beide** Meilensteine. Regel: Jeder Vertrag entsteht mindestens eine Welle vor seinen Nutzern. Änderungen an Verträgen nur über ein eigenes Paket (Lead → Planner).
+**Verträge:** `src/contracts/*.ts`, alle angelegt in AP-01 (M1 W1). Regel: Jeder Vertrag entsteht mindestens eine Welle vor seinen Nutzern. Änderungen an Verträgen nur über ein eigenes Paket (Lead → Planner).
 
 ---
 
@@ -223,13 +223,13 @@ Es gelten immer R1–R6 (siehe Agent-Dateien). Dieser Abschnitt konkretisiert si
 
 Es gibt kein Hosting; „stage“ und „Produktion“ sind Stände, die der Nutzer lokal startet (PE-16).
 
-**Remote:** Das Repository hat derzeit **kein Remote** (`git remote -v` leer). ⟦offen: Q-09⟧ – Empfehlung (angenommen): rein lokal arbeiten; der Lead überspringt `push origin dev`; der Nutzer merged `dev` → `stage` → `master` lokal statt per Pull Request.
+**Remote (PE-24):** Kein Remote, rein lokal. Der Lead überspringt `push origin dev`. Bis der Meilenstein vollständig fertig ist, wird **nur auf `dev`** gearbeitet; erst danach merged der Nutzer `dev` → `stage` → `master` lokal mit `git merge`.
 
 | Branch | Zweck | Wer schreibt darauf |
 |---|---|---|
-| `master` | Produktion | **[Mensch]**, lokaler Merge von `stage` (bzw. Pull Request, falls Remote) |
-| `stage` | Abnahme | **[Mensch]**, lokaler Merge von `dev` (bzw. Pull Request, falls Remote) |
-| `dev` | Integration, Default-Branch | ma-lead (`merge --no-ff`, ggf. `push`), ma-planner (nur Plan-Commits) |
+| `master` | Produktion | **[Mensch]**, lokaler Merge von `stage` nach Meilenstein-Ende |
+| `stage` | Abnahme | **[Mensch]**, lokaler Merge von `dev` nach Meilenstein-Ende |
+| `dev` | Integration, Default-Branch | ma-lead (`merge --no-ff`, kein Push), ma-planner (nur Plan-Commits) |
 | `agent/AP-<nr>-c<n>` | ein Arbeitspaket | ma-coder (`commit`), nur lokal, wird nach dem Merge gelöscht |
 
 **Worktrees (PE-20):** unter `D:\Private Projekte\mAtaschenRechnerFlappybird_worktree\<name>` (wie in den Agent-Regeln). Der Lead legt sie an und entfernt sie nach dem Merge.
@@ -266,7 +266,7 @@ flowchart TD
 ### 7.2 Parallelität, Budget, Modelle
 
 - **Höchstens gleichzeitig:** 3 Coder (PE-09). Der Budget-Wächter kann trotzdem früher bremsen (§14).
-- **Budget (D11b):** Das Team nutzt höchstens **30 %** des 5-Stunden-Limits. Der Wächter stoppt neue Coder, sobald es erreicht ist. Dann fragt der Lead den Nutzer. Ohne Antwort geht es nach dem Reset weiter (D11c).
+- **Budget (D11b, PE-23):** Für **dieses Projekt** nutzt das Team höchstens **50 %** des 5-Stunden-Limits (erster Durchlauf, Limit wird erprobt). Die Einstellung des Wächters ändert nur der Nutzer (§16 Vorgeschlagene Änderungen). Der Wächter stoppt neue Coder, sobald es erreicht ist. Dann fragt der Lead den Nutzer. Ohne Antwort geht es nach dem Reset weiter (D11c).
 - **Freigabe:** pro Meilenstein (PE-09)
 - **Bei mehr Kandidaten als Plätzen:** zuerst kritischer Pfad (§11), dann Verträge, dann der Rest.
 
@@ -305,16 +305,16 @@ flowchart TD
 
 1. Innerhalb einer Welle gehört jede Datei höchstens einem Paket.
 2. Verträge entstehen mindestens eine Welle vor ihren Nutzern.
-3. Gemeinsame Dateien legt das Gerüst-Paket AP-01 an. In M2 gibt es keine neuen Abhängigkeiten, daher kein eigenes Gerüst-Paket.
+3. Gemeinsame Dateien legt das Gerüst-Paket AP-01 in W1 an.
 4. Konflikte im Lockfile sind nicht zu erwarten (nur AP-01 installiert). Falls doch: der Lead löst sie beim Merge mit `npm install`.
 
 | Gemeinsame Datei | Wer ändert sie | Wann |
 |---|---|---|
-| `package.json`, `package-lock.json` | AP-01 | M1 W1 (danach niemand ohne neues Paket) |
-| `src/contracts/**` | AP-01 | M1 W1 (danach nur per Vertragsänderungs-Paket) |
-| `src/main.ts` | AP-01 (Platzhalter) → AP-04 → AP-08 | M1 W1 → M1 W3 → M2 W2 |
-| `src/app/controller.ts` | AP-04 → AP-08 | M1 W3 → M2 W2 |
-| `README.md` | AP-01 → AP-08 (Abschnitt „Bedienung“) | M1 W1 → M2 W2 |
+| `package.json`, `package-lock.json` | AP-01 | W1 (danach niemand ohne neues Paket) |
+| `src/contracts/**` | AP-01 | W1 (danach nur per Vertragsänderungs-Paket) |
+| `src/main.ts` | AP-01 (Platzhalter) → AP-04 → AP-08 | W1 → W3 → W4 |
+| `src/app/controller.ts` | AP-04 → AP-08 | W3 → W4 |
+| `README.md` | AP-01 → AP-08 (Abschnitt „Bedienung“) | W1 → W4 |
 
 ---
 
@@ -322,8 +322,7 @@ flowchart TD
 
 | # | Meilenstein | Inhalt | Live-Zustand |
 |---|---|---|---|
-| M1 | Taschenrechner | Gerüst, Verträge (auch für M2), Rechenkern, Oberfläche mit allen Tasten, Steuerung im Rechnermodus | Rechner läuft lokal und rechnet vollständig (F-01); „🐦“ ist sichtbar, aber noch ohne Funktion |
-| M2 | π-Spiel und Bestenliste | Spiellogik, LCD-Renderer, Bestenliste, Modus-Steuerung | Alle Abnahmekriterien §1 prüfbar (F-02, F-03) |
+| M1 | π-Rechner komplett | Gerüst, Verträge, Rechenkern, Oberfläche, Spiellogik, LCD-Renderer, Bestenliste, Modus-Steuerung (PE-21) | Alle Abnahmekriterien §1 prüfbar (F-01, F-02, F-03) |
 
 ### 9.1 Ablauf einer Welle
 
@@ -336,47 +335,39 @@ flowchart TD
 | 4 Review | Urteil; bei „nicht bestanden“ Nachbesserung durch denselben Coder, max. 2 Runden | Reviewer, Lead, Coder |
 | 5 Mergen | `merge --no-ff` in `dev`, Reihenfolge SH → CORE → WEB | Lead |
 | 6 Integrationspunkt | `npm ci`, Checks, Handtest-Checkliste; rot → Fix-Paket | Lead (+ Nutzer für Handtest) |
-| 7 Abschluss | ggf. `push origin dev` (Q-09), Worktrees und Branches aufräumen, Plan pflegen | Lead, Planner |
+| 7 Abschluss | kein Push (PE-24), Worktrees und Branches aufräumen, Plan pflegen | Lead, Planner |
 
 ### 9.2 Meilensteine im Detail
 
-#### M1 – Taschenrechner
+#### M1 – π-Rechner komplett
 
-| Welle | Pakete (parallel) |
+| Welle | Pakete (parallel, max. 3 Coder) |
 |---|---|
 | W1 | AP-01 Gerüst und Verträge |
-| W2 | AP-02 Rechenkern · AP-03 Rechner-Oberfläche |
-| W3 | AP-04 App-Steuerung Rechnermodus |
-| W4 | M1-DEP [Mensch] |
+| W2 | AP-02 Rechenkern · AP-03 Rechner-Oberfläche · AP-07 Bestenliste |
+| W3 | AP-04 App-Steuerung Rechnermodus · AP-05 Spiellogik · AP-06 LCD-Renderer |
+| W4 | AP-08 App-Steuerung Spiel und Bestenliste |
+| W5 | M1-DEP [Mensch] |
 
-**Integration:** nach W1: `npm ci` + alle Checks grün, `npm run dev` zeigt Platzhalterseite. Nach W3: Handtest wie M1-Smoke-Test im Dev-Checkout.
+Bei Budgetengpass startet der Lead zuerst den kritischen Pfad (AP-02 in W2, AP-04 in W3).
+
+**Integration:**
+- nach W1: `npm ci` + alle Checks grün, `npm run dev` zeigt Platzhalterseite.
+- nach W3: Zwischen-Handtest Rechner (H-02, Rechner-Punkte des Smoke-Tests unten), nicht blockierend.
+- nach W4: vollständiger Handtest (H-03) im Dev-Checkout inkl. Spielbarkeit.
 
 ##### M1-DEP – Deployment [Mensch]
 
-- `dev` → `stage` mergen (lokal, Q-09), `npm ci && npm run dev`, Smoke-Test
-- `stage` → `master` mergen, `npm ci && npm run build && npm run preview`, Smoke-Test
+Erst wenn M1 vollständig auf `dev` fertig ist (PE-24):
+
+- `dev` → `stage` lokal mergen, `npm ci && npm run dev`, Smoke-Test
+- `stage` → `master` lokal mergen, `npm ci && npm run build && npm run preview`, Smoke-Test
 - **Smoke-Test:**
   - [ ] Seite öffnet unter `localhost`, Rechner mit LCD-Display und allen Tasten sichtbar (inkl. „🐦“)
   - [ ] `2+3*4=` → 14 · `(2+3)*4=` → 20 · `50%` → 0,5 · `0,1+0,2=` → 0,3
   - [ ] `7±` → −7 · `5÷0=` → „Error“, danach „AC“ → 0
   - [ ] „⌫“, „C“, „AC“ verhalten sich wie in F-01 beschrieben
   - [ ] Eingabe über PC-Tastatur (Ziffern, `+-*/`, `Enter`, `Backspace`, `Esc`) funktioniert
-
-#### M2 – π-Spiel und Bestenliste
-
-| Welle | Pakete (parallel) |
-|---|---|
-| W1 | AP-05 Spiellogik · AP-06 LCD-Renderer · AP-07 Bestenliste |
-| W2 | AP-08 App-Steuerung Spiel und Bestenliste |
-| W3 | M2-DEP [Mensch] |
-
-**Integration:** nach W2: Handtest wie M2-Smoke-Test im Dev-Checkout (Nutzer spielt einige Runden, prüft Spielbarkeit).
-
-##### M2-DEP – Deployment [Mensch]
-
-- `dev` → `stage` mergen, `npm ci && npm run dev`, Smoke-Test
-- `stage` → `master` mergen, `npm ci && npm run build && npm run preview`, Smoke-Test
-- **Smoke-Test:**
   - [ ] „🐦“ startet das Spiel im Display; π ist sichtbar, LCD-Optik
   - [ ] Ziffern (Maus und Tastatur) lassen π flattern; Spiel ist spielbar, Punkte zählen
   - [ ] „C“ beendet das Spiel → Rechner, alter Rechnerstand ist weg (AC-Zustand)
@@ -399,13 +390,12 @@ Status: `offen` · `bereit` · `in Arbeit` · `Review` · `fertig` (gemergt in d
 | AP-01 | Gerüst und Verträge | M1 | SH | W1 | H-01 | M | sonnet / high | – | offen |
 | AP-02 | Rechenkern | M1 | CORE | W2 | AP-01 | L | opus / high | – | offen |
 | AP-03 | Rechner-Oberfläche | M1 | WEB | W2 | AP-01 | M | sonnet / medium | – | offen |
+| AP-07 | Bestenliste | M1 | CORE | W2 | AP-01 | M | sonnet / high | – | offen |
 | AP-04 | App-Steuerung Rechnermodus | M1 | WEB | W3 | AP-02, AP-03 | S | sonnet / medium | – | offen |
-| M1-DEP | Deployment M1 | M1 | HUM | W4 | AP-04 | H | – | Nutzer | offen |
-| AP-05 | Spiellogik | M2 | CORE | W1 | AP-01, H-04 | M | sonnet / high | – | offen |
-| AP-06 | LCD-Renderer | M2 | CORE | W1 | AP-01, H-04 | M | sonnet / medium | – | offen |
-| AP-07 | Bestenliste | M2 | CORE | W1 | AP-01, H-04 | M | sonnet / high | – | offen |
-| AP-08 | App-Steuerung Spiel und Bestenliste | M2 | WEB | W2 | AP-04, AP-05, AP-06, AP-07 | L | opus / high | – | offen |
-| M2-DEP | Deployment M2 | M2 | HUM | W3 | AP-08 | H | – | Nutzer | offen |
+| AP-05 | Spiellogik | M1 | CORE | W3 | AP-01 | M | sonnet / high | – | offen |
+| AP-06 | LCD-Renderer | M1 | CORE | W3 | AP-01 | M | sonnet / medium | – | offen |
+| AP-08 | App-Steuerung Spiel und Bestenliste | M1 | WEB | W4 | AP-04, AP-05, AP-06, AP-07 | L | opus / high | – | offen |
+| M1-DEP | Deployment M1 | M1 | HUM | W5 | AP-08, H-03 | H | – | Nutzer | offen |
 
 ---
 
@@ -413,28 +403,25 @@ Status: `offen` · `bereit` · `in Arbeit` · `Review` · `fertig` (gemergt in d
 
 ```mermaid
 flowchart LR
-  subgraph M1["M1 Taschenrechner"]
-    AP01["AP-01 Gerüst+Verträge"] --> AP02["AP-02 Rechenkern"]
-    AP01 --> AP03["AP-03 Oberfläche"]
-    AP02 --> AP04["AP-04 Steuerung Rechner"]
+  subgraph M1["M1 π-Rechner komplett"]
+    AP01["AP-01 Gerüst+Verträge (W1)"] --> AP02["AP-02 Rechenkern (W2)"]
+    AP01 --> AP03["AP-03 Oberfläche (W2)"]
+    AP01 --> AP07["AP-07 Bestenliste (W2)"]
+    AP01 --> AP05["AP-05 Spiellogik (W3)"]
+    AP01 --> AP06["AP-06 Renderer (W3)"]
+    AP02 --> AP04["AP-04 Steuerung Rechner (W3)"]
     AP03 --> AP04
-    AP04 --> M1DEP["M1-DEP [Mensch]"]
+    AP04 --> AP08["AP-08 Steuerung Spiel (W4)"]
+    AP05 --> AP08
+    AP06 --> AP08
+    AP07 --> AP08
+    AP08 --> M1DEP["M1-DEP [Mensch] (W5)"]
   end
-  subgraph M2["M2 π-Spiel + Bestenliste"]
-    AP05["AP-05 Spiellogik"] --> AP08["AP-08 Steuerung Spiel"]
-    AP06["AP-06 Renderer"] --> AP08
-    AP07["AP-07 Bestenliste"] --> AP08
-    AP08 --> M2DEP["M2-DEP [Mensch]"]
-  end
-  AP01 --> AP05
-  AP01 --> AP06
-  AP01 --> AP07
-  AP04 --> AP08
 ```
 
-**Kritischer Pfad:** AP-01 → AP-02 → AP-04 → AP-08 → M2-DEP (≈ 8 h Agent-Zeit + Reviews).
+**Kritischer Pfad:** AP-01 → AP-02 → AP-04 → AP-08 → M1-DEP (≈ 8 h Agent-Zeit + Reviews).
 
-M2 W1 hängt technisch nur an AP-01; sie startet nach Freigabe von M2 durch den Nutzer (H-04), M1-DEP muss dafür nicht abgeschlossen sein.
+AP-05 und AP-06 hängen nur an AP-01; der Lead darf sie bei freien Plätzen und Budget schon in W2 vorziehen (Dateieigentum bleibt disjunkt).
 
 ---
 
@@ -449,7 +436,7 @@ M2 W1 hängt technisch nur an AP-01; sie startet nach Freigabe von M2 durch den 
 #### AP-01 – Gerüst und Verträge
 
 - **Meilenstein, Lane, Welle:** M1 · SH · W1
-- **Ziel:** Lauffähiges Vite-TypeScript-Projekt mit allen Checks und sämtlichen Verträgen für M1 und M2, damit danach parallel gebaut werden kann.
+- **Ziel:** Lauffähiges Vite-TypeScript-Projekt mit allen Checks und sämtlichen Verträgen (Rechner, Spiel, Bestenliste, App), damit danach parallel gebaut werden kann.
 - **Pflichtlektüre:** §3, §4, §5, §8; PE-06, PE-08, PE-10, PE-11, PE-14, PE-15
 - **Abhängigkeiten:** H-01
 - **Parallel möglich mit:** –
@@ -479,7 +466,7 @@ M2 W1 hängt technisch nur an AP-01; sie startet nach Freigabe von M2 durch den 
   - ESLint meldet Fehler bei `eval(...)` und `el.innerHTML = ...` (Coder prüft kurz mit Wegwerf-Datei, committet sie nicht).
   - Verträge exakt wie oben benannt; keine Laufzeit-Abhängigkeiten in `package.json`.
 - **Tests:** `src/contracts/contracts.test.ts`.
-- **Review-Schwerpunkte:** nur freigegebene Abhängigkeiten, Lint-Sicherheitsregeln, `server.host`, keine externen Ressourcen, Verträge vollständig für M2.
+- **Review-Schwerpunkte:** nur freigegebene Abhängigkeiten, Lint-Sicherheitsregeln, `server.host`, keine externen Ressourcen, Verträge vollständig für alle späteren Pakete.
 - **Doku-Pflichten:** `README.md`; `.env.example` unverändert lassen.
 - **Aufwand:** M · **Modell:** sonnet · **Effort:** high
 - **Kürzbar bei Budgetnot:** nein (Fundament)
@@ -491,9 +478,9 @@ M2 W1 hängt technisch nur an AP-01; sie startet nach Freigabe von M2 durch den 
 - **Ziel:** Vollständige, DOM-freie Rechner-Logik als `CalcEngine`: Tasteneingabe → Zustand, sicherer Parser ohne `eval`, deutsche Zahlenformatierung.
 - **Pflichtlektüre:** §2 F-01, §5, `src/contracts/calc.ts`, `src/contracts/keys.ts`; PE-03, PE-19
 - **Abhängigkeiten:** AP-01
-- **Parallel möglich mit:** AP-03
+- **Parallel möglich mit:** AP-03, AP-07 (ggf. vorgezogene AP-05, AP-06)
 - **Dateien (Eigentum):** `src/calc/**` (z. B. `tokenizer.ts`, `parser.ts`, `format.ts`, `engine.ts`, `index.ts`, `*.test.ts`)
-- **Nicht anfassen:** `src/ui/**`, `src/contracts/**`, `src/main.ts`, `package.json`
+- **Nicht anfassen:** `src/ui/**`, `src/leaderboard/**`, `src/game/**`, `src/contracts/**`, `src/main.ts`, `package.json`
 - **Freigegebene Abhängigkeiten:** keine
 - **Umsetzung:**
   1. Tokenizer: Zahlen (mit `.`), `+ - * / ( ) %`; unbekannte Zeichen → Fehler.
@@ -529,9 +516,9 @@ M2 W1 hängt technisch nur an AP-01; sie startet nach Freigabe von M2 durch den 
 - **Ziel:** DOM-Ansicht des Rechners: LCD-Display (Text + Canvas-Ebene) und Tastenfeld mit allen Tasten inkl. „🐦“, Tastatur-Zuordnung.
 - **Pflichtlektüre:** §2 F-01/F-02/F-03, §5, `src/contracts/ui.ts`, `src/contracts/keys.ts`; PE-07, PE-10, PE-12, PE-19
 - **Abhängigkeiten:** AP-01
-- **Parallel möglich mit:** AP-02
+- **Parallel möglich mit:** AP-02, AP-07 (ggf. vorgezogene AP-05, AP-06)
 - **Dateien (Eigentum):** `src/ui/**` (z. B. `view.ts`, `display.ts`, `keypad.ts`, `keyboard.ts`, `ui.css`, `index.ts`, `*.test.ts`)
-- **Nicht anfassen:** `src/calc/**`, `src/contracts/**`, `src/main.ts`, `index.html`, `package.json`
+- **Nicht anfassen:** `src/calc/**`, `src/leaderboard/**`, `src/game/**`, `src/contracts/**`, `src/main.ts`, `index.html`, `package.json`
 - **Freigegebene Abhängigkeiten:** keine
 - **Umsetzung:**
   1. `createCalculatorView(root)` (Typ `CreateCalculatorView`) baut per `document.createElement` Rechnergehäuse, Display und Tastenfeld; importiert `./ui.css` selbst.
@@ -557,9 +544,9 @@ M2 W1 hängt technisch nur an AP-01; sie startet nach Freigabe von M2 durch den 
 - **Ziel:** Rechner verdrahten: Tasten → `calcEngine.press` → Display. Damit ist M1 live.
 - **Pflichtlektüre:** §2 F-01, §4, `src/contracts/*`, `src/calc/index.ts`, `src/ui/index.ts`
 - **Abhängigkeiten:** AP-02, AP-03
-- **Parallel möglich mit:** –
+- **Parallel möglich mit:** AP-05, AP-06
 - **Dateien (Eigentum):** `src/app/controller.ts`, `src/app/controller.test.ts`, `src/main.ts`
-- **Nicht anfassen:** `src/calc/**`, `src/ui/**`, `src/contracts/**`
+- **Nicht anfassen:** `src/calc/**`, `src/ui/**`, `src/game/**`, `src/leaderboard/**`, `src/contracts/**`
 - **Freigegebene Abhängigkeiten:** keine
 - **Umsetzung:**
   1. `createApp({ view, calc })` hält `CalcState`; bei jedem Key außer `'BIRD'`: `calc.press`, dann `display.showText(state.display, state.justEvaluated ? '=' : '')`. `'BIRD'` wird in M1 ignoriert (Kommentar: Spielmodus folgt in AP-08).
@@ -575,13 +562,13 @@ M2 W1 hängt technisch nur an AP-01; sie startet nach Freigabe von M2 durch den 
 
 #### AP-05 – Spiellogik
 
-- **Meilenstein, Lane, Welle:** M2 · CORE · W1
+- **Meilenstein, Lane, Welle:** M1 · CORE · W3 (vorziehbar nach W2)
 - **Ziel:** Deterministische, DOM-freie Flappy-Logik als `GameEngine` mit gut spielbarer Standard-Konfiguration für das kleine Display.
 - **Pflichtlektüre:** §2 F-02, `src/contracts/game.ts`, `src/contracts/ui.ts` (`DISPLAY_CANVAS`); PE-10, PE-13
-- **Abhängigkeiten:** AP-01, H-04
-- **Parallel möglich mit:** AP-06, AP-07
+- **Abhängigkeiten:** AP-01
+- **Parallel möglich mit:** AP-04, AP-06 (vorgezogen auch AP-02, AP-03, AP-07)
 - **Dateien (Eigentum):** `src/game/config.ts`, `src/game/engine.ts`, `src/game/engine.test.ts`, `src/game/index.ts`
-- **Nicht anfassen:** `src/game/render.ts`, `src/game/render.test.ts`, `src/leaderboard/**`, `src/contracts/**`
+- **Nicht anfassen:** `src/game/render.ts`, `src/game/render.test.ts`, `src/leaderboard/**`, `src/app/**`, `src/main.ts`, `src/contracts/**`
 - **Freigegebene Abhängigkeiten:** keine
 - **Umsetzung:**
   1. `config.ts`: `DEFAULT_GAME_CONFIG: GameConfig` mit `width/height` aus `DISPLAY_CANVAS`; Startwerte z. B. gravity ≈ 360, flapVelocity ≈ −110, pipeSpeed ≈ 40, pipeGap ≈ 18, pipeWidth ≈ 8, pipeSpacing ≈ 50, birdX ≈ 24, birdSize ≈ 8, groundHeight ≈ 2 (Coder justiert für Spielbarkeit).
@@ -599,13 +586,13 @@ M2 W1 hängt technisch nur an AP-01; sie startet nach Freigabe von M2 durch den 
 
 #### AP-06 – LCD-Renderer
 
-- **Meilenstein, Lane, Welle:** M2 · CORE · W1
+- **Meilenstein, Lane, Welle:** M1 · CORE · W3 (vorziehbar nach W2)
 - **Ziel:** `GameRenderer`, der den Spielzustand im LCD-Stil auf den Display-Canvas zeichnet, mit π als Vogel.
 - **Pflichtlektüre:** §2 F-02, §5 (R1), `src/contracts/game.ts`, `src/contracts/ui.ts`; PE-12
-- **Abhängigkeiten:** AP-01, H-04
-- **Parallel möglich mit:** AP-05, AP-07
+- **Abhängigkeiten:** AP-01
+- **Parallel möglich mit:** AP-04, AP-05 (vorgezogen auch AP-02, AP-03, AP-07)
 - **Dateien (Eigentum):** `src/game/render.ts`, `src/game/render.test.ts`
-- **Nicht anfassen:** `src/game/engine.ts`, `src/game/config.ts`, `src/game/index.ts`, `src/contracts/**`
+- **Nicht anfassen:** `src/game/engine.ts`, `src/game/config.ts`, `src/game/index.ts`, `src/app/**`, `src/main.ts`, `src/contracts/**`
 - **Freigegebene Abhängigkeiten:** keine
 - **Umsetzung:**
   1. `renderGame(ctx, state, config)`: Hintergrund LCD-Grau (gleiche Farbwerte wie AP-03-Display, als Konstanten in `render.ts`), Zeichenfarbe fast schwarz; alle Koordinaten mit `Math.round` (Pixel-Optik).
@@ -625,13 +612,13 @@ M2 W1 hängt technisch nur an AP-01; sie startet nach Freigabe von M2 durch den 
 
 #### AP-07 – Bestenliste
 
-- **Meilenstein, Lane, Welle:** M2 · CORE · W1
+- **Meilenstein, Lane, Welle:** M1 · CORE · W2
 - **Ziel:** Robuste Top-3-Bestenliste mit Validierung und Löschfunktion über injizierten Storage.
 - **Pflichtlektüre:** §2 F-03, §4 Entität ScoreEntry, §5, `src/contracts/leaderboard.ts`; PE-05, PE-11
-- **Abhängigkeiten:** AP-01, H-04
-- **Parallel möglich mit:** AP-05, AP-06
+- **Abhängigkeiten:** AP-01
+- **Parallel möglich mit:** AP-02, AP-03 (ggf. vorgezogene AP-05, AP-06)
 - **Dateien (Eigentum):** `src/leaderboard/**` (z. B. `store.ts`, `validate.ts`, `format.ts`, `index.ts`, `*.test.ts`)
-- **Nicht anfassen:** `src/game/**`, `src/contracts/**`
+- **Nicht anfassen:** `src/calc/**`, `src/ui/**`, `src/game/**`, `src/contracts/**`, `src/main.ts`
 - **Freigegebene Abhängigkeiten:** keine
 - **Umsetzung:**
   1. `createLeaderboard(storage, today?)` (Typ `CreateLeaderboard`); `today` liefert lokales Datum `JJJJ-MM-TT` (Standard aus `new Date()`).
@@ -652,7 +639,7 @@ M2 W1 hängt technisch nur an AP-01; sie startet nach Freigabe von M2 durch den 
 
 #### AP-08 – App-Steuerung Spiel und Bestenliste
 
-- **Meilenstein, Lane, Welle:** M2 · WEB · W2
+- **Meilenstein, Lane, Welle:** M1 · WEB · W4
 - **Ziel:** Modus-Zustandsmaschine und Spielschleife: Rechner ↔ Spiel ↔ Kürzeleingabe ↔ Bestenliste mit exakt der vereinbarten Tastenbelegung.
 - **Pflichtlektüre:** §2 F-02/F-03, §5, `src/contracts/*`, `src/app/controller.ts`, `src/game/index.ts`, `src/game/render.ts`, `src/leaderboard/index.ts`; PE-10, PE-11
 - **Abhängigkeiten:** AP-04, AP-05, AP-06, AP-07
@@ -671,7 +658,7 @@ M2 W1 hängt technisch nur an AP-01; sie startet nach Freigabe von M2 durch den 
   8. `main.ts`: `createLeaderboard(window.localStorage)` injizieren (Zugriff in `try/catch`; ohne Storage → In-Memory-Fallback).
   9. `README.md`: Abschnitt „Bedienung“ (Tastenbelegung Rechner, Spiel, Bestenliste).
 - **Schnittstellen:** nutzt `CalcEngine`, `CalculatorView`, `GameEngine`, `renderGame`, `LeaderboardStore`, `formatEntry`, `Scheduler`.
-- **Akzeptanzkriterien:** alle Übergänge oben als Tests; M2-Smoke-Test im Browser bestanden; Rechnermodus unverändert (AP-04-Tests grün).
+- **Akzeptanzkriterien:** alle Übergänge oben als Tests; Spiel- und Bestenlisten-Punkte des M1-Smoke-Tests im Browser bestanden; Rechnermodus unverändert (AP-04-Tests grün).
 - **Tests:** `modes.test.ts` (alle Übergänge, Doppel-AC mit Fake-Zeit, Eingabesperre), `controller.test.ts` erweitert (Fake-View, Fake-Scheduler, Fake-Storage).
 - **Review-Schwerpunkte:** Löschen nur in Bestenliste (PE-11), kein `innerHTML`, keine Speicherlecks der Schleife, Tastenbelegung exakt laut PE-10/PE-11.
 - **Doku-Pflichten:** README „Bedienung“.
@@ -685,31 +672,31 @@ M2 W1 hängt technisch nur an AP-01; sie startet nach Freigabe von M2 durch den 
 
 | ID | Schritt | Ab wann nötig | Blockiert | Erledigt |
 |---|---|---|---|---|
-| H-01 | Paketschnitt M1 bestätigen und M1 freigeben (beim Lead) | sofort | AP-01 | ☐ |
-| H-02 | Q-09 beantworten: rein lokal (empfohlen) oder privates GitHub-Repo als Remote anlegen | vor erstem Merge | `push` des Leads | ☐ |
-| H-03 | Handtest nach M1 W3 (M1-Smoke-Test im Dev-Checkout) | nach AP-04 | M1-DEP | ☐ |
-| H-04 | M2 freigeben (beim Lead) | nach Bestätigung des Paketschnitts M2 | AP-05, AP-06, AP-07 | ☐ |
-| H-05 | M1-DEP: `dev` → `stage` → `master`, Smoke-Tests | nach H-03 | – | ☐ |
-| H-06 | Handtest nach M2 W2 inkl. Spielbarkeit (Schwierigkeit ok?) | nach AP-08 | M2-DEP | ☐ |
-| H-07 | M2-DEP: `dev` → `stage` → `master`, Smoke-Tests, G3 bestätigen | nach H-06 | – | ☐ |
+| H-01 | M1 freigeben (beim Lead) | sofort | AP-01 | ☐ |
+| H-02 | Zwischen-Handtest Rechner im Dev-Checkout (Rechner-Punkte des Smoke-Tests) – optional, blockiert nichts | nach AP-04 | – | ☐ |
+| H-03 | Vollständiger Handtest im Dev-Checkout inkl. Spielbarkeit (Schwierigkeit ok?) | nach AP-08 | M1-DEP | ☐ |
+| H-04 | M1-DEP: `dev` → `stage` → `master` lokal mergen, Smoke-Tests, G3 bestätigen | nach H-03 | – | ☐ |
+| H-05 | Budget-Grenze des Wächters für dieses Projekt auf 50 % stellen, falls sie nicht pro Projekt automatisch gilt (PE-23) | vor AP-01 | Parallelität | ☐ |
 
-Keine Konten, Käufe oder Secrets nötig.
+Keine Konten, Käufe oder Secrets nötig. Kein Remote (PE-24).
 
 ---
 
 ## 14. Budget und Kürzungen
 
-**Annahme für die Rechnung:** 30 % eines 5-h-Fensters ≈ 1,5 Agent-Stunden (Coder + Reviewer + Lead-Anteil). Reviews und Nachbesserungen schlagen mit ≈ +25 % zu Buche. Der Lead misst den echten Verbrauch über `.claude/ma-usage.json` und meldet Abweichungen.
+**Annahme für die Rechnung:** 50 % eines 5-h-Fensters (PE-23) ≈ 2,5 Agent-Stunden (Coder + Reviewer + Lead-Anteil). Reviews und Nachbesserungen schlagen mit ≈ +25 % zu Buche. Diese Umrechnung ist eine grobe Schätzung; der Lead misst den echten Verbrauch über `.claude/ma-usage.json` und meldet Abweichungen. Erster Durchlauf: Die Messwerte sollen in §18 festgehalten werden, um künftige Pläne zu kalibrieren.
 
-| Meilenstein | Pakete | Agent-Aufwand | Geschätzte 5-h-Fenster bei 30 % Team-Budget |
+| Welle | Pakete | Agent-Aufwand (+25 % Review) | Geschätzte 5-h-Fenster bei 50 % |
 |---|---|---|---|
-| M1 | 4 (M, L, M, S) | 6,25 h + 25 % ≈ 7,8 h | ≈ 5–6 |
-| M2 | 4 (M, M, M, L) | 7,0 h + 25 % ≈ 8,8 h | ≈ 6 |
-| **Gesamt** | 8 | ≈ 16,6 h | **≈ 11–12 Fenster** |
+| W1 | AP-01 (M) | ≈ 1,9 h | ≈ 1 |
+| W2 | AP-02 (L), AP-03 (M), AP-07 (M) | ≈ 6,9 h | ≈ 3 |
+| W3 | AP-04 (S), AP-05 (M), AP-06 (M) | ≈ 4,7 h | ≈ 2 |
+| W4 | AP-08 (L) | ≈ 3,1 h | ≈ 1–2 |
+| **Gesamt M1** | 8 | **≈ 16,6 h** | **≈ 7–8 Fenster** |
 
-**Zeit des Nutzers:** Freigaben, Antworten auf Rückfragen, 2 Handtests, 2 Deployments mit Smoke-Tests ≈ 1,5–2 h.
+**Zeit des Nutzers:** Freigabe, Antworten auf Rückfragen, 1–2 Handtests, 1 Deployment mit Smoke-Test ≈ 1–1,5 h.
 
-**Ehrliche Einschätzung:** Das Budget, nicht die Zahl der Coder, begrenzt das Tempo. 3 parallele Coder (M2 W1) verbrauchen das Fenster-Budget entsprechend schneller; der Wächter wird dann vermutlich bremsen. Bei durchgehendem Lauf ist mit etwa 2–3 Kalendertagen zu rechnen. Opus-Pakete (AP-02, AP-08) sind die teuersten.
+**Ehrliche Einschätzung:** Das Budget, nicht die Zahl der Coder, begrenzt das Tempo. 3 parallele Coder verbrauchen das Fenster-Budget entsprechend schneller; der Wächter wird in W2 vermutlich bremsen. Bei durchgehendem Lauf ist mit etwa 1,5–2 Kalendertagen zu rechnen. Opus-Pakete (AP-02, AP-08) sind die teuersten.
 
 | Stufe | Kürzung | Ersparnis | Betroffene Pakete |
 |---|---|---|---|
@@ -729,11 +716,12 @@ Keine Konten, Käufe oder Secrets nötig.
 | RI-3 | Budget reicht nicht für die geplante Parallelität | Parallelität §7.2, Kürzungen §14 | alle |
 | RI-4 | Prompt-Injection über Abhängigkeiten, Doku oder Daten | Wächter, Review-Punkt „Verdächtige Inhalte“, nur freigegebene Abhängigkeiten | alle |
 | RI-5 | Fließkomma-Artefakte (`0,30000000000000004`) | Rundung auf 12 Stellen, Tests | AP-02 |
-| RI-6 | Spiel im 120×48-Display zu schwer/ruckelig | Konfiguration in `config.ts`, `MAX_STEP_MS`, Handtest H-06, Fix-Paket bei Bedarf | AP-05, AP-08 |
+| RI-6 | Spiel im 120×48-Display zu schwer/ruckelig | Konfiguration in `config.ts`, `MAX_STEP_MS`, Handtest H-03, Fix-Paket bei Bedarf | AP-05, AP-08 |
 | RI-7 | Flatter-Ziffern landen versehentlich im Kürzel | 800 ms Eingabesperre nach Game Over | AP-08 |
 | RI-8 | `localStorage` gesperrt, voll oder manipuliert | `try/catch`, Validierung, In-Memory-Fallback | AP-07, AP-08 |
-| RI-9 | Verträge erweisen sich in M2 als unpassend | Vertragsänderung nur per eigenem Paket (Lead → Planner), vor AP-08 | AP-05–AP-08 |
-| RI-10 | Kein Remote: `push` des Leads schlägt fehl | Q-09; bis dahin rein lokal | Lead-Abschluss |
+| RI-9 | Verträge erweisen sich bei den Spiel-Paketen als unpassend | Vertragsänderung nur per eigenem Paket (Lead → Planner), vor AP-08 | AP-05–AP-08 |
+| RI-10 | Kein Remote: kein Backup außerhalb des PCs | Bewusst so (PE-24); Nutzer kann jederzeit ein Remote ergänzen | – |
+| RI-11 | Ein großer Meilenstein: Fehler fallen erst spät im Gesamttest auf | Zwischen-Handtest H-02 nach W3, Integrationspunkt nach jeder Welle | AP-04, AP-08 |
 
 ---
 
@@ -763,8 +751,10 @@ Keine Konten, Käufe oder Secrets nötig.
 | PE-18 | Abnahmekriterien §1 | Prüfbare Liste | Nutzer am 2026-10-21 |
 | PE-19 | Rechner-Löschtasten: „AC“ alles, „C“ aktuelle Eingabe (im Spiel: beenden), „⌫“ letztes Zeichen | Option 15a | Nutzer am 2026-10-21 |
 | PE-20 | Worktrees unter `D:\Private Projekte\mAtaschenRechnerFlappybird_worktree\` | Agent-Regeln; Widerspruch zur Vorlage aufgelöst (Q-08) | Nutzer am 2026-10-21 |
-| PE-21 | Zwei Meilensteine (M1 Rechner, M2 Spiel + Bestenliste); alle Verträge beider Meilensteine im Gerüst-Paket AP-01 | Rechner früh nutzbar; M2 W1 voll parallel ohne eigenes Vertragspaket | angenommen vom Planner |
+| PE-21 | Ein Meilenstein M1 mit allen 8 Paketen in 4 Wellen; alle Verträge im Gerüst-Paket AP-01 | Erster Durchlauf, Limit soll erprobt werden; Spiel-Pakete parallel zum Rechner | Nutzer am 2026-10-21 |
 | PE-22 | Modelle: opus/high für AP-02 (Parser, Sicherheit) und AP-08 (Zustandsmaschine); sonnet sonst | D11, Kernlogik | angenommen vom Planner |
+| PE-23 | Team-Budget für dieses Projekt: 50 % des 5-Stunden-Limits statt 30 % | Erster Durchlauf, Limit wird getestet | Nutzer am 2026-10-21 |
+| PE-24 | Rein lokal, kein Remote, kein Push. Gearbeitet wird nur auf `dev`, bis der Meilenstein fertig ist; danach merged der Nutzer lokal nach `stage` und `master` | Wunsch des Nutzers (Q-09) | Nutzer am 2026-10-21 |
 
 ### Offene Fragen
 
@@ -778,14 +768,14 @@ Keine Konten, Käufe oder Secrets nötig.
 | Q-06 | Eingabe des Kürzels | K | §2 F-03 | PC-Tastatur | geklärt → PE-11 (nur Ziffern) |
 | Q-07 | Spielgrafik und Schwierigkeit | W | §2 F-02 | einfache Formen | geklärt → PE-12, PE-13 |
 | Q-08 | Worktree-Ort | W | §6 | `<projekt>_worktree/` | geklärt → PE-20 |
-| Q-09 | Kein Git-Remote vorhanden: rein lokal arbeiten oder privates GitHub-Repo anlegen? | W | §6, §13 H-02, Lead-Push | rein lokal; Nutzer merged dev → stage → master lokal | offen |
+| Q-09 | Kein Git-Remote vorhanden: rein lokal arbeiten oder privates GitHub-Repo anlegen? | W | §6, §13 H-02, Lead-Push | rein lokal; Nutzer merged dev → stage → master lokal | geklärt → PE-24 |
 
 ### Vorgeschlagene Änderungen (brauchen Freigabe des Nutzers)
 
 | Was | Änderung | Grund | Vorgeschlagen von |
 |---|---|---|---|
 | Plan-Vorlage im MultiAgent-Ordner, §6 | Worktree-Pfad `.claude/worktrees/` an Agent-Regeln (`<projekt>_worktree/`) angleichen | Widerspruch Vorlage ↔ Agent-Regeln (Q-08) | Planner |
-| `.gitignore` | `.claude/` ist ignoriert, obwohl `.claude/agents/` im Projekt liegt – gewollt? | Agent-Dateien sind nicht versioniert | Planner |
+| Wächter-Konfiguration (zentraler MultiAgent-Ordner) | Budget-Grenze für dieses Projekt auf 50 % (PE-23), falls nicht schon projektbezogen eingestellt | Nutzerentscheidung; Planner/Lead dürfen Steuerdateien nicht ändern | Planner |
 
 ---
 
@@ -794,9 +784,9 @@ Keine Konten, Käufe oder Secrets nötig.
 | Anforderung oder Regel | Pakete |
 |---|---|
 | F-01 Taschenrechner | AP-02, AP-03, AP-04, M1-DEP |
-| F-02 Flappy-π-Spiel | AP-03 („🐦“-Taste, Canvas), AP-05, AP-06, AP-08, M2-DEP |
-| F-03 Lokale Bestenliste | AP-07, AP-08, M2-DEP |
-| Abnahmekriterien §1 | M1-DEP, M2-DEP (H-05, H-07) |
+| F-02 Flappy-π-Spiel | AP-03 („🐦“-Taste, Canvas), AP-05, AP-06, AP-08, M1-DEP |
+| F-03 Lokale Bestenliste | AP-07, AP-08, M1-DEP |
+| Abnahmekriterien §1 | M1-DEP (H-03, H-04) |
 | §5 kein `eval` | AP-01 (Lint), AP-02 |
 | §5 kein `innerHTML` | AP-01 (Lint), AP-03, AP-08 |
 | §5 Validierung Speicherdaten | AP-07 |
@@ -817,4 +807,5 @@ Keine Konten, Käufe oder Secrets nötig.
 |---|---|---|---|---|
 | 2026-10-21 | Interview begonnen, F-01–F-03 angelegt | Projektauftrag des Nutzers | – | Nutzer |
 | 2026-10-21 | §1–§7 gefüllt und bestätigt, G1 erfüllt | Interview Runden 1–4 | – | Nutzer |
-| 2026-10-21 | Paketschnitt §8–§17: M1 (AP-01–AP-04), M2 (AP-05–AP-08) | G1 erfüllt | AP-01–AP-08 | wartet auf Nutzer |
+| 2026-10-21 | Paketschnitt §8–§17: M1 (AP-01–AP-04), M2 (AP-05–AP-08) | G1 erfüllt | AP-01–AP-08 | Planner |
+| 2026-10-21 | M2 in M1 zusammengelegt (4 Wellen), Budget 50 %, rein lokal ohne Remote | Erster Durchlauf, Limit testen (PE-21, PE-23, PE-24) | AP-04–AP-08 | Nutzer |
