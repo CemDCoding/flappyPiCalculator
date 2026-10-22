@@ -7,11 +7,11 @@ Grundlage der Regeln: MultiAgent/entscheidungen.md
 
 # Master-Build-Plan mAtaschenRechnerFlappybird
 
-**Stand:** 2026-10-21 · **Planversion:** 1.1 · **Gepflegt von:** ma-planner · **Gesteuert von:** ma-lead · **Nutzer:** Cem Dogan
+**Stand:** 2026-10-22 · **Planversion:** 1.1 · **Gepflegt von:** ma-planner · **Gesteuert von:** ma-lead · **Nutzer:** Cem Dogan
 
 Ein Taschenrechner als lokale Web-App (TypeScript + Vite, `localhost`) mit eingebautem Flappy-Bird-Spiel: Das Spiel läuft im LCD-Display des Rechners, der Vogel ist ein π, gesteuert wird nur über Rechnertasten. Eine lokale Top-3-Bestenliste (Ziffern-Kürzel, Punkte, Datum) liegt im `localStorage`.
 Für den Nutzer selbst, privat, ohne Veröffentlichung.
-Der Plan hat **1 Meilenstein** (M1: Rechner, π-Spiel und Bestenliste) mit **8 Agent-Paketen** in 4 Wellen und **1 [Mensch]-Paket**. Erster Durchlauf des MultiAgent-Systems; Team-Budget für dieses Projekt 50 % (PE-23).
+Der Plan hat **1 Meilenstein** (M1: Rechner, π-Spiel und Bestenliste) mit **8 Agent-Paketen** in 4 Wellen und **1 [Mensch]-Paket**. Erster Durchlauf des MultiAgent-Systems; Team-Budget für dieses Projekt 30 % (PE-23).
 
 ---
 
@@ -266,7 +266,7 @@ flowchart TD
 ### 7.2 Parallelität, Budget, Modelle
 
 - **Höchstens gleichzeitig:** 3 Coder (PE-09). Der Budget-Wächter kann trotzdem früher bremsen (§14).
-- **Budget (D11b, PE-23):** Für **dieses Projekt** nutzt das Team höchstens **50 %** des 5-Stunden-Limits (erster Durchlauf, Limit wird erprobt). Die Einstellung des Wächters ändert nur der Nutzer (§16 Vorgeschlagene Änderungen). Der Wächter stoppt neue Coder, sobald es erreicht ist. Dann fragt der Lead den Nutzer. Ohne Antwort geht es nach dem Reset weiter (D11c).
+- **Budget (D11b, PE-23):** Für **dieses Projekt** nutzt das Team höchstens **30 %** des 5-Stunden-Limits (Standardwert; die Wächter-Einstellung steht bewusst auf 30 %). Die Einstellung des Wächters ändert nur der Nutzer. Der Wächter stoppt neue Coder, sobald es erreicht ist. Dann fragt der Lead den Nutzer. Ohne Antwort geht es nach dem Reset weiter (D11c).
 - **Freigabe:** pro Meilenstein (PE-09)
 - **Bei mehr Kandidaten als Plätzen:** zuerst kritischer Pfad (§11), dann Verträge, dann der Rest.
 
@@ -676,7 +676,7 @@ AP-05 und AP-06 hängen nur an AP-01; der Lead darf sie bei freien Plätzen und 
 | H-02 | Handtest Rechner im Dev-Checkout (Rechner-Punkte des Smoke-Tests) – zusammen mit H-03 am Meilensteinende | nach AP-08 (mit H-03) | M1-DEP | ☐ |
 | H-03 | Vollständiger Handtest im Dev-Checkout inkl. Spielbarkeit (Schwierigkeit ok?) | nach AP-08 | M1-DEP | ☐ |
 | H-04 | M1-DEP: `dev` → `stage` → `master` lokal mergen, Smoke-Tests, G3 bestätigen | nach H-03 | – | ☐ |
-| H-05 | Budget-Grenze des Wächters für dieses Projekt auf 50 % stellen, falls sie nicht pro Projekt automatisch gilt (PE-23) | vor AP-01 | Parallelität | ☐ |
+| H-05 | ~~Budget-Grenze des Wächters für dieses Projekt auf 50 % stellen~~ – entfallen: Plan auf 30 % angepasst, Wächter steht bewusst auf 30 % (PE-23, Nutzer am 2026-10-22) | – | – | entfallen |
 
 Keine Konten, Käufe oder Secrets nötig. Kein Remote (PE-24).
 
@@ -684,19 +684,19 @@ Keine Konten, Käufe oder Secrets nötig. Kein Remote (PE-24).
 
 ## 14. Budget und Kürzungen
 
-**Annahme für die Rechnung:** 50 % eines 5-h-Fensters (PE-23) ≈ 2,5 Agent-Stunden (Coder + Reviewer + Lead-Anteil). Reviews und Nachbesserungen schlagen mit ≈ +25 % zu Buche. Diese Umrechnung ist eine grobe Schätzung; der Lead misst den echten Verbrauch über `.claude/ma-usage.json` und meldet Abweichungen. Erster Durchlauf: Die Messwerte sollen in §18 festgehalten werden, um künftige Pläne zu kalibrieren.
+**Annahme für die Rechnung:** 30 % eines 5-h-Fensters (PE-23) ≈ 1,5 Agent-Stunden (Coder + Reviewer + Lead-Anteil). Reviews und Nachbesserungen schlagen mit ≈ +25 % zu Buche. Diese Umrechnung ist eine grobe Schätzung; der Lead misst den echten Verbrauch über `.claude/ma-usage.json` und meldet Abweichungen. Erster Durchlauf: Die Messwerte sollen in §18 festgehalten werden, um künftige Pläne zu kalibrieren.
 
-| Welle | Pakete | Agent-Aufwand (+25 % Review) | Geschätzte 5-h-Fenster bei 50 % |
+| Welle | Pakete | Agent-Aufwand (+25 % Review) | Geschätzte 5-h-Fenster bei 30 % |
 |---|---|---|---|
-| W1 | AP-01 (M) | ≈ 1,9 h | ≈ 1 |
-| W2 | AP-02 (L), AP-03 (M), AP-07 (M) | ≈ 6,9 h | ≈ 3 |
-| W3 | AP-04 (S), AP-05 (M), AP-06 (M) | ≈ 4,7 h | ≈ 2 |
-| W4 | AP-08 (L) | ≈ 3,1 h | ≈ 1–2 |
-| **Gesamt M1** | 8 | **≈ 16,6 h** | **≈ 7–8 Fenster** |
+| W1 | AP-01 (M) | ≈ 1,9 h | ≈ 1–2 |
+| W2 | AP-02 (L), AP-03 (M), AP-07 (M) | ≈ 6,9 h | ≈ 4–5 |
+| W3 | AP-04 (S), AP-05 (M), AP-06 (M) | ≈ 4,7 h | ≈ 3 |
+| W4 | AP-08 (L) | ≈ 3,1 h | ≈ 2 |
+| **Gesamt M1** | 8 | **≈ 16,6 h** | **≈ 11 Fenster** |
 
 **Zeit des Nutzers:** Freigabe, Antworten auf Rückfragen, 1–2 Handtests, 1 Deployment mit Smoke-Test ≈ 1–1,5 h.
 
-**Ehrliche Einschätzung:** Das Budget, nicht die Zahl der Coder, begrenzt das Tempo. 3 parallele Coder verbrauchen das Fenster-Budget entsprechend schneller; der Wächter wird in W2 vermutlich bremsen. Bei durchgehendem Lauf ist mit etwa 1,5–2 Kalendertagen zu rechnen. Opus-Pakete (AP-02, AP-08) sind die teuersten.
+**Ehrliche Einschätzung:** Das Budget, nicht die Zahl der Coder, begrenzt das Tempo. 3 parallele Coder verbrauchen das Fenster-Budget entsprechend schneller; der Wächter wird in W2 vermutlich bremsen. Bei durchgehendem Lauf ist mit etwa 2,5–3 Kalendertagen zu rechnen (Rechnung; W1–W3 liefen tatsächlich schneller, siehe §18). Opus-Pakete (AP-02, AP-08) sind die teuersten.
 
 | Stufe | Kürzung | Ersparnis | Betroffene Pakete |
 |---|---|---|---|
@@ -753,7 +753,7 @@ Keine Konten, Käufe oder Secrets nötig. Kein Remote (PE-24).
 | PE-20 | Worktrees unter `D:\Private Projekte\mAtaschenRechnerFlappybird_worktree\` | Agent-Regeln; Widerspruch zur Vorlage aufgelöst (Q-08) | Nutzer am 2026-10-21 |
 | PE-21 | Ein Meilenstein M1 mit allen 8 Paketen in 4 Wellen; alle Verträge im Gerüst-Paket AP-01 | Erster Durchlauf, Limit soll erprobt werden; Spiel-Pakete parallel zum Rechner | Nutzer am 2026-10-21 |
 | PE-22 | Modelle: opus/high für AP-02 (Parser, Sicherheit) und AP-08 (Zustandsmaschine); sonnet sonst | D11, Kernlogik | angenommen vom Planner |
-| PE-23 | Team-Budget für dieses Projekt: 50 % des 5-Stunden-Limits statt 30 % | Erster Durchlauf, Limit wird getestet | Nutzer am 2026-10-21 |
+| PE-23 | Team-Budget für dieses Projekt: 30 % des 5-Stunden-Limits (ursprünglich 50 % am 2026-10-21; zurückgesetzt, Wächter steht bewusst auf 30 %) | Erster Durchlauf; Nutzer belässt den Standardwert | Nutzer am 2026-10-22 |
 | PE-24 | Rein lokal, kein Remote, kein Push. Gearbeitet wird nur auf `dev`, bis der Meilenstein fertig ist; danach merged der Nutzer lokal nach `stage` und `master` | Wunsch des Nutzers (Q-09) | Nutzer am 2026-10-21 |
 | PE-25 | Spielablauf AP-08: „🐦“/„C“ beenden ohne Wertung; „%“ pausiert und zeigt Liste, „%“ erneut setzt fort; 800 ms Sperre nach Game Over; Kürzel mit „⌫“/„=“/„C“; in der Liste Ziffer/„=“ = neues Spiel, „C“ = Rechner, Doppel-„AC“ binnen 2 s löscht; 0 Punkte nie in der Liste | Folgt aus PE-10/PE-11; Frage 20a | Nutzer am 2026-10-21 |
 
@@ -776,7 +776,6 @@ Keine Konten, Käufe oder Secrets nötig. Kein Remote (PE-24).
 | Was | Änderung | Grund | Vorgeschlagen von |
 |---|---|---|---|
 | Plan-Vorlage im MultiAgent-Ordner, §6 | Worktree-Pfad `.claude/worktrees/` an Agent-Regeln (`<projekt>_worktree/`) angleichen | Widerspruch Vorlage ↔ Agent-Regeln (Q-08) | Planner |
-| Wächter-Konfiguration (zentraler MultiAgent-Ordner) | Budget-Grenze für dieses Projekt auf 50 % (PE-23), falls nicht schon projektbezogen eingestellt | Nutzerentscheidung; Planner/Lead dürfen Steuerdateien nicht ändern | Planner |
 
 ---
 
@@ -817,3 +816,4 @@ Keine Konten, Käufe oder Secrets nötig. Kein Remote (PE-24).
 | 2026-10-21 | W2 fertig: AP-02 (c2), AP-03 (c3), AP-05 (c5, vorgezogen aus W3), AP-07 (c4) gemergt, Review Runde 1 bestanden, 183/183 Tests grün; AP-04, AP-06 bereit (W3). §9.2-Smoke-Test präzisiert: `50%=` → 0,5 (Postfix-%, wirkt erst bei `=`; `200+10%=` → 200,1). Erkenntnisse: (a) AP-05: Konfiguration weicht von den Richtwerten ab (gravity 300, flapVelocity -75, pipeGap 22); Spielbarkeit nur per Autopilot-Test belegt, Nachjustierung in `config.ts` nach H-03. `birdY` = Oberkante der Vogel-Box, `Pipe.x` = linke Kante, Boden bei `height - groundHeight` (AP-06/AP-08 beachten); (b) AP-03: Tastatur-Listener fängt zugeordnete Tasten global ab; Initialen-Eingabe in AP-08 läuft über Tasten, kein Textfeld nötig. UI-Struktur `.calc > .lcd + .keypad`, Ebenen `.lcd-text`, `.lcd-lines`, `canvas.lcd-canvas` per `hidden` umschalten; Import über `src/ui/index.ts`. Breite bis 360 px nur im CSS ausgelegt, im Handtest prüfen; (c) AP-02: `calcEngine` aus `src/calc/index.ts`; Anzeige immer aus `state.display` nehmen (Minus als U+2212), nicht die Formatierfunktion `format()` aufrufen; Zahlen mit Exponent gelten als abgeschlossen; (d) AP-07: `formatEntry` aus `src/leaderboard/index.ts`; Reviewer-Befunde niedrig: Zwischenspeicher geht verloren, wenn nur `setItem` fehlschlägt; Datum nur formgeprüft; Tests für Gleichstand fehlen; (e) AP-05, Reviewer niedrig: NaN-`dt` nicht abgefangen; (f) Guard: Reviewer/Coder können Commit-Texte mit dem Wort „format“ nicht per Datei schreiben; Budget-Wächter stand bei 30 % (H-05 offen, Nutzer muss auf 50 % stellen) | Merge W2, Pflegeauftrag Lead | AP-02, AP-03, AP-04, AP-05, AP-06, AP-07, AP-08, M1-DEP | Lead |
 | 2026-10-22 | §1-Abnahmekriterium angeglichen: `50%` → 0,5 wird `50%=` → 0,5 (Postfix-%, wirkt bei `=`), passend zum Smoke-Test §9.2 | Widerspruch §1/§9.2, Pflegeauftrag Lead | AP-04, H-02 | Nutzer |
 | 2026-10-22 | W3 fertig: AP-04 (c7) und AP-06 (c8) gemergt, Review Runde 1 bestanden, 195/195 Tests grün, Checks grün; AP-08 in Arbeit (c9, `agent/AP-08-c9`, opus). Erkenntnisse: (a) AP-04: `createApp` gibt `{ destroy }` zurück, `AppDeps` ist exportiert, Einhängestelle für `BIRD` im Controller markiert (AP-08); Controller-Tests decken nur `=` und den Anfangszustand, Fehler/„AC“/„C“ sind nur über die AP-02-Tests abgedeckt – AP-08 sollte diese Übergänge im Controller mittesten; (b) AP-06: `renderGame` sowie `LCD_BACKGROUND`/`LCD_INK` aus `src/game/render.ts` (Farben dupliziert aus `ui.css`, bei Farbänderung beide Stellen anpassen); keine 1-px-Röhrenkante (begründet: auf 120×48 nicht sichtbar); π-Neigung mit Antialiasing; Reviewer-Befund niedrig: kein Positionstest für die Röhrengeometrie; (c) beide Coder konnten keinen Browser-Smoketest machen – Rechner-Booten nur per Code und Build belegt, Handtest H-02/H-03 bleibt maßgeblich; (d) Budget: Wächter steht weiter bei 30 % statt 50 % (H-05/PE-23 vom Nutzer bewusst nicht umgesetzt, laut Lead); Team-Verbrauch nach Fensterreset bisher ca. 12 % | Merge W3, Pflegeauftrag Lead | AP-04, AP-06, AP-08, H-02, H-03 | Lead |
+| 2026-10-22 | Team-Budgetgrenze von 50 % auf 30 % gesetzt (§0, §7.2, §14, PE-23); §14-Rechnung auf 1,5 Agent-Stunden pro Fenster umgestellt (≈ 11 statt 7–8 Fenster, keine Kürzungen); H-05 entfallen, Vorschlag zur Wächter-Konfiguration aus §16 entfernt (Wächter steht bewusst auf 30 %) | Wunsch des Nutzers („Plan auf 30 % anpassen“), Pflegeauftrag Lead | AP-08, H-05 | Nutzer |
