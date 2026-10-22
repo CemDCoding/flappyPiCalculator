@@ -1,6 +1,10 @@
 import './styles/base.css';
+import { createApp } from './app/controller';
+import { calcEngine } from './calc';
+import { createCalculatorView } from './ui';
 
-const app = document.getElementById('app');
-if (app) {
-  app.textContent = 'π-Rechner lädt…';
+const root = document.getElementById('app');
+if (!root) {
+  throw new Error('#app not found');
 }
+createApp({ view: createCalculatorView(root), calc: calcEngine });
