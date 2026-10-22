@@ -354,7 +354,7 @@ Bei Budgetengpass startet der Lead zuerst den kritischen Pfad (AP-02 in W2, AP-0
 **Integration:**
 - nach W1: `npm ci` + alle Checks grün, `npm run dev` zeigt Platzhalterseite.
 - nach W3: `npm ci` + alle Checks grün; kein Handtest (H-02 ist ans Meilensteinende verlegt). Erfüllt am 2026-10-22 (195/195 Tests, Checks grün); Rechner-Booten im Browser noch unbelegt, prüft H-02.
-- nach W4: Handtest Rechner (H-02) und vollständiger Handtest (H-03) gemeinsam im Dev-Checkout inkl. Spielbarkeit.
+- nach W4: Handtest Rechner (H-02) und vollständiger Handtest (H-03) gemeinsam im Dev-Checkout inkl. Spielbarkeit. Checks erfüllt am 2026-10-22 (253/253 Tests, Checks grün); Handtest offen (erster echter Bootnachweis im Browser).
 
 ##### M1-DEP – Deployment [Mensch]
 
@@ -367,7 +367,7 @@ Erst wenn M1 vollständig auf `dev` fertig ist (PE-24):
   - [ ] `2+3*4=` → 14 · `(2+3)*4=` → 20 · `50%=` → 0,5 (Postfix-%, wirkt erst bei `=`; `200+10%=` ergibt 200,1, nicht 220 – im Handtest erklären) · `0,1+0,2=` → 0,3
   - [ ] `7±` → −7 · `5÷0=` → „Error“, danach „AC“ → 0
   - [ ] „⌫“, „C“, „AC“ verhalten sich wie in F-01 beschrieben
-  - [ ] Eingabe über PC-Tastatur (Ziffern, `+-*/`, `Enter`, `Backspace`, `Esc`) funktioniert
+  - [ ] Eingabe über PC-Tastatur (Ziffern, `+-*/`, `Enter`/`=`, `Backspace` = „⌫“, `Esc` = „AC“, `Entf` = „C“, `F9` = „±“, `b` = „🐦“) funktioniert
   - [ ] „🐦“ startet das Spiel im Display; π ist sichtbar, LCD-Optik
   - [ ] Ziffern (Maus und Tastatur) lassen π flattern; Spiel ist spielbar, Punkte zählen
   - [ ] „C“ beendet das Spiel → Rechner, alter Rechnerstand ist weg (AC-Zustand)
@@ -394,7 +394,7 @@ Status: `offen` · `bereit` · `in Arbeit` · `Review` · `fertig` (gemergt in d
 | AP-04 | App-Steuerung Rechnermodus | M1 | WEB | W3 | AP-02, AP-03 | S | sonnet / medium | c7 / agent/AP-04-c7 | fertig |
 | AP-05 | Spiellogik | M1 | CORE | W2 (vorgezogen aus W3) | AP-01 | M | sonnet / high | c5 / agent/AP-05-c5 | fertig |
 | AP-06 | LCD-Renderer | M1 | CORE | W3 | AP-01 | M | sonnet / medium | c8 / agent/AP-06-c8 | fertig |
-| AP-08 | App-Steuerung Spiel und Bestenliste | M1 | WEB | W4 | AP-04, AP-05, AP-06, AP-07 | L | opus / high | c9 / agent/AP-08-c9 | in Arbeit |
+| AP-08 | App-Steuerung Spiel und Bestenliste | M1 | WEB | W4 | AP-04, AP-05, AP-06, AP-07 | L | opus / high | c9 / agent/AP-08-c9 | fertig |
 | M1-DEP | Deployment M1 | M1 | HUM | W5 | AP-08, H-02, H-03 | H | – | Nutzer | offen |
 
 ---
@@ -817,3 +817,4 @@ Keine Konten, Käufe oder Secrets nötig. Kein Remote (PE-24).
 | 2026-10-22 | §1-Abnahmekriterium angeglichen: `50%` → 0,5 wird `50%=` → 0,5 (Postfix-%, wirkt bei `=`), passend zum Smoke-Test §9.2 | Widerspruch §1/§9.2, Pflegeauftrag Lead | AP-04, H-02 | Nutzer |
 | 2026-10-22 | W3 fertig: AP-04 (c7) und AP-06 (c8) gemergt, Review Runde 1 bestanden, 195/195 Tests grün, Checks grün; AP-08 in Arbeit (c9, `agent/AP-08-c9`, opus). Erkenntnisse: (a) AP-04: `createApp` gibt `{ destroy }` zurück, `AppDeps` ist exportiert, Einhängestelle für `BIRD` im Controller markiert (AP-08); Controller-Tests decken nur `=` und den Anfangszustand, Fehler/„AC“/„C“ sind nur über die AP-02-Tests abgedeckt – AP-08 sollte diese Übergänge im Controller mittesten; (b) AP-06: `renderGame` sowie `LCD_BACKGROUND`/`LCD_INK` aus `src/game/render.ts` (Farben dupliziert aus `ui.css`, bei Farbänderung beide Stellen anpassen); keine 1-px-Röhrenkante (begründet: auf 120×48 nicht sichtbar); π-Neigung mit Antialiasing; Reviewer-Befund niedrig: kein Positionstest für die Röhrengeometrie; (c) beide Coder konnten keinen Browser-Smoketest machen – Rechner-Booten nur per Code und Build belegt, Handtest H-02/H-03 bleibt maßgeblich; (d) Budget: Wächter steht weiter bei 30 % statt 50 % (H-05/PE-23 vom Nutzer bewusst nicht umgesetzt, laut Lead); Team-Verbrauch nach Fensterreset bisher ca. 12 % | Merge W3, Pflegeauftrag Lead | AP-04, AP-06, AP-08, H-02, H-03 | Lead |
 | 2026-10-22 | Team-Budgetgrenze von 50 % auf 30 % gesetzt (§0, §7.2, §14, PE-23); §14-Rechnung auf 1,5 Agent-Stunden pro Fenster umgestellt (≈ 11 statt 7–8 Fenster, keine Kürzungen); H-05 entfallen, Vorschlag zur Wächter-Konfiguration aus §16 entfernt (Wächter steht bewusst auf 30 %) | Wunsch des Nutzers („Plan auf 30 % anpassen“), Pflegeauftrag Lead | AP-08, H-05 | Nutzer |
+| 2026-10-22 | W4 fertig: AP-08 (c9, opus) gemergt, Review Runde 1 bestanden, 253/253 Tests, alle Checks grün; alle Wellen W1–W4 abgeschlossen, offen nur H-02/H-03 (Handtest) und M1-DEP (Nutzer). Smoke-Test §9.2 um die Tastenzuordnung ergänzt (`Esc` = „AC“, `Entf` = „C“, `F9` = „±“, `b` = „🐦“, laut `src/ui/keyboard.ts`, README stimmt). Erkenntnisse: (a) AP-08: `src/app/modes.ts` ist eine reine Funktion `transition(state, event)`, die Effekte zurückgibt; der Controller führt die Effekte aus. Neue optionale `AppDeps` (leaderboard, game, gameConfig, render, scheduler, now, rng); `pickStorage` mit `memoryStorage.ts` als Fallback (RI-8); (b) Reviewer-Befunde niedrig, akzeptiert: Timer-Fallback im Scheduler nutzt `Date.now()` statt `performance.now()` (nur ohne rAF relevant); die 800-ms-Sperre nach Game Over blockiert auch „C“/„🐦“/„%“ (so geplant, PE-25); (c) `prettier --check .` meldet 42 nicht angefasste Dateien (kein Plan-Check, vermutlich gemischte Zeilenenden CRLF/LF) – nicht blockierend, optionales Folge-Paket (z. B. `.gitattributes`/`.prettierrc` `endOfLine` + einmal formatieren), nur nach Freigabe des Nutzers; (d) kein Coder konnte die App im Browser starten – H-02/H-03 sind der erste echte Bootnachweis | Merge W4, Pflegeauftrag Lead | AP-08, H-02, H-03, M1-DEP | Lead |
