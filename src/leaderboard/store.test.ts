@@ -54,17 +54,20 @@ describe('leaderboard', () => {
     ['not json', '{{'],
     ['object', '{"a":1}'],
     ['null', 'null'],
-    ['bad entries', JSON.stringify([
-      { initials: '1234567', score: 1, date: '2026-01-01' },
-      { initials: 'abc', score: 1, date: '2026-01-01' },
-      { initials: '1', score: -1, date: '2026-01-01' },
-      { initials: '1', score: 1e9, date: '2026-01-01' },
-      { initials: '1', score: 1.5, date: '2026-01-01' },
-      { initials: '1', score: 1, date: '<script>' },
-      { initials: '<script>', score: 1, date: '2026-01-01' },
-      null,
-      5,
-    ])],
+    [
+      'bad entries',
+      JSON.stringify([
+        { initials: '1234567', score: 1, date: '2026-01-01' },
+        { initials: 'abc', score: 1, date: '2026-01-01' },
+        { initials: '1', score: -1, date: '2026-01-01' },
+        { initials: '1', score: 1e9, date: '2026-01-01' },
+        { initials: '1', score: 1.5, date: '2026-01-01' },
+        { initials: '1', score: 1, date: '<script>' },
+        { initials: '<script>', score: 1, date: '2026-01-01' },
+        null,
+        5,
+      ]),
+    ],
   ])('rejects corrupt data: %s', (_n, raw) => {
     const lb = createLeaderboard(fake(raw), today);
     expect(lb.load()).toEqual([]);
@@ -78,7 +81,11 @@ describe('leaderboard', () => {
       { initials: '3', score: 3, date: '2026-01-01' },
       { initials: '4', score: 4, date: '2026-01-01' },
     ]);
-    expect(createLeaderboard(fake(raw), today).load().map((e) => e.score)).toEqual([4, 3, 2]);
+    expect(
+      createLeaderboard(fake(raw), today)
+        .load()
+        .map((e) => e.score),
+    ).toEqual([4, 3, 2]);
   });
 
   it('ignores invalid add input', () => {
