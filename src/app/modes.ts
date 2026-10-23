@@ -6,7 +6,7 @@
  */
 import type { Mode } from '../contracts/app';
 import { isDigitKey, type CalcKey, type Key } from '../contracts/keys';
-import { MAX_INITIALS } from '../contracts/leaderboard';
+import { MAX_ENTRIES, MAX_INITIALS } from '../contracts/leaderboard';
 
 /** Input lock after game over, so flap digits do not end up as initials. */
 export const GAME_OVER_LOCK_MS = 800;
@@ -86,9 +86,12 @@ export function initialsLines(score: number, initials: string): string[] {
   return [`NEUER REKORD ${score}`, `Kürzel: ${initials}_`];
 }
 
-/** Heading plus up to 3 entries (already rendered with formatEntry). */
+/** Heading plus up to MAX_ENTRIES entries (already rendered with formatEntry). */
 export function leaderboardLines(entries: string[]): string[] {
-  return [LEADERBOARD_TITLE, ...(entries.length > 0 ? entries.slice(0, 3) : [LEADERBOARD_EMPTY])];
+  return [
+    LEADERBOARD_TITLE,
+    ...(entries.length > 0 ? entries.slice(0, MAX_ENTRIES) : [LEADERBOARD_EMPTY]),
+  ];
 }
 
 export function acHintLines(): string[] {
@@ -184,11 +187,8 @@ function onInitials(s: AppState, ev: AppEvent): Transition {
   if (ev.type !== 'key') return { state: s, effects: [] };
   const { key } = ev;
   if (isDigitKey(key) || key === 'BACK') {
-    const initials = isDigitKey(key)
-      ? s.initials.length < MAX_INITIALS
-        ? s.initials + key
-        : s.initials
-      : s.initials.slice(0, -1);
+    const initials =
+      key === 'BACK' ? s.initials.slice(0, -1) : (s.initials + key).slice(0, MAX_INITIALS);
     return {
       state: { ...s, initials },
       effects: [{ type: 'showInitials', score: s.score, initials }],

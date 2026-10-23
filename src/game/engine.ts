@@ -32,7 +32,8 @@ function step(
   if (state.status === 'over') return state;
   if (state.status === 'ready' && !flap) return state;
 
-  const dt = Math.max(0, Math.min(dtMs, MAX_STEP_MS)) / 1000;
+  // NaN, ±Infinity and negative values count as 0 (no movement).
+  const dt = Number.isFinite(dtMs) ? Math.max(0, Math.min(dtMs, MAX_STEP_MS)) / 1000 : 0;
   let vy = flap ? config.flapVelocity : state.birdVy;
   vy += config.gravity * dt;
   const birdY = state.birdY + vy * dt;

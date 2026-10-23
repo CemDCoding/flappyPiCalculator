@@ -1,6 +1,6 @@
 import type { GameConfig, GameRenderer, GameState } from '../contracts/game';
 
-/** Same LCD colours as src/ui/ui.css (.lcd). */
+/** Same LCD colours as src/ui/ui.css (.lcd); change both places together. */
 export const LCD_BACKGROUND = '#9aa88a';
 export const LCD_INK = '#14170f';
 const LCD_GRID = 'rgba(255, 255, 255, 0.06)';
@@ -47,23 +47,22 @@ export const renderGame: GameRenderer = (
 
   ctx.fillStyle = LCD_INK;
   ctx.strokeStyle = LCD_INK;
-  ctx.lineWidth = 1;
 
-  const groundTop = height - groundHeight;
+  const groundTop = Math.round(height - groundHeight);
+  const w = Math.round(config.pipeWidth);
 
   for (const pipe of state.pipes) {
     const x = Math.round(pipe.x);
     const gapTop = Math.round(pipe.gapY);
     const gapBottom = Math.round(pipe.gapY + config.pipeGap);
-    const w = Math.round(config.pipeWidth);
     ctx.fillRect(x, 0, w, Math.max(0, gapTop));
-    ctx.fillRect(x, gapBottom, w, Math.max(0, Math.round(groundTop) - gapBottom));
+    ctx.fillRect(x, gapBottom, w, Math.max(0, groundTop - gapBottom));
   }
 
   // Ground line.
   ctx.beginPath();
-  ctx.moveTo(0, Math.round(groundTop) + 0.5);
-  ctx.lineTo(width, Math.round(groundTop) + 0.5);
+  ctx.moveTo(0, groundTop + 0.5);
+  ctx.lineTo(width, groundTop + 0.5);
   ctx.stroke();
 
   // Bird: pi glyph, tilted slightly by vertical speed.
