@@ -1,0 +1,135 @@
+.calc {
+  width: min(100vw - 16px, 340px);
+  padding: 14px;
+  border-radius: 18px;
+  background: #3a3f48;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  font-family: system-ui, sans-serif;
+}
+
+.lcd {
+  position: relative;
+  height: 120px;
+  margin-bottom: 14px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #9aa88a;
+  color: #14170f;
+  font-family: ui-monospace, 'Cascadia Mono', Consolas, 'Courier New', monospace;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.lcd [hidden] {
+  display: none;
+}
+
+.lcd-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  text-align: right;
+}
+
+.lcd-sub {
+  min-height: 1.2em;
+  font-size: 0.9rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.lcd-main {
+  font-size: 2.2rem;
+  line-height: 1.1;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.lcd-lines {
+  text-align: left;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.lcd-line {
+  white-space: pre;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lcd-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+}
+
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.key {
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: #5a606b;
+  color: #f2f2f2;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: filter 0.08s;
+}
+
+.key-digit {
+  background: #4a4f58;
+}
+
+.key-fn {
+  background: #6b4a4a;
+}
+
+.key-op {
+  background: #5a606b;
+}
+
+.key-eq {
+  background: #c9822b;
+}
+
+.key-bird {
+  background: #3d7a52;
+}
+
+.key:hover {
+  filter: brightness(1.15);
+}
+
+.key:focus-visible {
+  outline: 2px solid #ffd479;
+  outline-offset: 2px;
+}
+
+.key:active,
+.key.pressed {
+  filter: brightness(1.5);
+  transform: translateY(1px);
+}
+
+@media (max-width: 400px) {
+  .calc {
+    padding: 10px;
+  }
+
+  .lcd-main {
+    font-size: 1.8rem;
+  }
+
+  .keypad {
+    gap: 6px;
+  }
+}
