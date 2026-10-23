@@ -1,6 +1,6 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import type { Scheduler } from '../contracts/app';
-import { createGameLoop } from './gameLoop';
+import { createGameLoop, defaultScheduler, nowMs } from './gameLoop';
 import { createMemoryStorage, pickStorage } from './memoryStorage';
 
 function fakeScheduler() {
@@ -51,6 +51,29 @@ describe('createGameLoop', () => {
     loop.start();
     s.frame(1);
     expect(s.pending()).toBe(0);
+  });
+});
+
+describe('defaultScheduler timer fallback', () => {
+  afterEach(() => {
+    vi.useRealTimers();
+    vi.unstubAllGlobals();
+    vi.restoreAllMocks();
+  });
+
+  it('passes performance.now() timestamps when rAF is missing', () => {
+    vi.useFakeTimers();
+    vi.stubGlobal('requestAnimationFrame', undefined);
+    vi.stubGlobal('cancelAnimationFrame', undefined);
+    vi.spyOn(performance, 'now').mockReturnValue(1234.5);
+    const times: number[] = [];
+    const s = defaultScheduler();
+    s.request((t) => times.push(t));
+    const cancelled = s.request((t) => times.push(-t));
+    s.cancel(cancelled);
+    vi.advanceTimersByTime(20);
+    expect(times).toEqual([1234.5]);
+    expect(nowMs()).toBe(1234.5);
   });
 });
 

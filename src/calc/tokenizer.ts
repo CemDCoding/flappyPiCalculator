@@ -10,7 +10,7 @@ export type Token =
 
 export type TokenizeResult = { ok: true; tokens: Token[] } | { ok: false };
 
-const isDigit = (c: string | undefined): boolean => c !== undefined && c >= '0' && c <= '9';
+export const isDigit = (c: string | undefined): boolean => c !== undefined && c >= '0' && c <= '9';
 
 /**
  * Zerlegt einen ASCII-Ausdruck in Tokens.

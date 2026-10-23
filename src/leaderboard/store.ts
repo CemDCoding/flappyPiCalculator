@@ -41,8 +41,11 @@ function localDate(): string {
 
 export const createLeaderboard: CreateLeaderboard = (storage, today = localDate) => {
   let cache: ScoreEntry[] = [];
+  /** Last write to storage failed: the in-memory cache is newer than storage. */
+  let unsaved = false;
 
   function readStored(): ScoreEntry[] {
+    if (unsaved) return cache;
     let raw: string | null;
     try {
       raw = storage.getItem(LEADERBOARD_KEY);
@@ -87,8 +90,9 @@ export const createLeaderboard: CreateLeaderboard = (storage, today = localDate)
     cache = next;
     try {
       storage.setItem(LEADERBOARD_KEY, JSON.stringify(next));
+      unsaved = false;
     } catch {
-      // keep in memory
+      unsaved = true; // keep in memory
     }
     return next.map((e) => ({ ...e }));
   }
@@ -97,8 +101,9 @@ export const createLeaderboard: CreateLeaderboard = (storage, today = localDate)
     cache = [];
     try {
       storage.removeItem(LEADERBOARD_KEY);
+      unsaved = false;
     } catch {
-      // ignore
+      unsaved = true; // keep the cleared list in memory
     }
   }
 
