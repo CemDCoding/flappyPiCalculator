@@ -67,7 +67,7 @@ Status: `leer` · `in Klärung` · `fertig` · `angenommen` (fertig, aber mit un
 | 17 | Abdeckungsmatrix | fertig | – | G2 |
 | 18 | Änderungsprotokoll | laufend | – | laufend |
 
-**Gate-Stand:** G1 **erfüllt** (2026-10-21). G2(M1) **erfüllt aus Plannersicht** (Prüfung durch den Lead): alle Pakete vollständig, Schnitt vom Nutzer bestätigt (PE-21); Spielablauf in AP-08 bestätigt (PE-25). Keine offenen Annahmen. Interview am 2026-10-21 mit „stop“ beendet. **M1 abgeschlossen (2026-10-23).** G3 **erfüllt** (2026-10-23, Nutzer): `dev` → `stage` (4e8deaa) → `master` (c6dfe9c) lokal gemergt, beide Smoke-Tests bestanden. Plan eingefroren; optionale Folgepunkte siehe §18 (2026-10-23). **M1-Nachsorge** (AP-09, AP-10, §9.2) am 2026-10-23 vom Nutzer freigegeben; kein neuer Umfang, G3 bleibt erfüllt. **M1-Nachsorge abgeschlossen (2026-10-23):** AP-09 und AP-10 `fertig`; `dev` ist jetzt neuer als `stage`/`master` (erneutes Promoten optional, siehe §18).
+**Gate-Stand:** G1 **erfüllt** (2026-10-21). G2(M1) **erfüllt aus Plannersicht** (Prüfung durch den Lead): alle Pakete vollständig, Schnitt vom Nutzer bestätigt (PE-21); Spielablauf in AP-08 bestätigt (PE-25). Keine offenen Annahmen. Interview am 2026-10-21 mit „stop“ beendet. **M1 abgeschlossen (2026-10-23).** G3 **erfüllt** (2026-10-23, Nutzer): `dev` → `stage` (4e8deaa) → `master` (c6dfe9c) lokal gemergt, beide Smoke-Tests bestanden. Plan eingefroren; optionale Folgepunkte siehe §18 (2026-10-23). **M1-Nachsorge** (AP-09, AP-10, §9.2) am 2026-10-23 vom Nutzer freigegeben; kein neuer Umfang, G3 bleibt erfüllt. **M1-Nachsorge abgeschlossen (2026-10-23):** AP-09 und AP-10 `fertig`; `dev` ist jetzt neuer als `stage`/`master` (erneutes Promoten optional, siehe §18). **N3 ergänzt (2026-10-23, Nutzer):** AP-11 README GitHub-bereit, Startanleitung und MIT-Lizenz (PE-26), `bereit`; danach `dev` → `stage` → `master` durch den Nutzer und Projektabschluss.
 
 | Gate | Bedingung | Wer prüft | Folge |
 |---|---|---|---|
@@ -317,6 +317,7 @@ flowchart TD
 | `README.md` | AP-01 → AP-08 (Abschnitt „Bedienung“) | W1 → W4 |
 | Alle von Prettier erfassten Dateien (nur Formatierung), `.prettierrc.json`, `.prettierignore`, `.gitattributes`, `package.json` (falls nötig) | AP-09 | N1 (M1-Nachsorge) |
 | `src/calc/**`, `src/game/**`, `src/leaderboard/**`, `src/ui/**`, `src/app/**`, `src/main.ts` | AP-10 (`src/contracts/**` nur nach Rückfrage beim Lead) | N2 (M1-Nachsorge) |
+| `README.md`, `LICENSE` (neu) | AP-11 | N3 (M1-Nachsorge) |
 
 ---
 
@@ -389,10 +390,11 @@ Freigegeben vom Nutzer am 2026-10-23 („Prettier-Befund aufräumen lassen und C
 |---|---|
 | N1 | AP-09 Prettier-Aufräumen |
 | N2 | AP-10 Code-Vereinfachung |
+| N3 | AP-11 README GitHub-bereit und Startanleitung (Nutzer am 2026-10-23) |
 
-**Integration:** nach N1 und nach N2 jeweils `npm ci` + alle Checks grün. Ob nach N2 ein kurzer Handtest und ein erneutes `dev` → `stage` → `master` nötig sind, entscheidet der Nutzer (kein eigenes [Mensch]-Paket, da kein neuer Umfang).
+**Integration:** nach N1, N2 und N3 jeweils `npm ci` + alle Checks grün. Ob nach N2 ein kurzer Handtest und ein erneutes `dev` → `stage` → `master` nötig sind, entscheidet der Nutzer (kein eigenes [Mensch]-Paket, da kein neuer Umfang).
 
-**Stand 2026-10-23:** N1 und N2 abgeschlossen (AP-09, AP-10 gemergt, 264/264 Tests, alle Checks grün). M1-Nachsorge abgeschlossen.
+**Stand 2026-10-23:** N1 und N2 abgeschlossen (AP-09, AP-10 gemergt, 264/264 Tests, alle Checks grün). M1-Nachsorge abgeschlossen. Danach am 2026-10-23 vom Nutzer ergänzt: N3 (AP-11, `bereit`); anschließend will der Nutzer `dev` erneut nach `stage` und `master` bringen und das Projekt abschließen.
 
 ---
 
@@ -415,6 +417,7 @@ Status: `offen` · `bereit` · `in Arbeit` · `Review` · `fertig` (gemergt in d
 | M1-DEP | Deployment M1 | M1 | HUM | W5 | AP-08, H-02, H-03 | H | – | Nutzer | fertig |
 | AP-09 | Prettier-Aufräumen | M1-Nachsorge | SH | N1 | M1-DEP | S | sonnet / low | c10 / agent/AP-09-c10 | fertig |
 | AP-10 | Code-Vereinfachung | M1-Nachsorge | CORE/WEB | N2 | AP-09 | M | opus / high | c11 / agent/AP-10-c11 | fertig |
+| AP-11 | README GitHub-bereit und Startanleitung | M1-Nachsorge | SH | N3 | AP-10 | S/M | sonnet / medium | – | bereit |
 
 Stand 2026-10-23: H-02 und H-03 erfolgreich (Nutzer), M1 freigegeben. M1-DEP (H-04) erledigt: `stage` (4e8deaa) und `master` (c6dfe9c) gemergt, Smoke-Tests bestanden. **M1 abgeschlossen, G3 erfüllt.**
 
@@ -440,6 +443,7 @@ flowchart LR
   end
   subgraph NS["M1-Nachsorge"]
     AP09["AP-09 Prettier-Aufräumen (N1)"] --> AP10["AP-10 Code-Vereinfachung (N2)"]
+    AP10 --> AP11["AP-11 README + Lizenz (N3)"]
   end
   M1DEP --> AP09
 ```
@@ -766,6 +770,50 @@ AP-05 und AP-06 hängen nur an AP-01; der Lead darf sie bei freien Plätzen und 
 - **Kürzbar bei Budgetnot:** ja (auf die genannten Reviewer-Befunde und die beiden Duplikate beschränken)
 - **Commit-Typ:** `refactor(AP-10): <what>` je Thema, für neue Tests `test(AP-10): <what>`, für Befund-Fixes `fix(AP-10): <what>`
 
+#### AP-11 – README GitHub-bereit und Startanleitung
+
+- **Meilenstein, Lane, Welle:** M1-Nachsorge · SH · N3
+- **Ziel:** `README.md` auf Deutsch so überarbeiten, dass es auf GitHub verständlich ist und eine Schritt-für-Schritt-Startanleitung enthält; jede Angabe stimmt mit Code und Plan überein. Dazu `LICENSE` (MIT, PE-26). Keine Veröffentlichung, kein Remote (PE-02, PE-24 bleiben unverändert).
+- **Pflichtlektüre:** §1, §2, §3, §5, §6; §18 (2026-10-21 (a), 2026-10-23 AP-09 (a)/(c), AP-10 (a)); `README.md`, `package.json` (Skripte), `src/ui/keyboard.ts`, `src/app/modes.ts`, `src/game/config.ts`, `src/leaderboard/*`, `.gitattributes`, `vite.config.ts`
+- **Abhängigkeiten:** AP-10 (Code und Tastenbelegung stehen fest)
+- **Parallel möglich mit:** – (allein in N3)
+- **Dateien (Eigentum):** `README.md`, `LICENSE` (neu, MIT, PE-26)
+- **Nicht anfassen:** alles andere, insbesondere `src/**`, `package.json` (auch kein `"license"`-Feld, nur als Hinweis im Bericht), `package-lock.json`, `docs/`, `.claude/`, `.gitattributes`, `.prettierrc.json`, `.prettierignore`; keine weiteren neuen Dateien (keine Zusatzdoku, keine Bilder)
+- **Freigegebene Abhängigkeiten:** keine
+- **Umsetzung** (README auf Deutsch, Abschnitte in dieser Reihenfolge):
+  1. **Titel und Kurzbeschreibung:** „π-Rechner“ – Taschenrechner mit LCD-Display und verstecktem Flappy-π-Spiel; rein lokal im Browser, kein Backend, keine externen Ressourcen.
+  2. **Funktionen:** Rechner (Grundrechenarten, Klammern, Postfix-%, ±, Fehleranzeige), Spiel (Start über „🐦“, π flattert per Ziffer), lokale Top-3-Bestenliste (Kürzel aus Ziffern, Punkte, Datum). Nur, was im Code vorhanden ist.
+  3. **Voraussetzungen:** Node 24 mit npm, Git, aktueller Browser.
+  4. **Schnellstart / Startanleitung Schritt für Schritt:**
+     1. Repository klonen (`git clone` mit Platzhalter „REPOSITORY-URL“ und Hinweis, die URL des eigenen Repos einzusetzen; derzeit ist kein Remote eingerichtet) und in den Ordner wechseln.
+     2. `npm ci` (installiert die Abhängigkeiten exakt laut `package-lock.json`).
+     3. `npm run dev` → im Browser `http://localhost:5173` öffnen; beenden mit `Strg+C`.
+     4. Produktionsvariante: `npm run build`, danach `npm run preview` → `http://localhost:4173`.
+     5. **Fehlerhilfe:** Port belegt (Vite weicht automatisch auf den nächsten freien Port aus, die Konsole zeigt die tatsächliche Adresse; `vite.config.ts` setzt nur `host: 'localhost'`, kein `strictPort` – vor dem Schreiben gegenprüfen); falsche Node-Version (`node -v` prüfen, Node 24 installieren); bei Installationsproblemen `node_modules` löschen und `npm ci` wiederholen.
+  5. **Bedienung:** bestehenden Abschnitt übernehmen und **gegen den Code prüfen** (`src/ui/keyboard.ts`, `src/app/modes.ts`): Rechner, Spiel, Kürzeleingabe, Bestenliste; insbesondere `Esc` = „AC“, `Entf` = „C“, `b` = „🐦“, `F9` = „±“, `Backspace` = „⌫“, `Enter`/`=` = „=“, `,`/`.`; 0,8-s-Sperre nach Game Over, höchstens 6 Ziffern im Kürzel, Doppel-AC innerhalb von 2 s. Abweichungen zwischen README und Code **nicht im Code beheben**, sondern README an den Code anpassen und im Bericht melden.
+  6. **Entwicklung:** Skripte aus `package.json` (`dev`, `build`, `preview`, `test`, `lint`, `typecheck`, `format`) mit je einem Satz; Prettier-Prüfung per `npx prettier --check .`; Hinweis, dass `.gitattributes` LF-Zeilenenden erzwingt (`* text=auto eol=lf`) und unter Windows `git add --renormalize .` hilft, falls Dateien nach dem Auschecken als geändert erscheinen.
+  7. **Projektstruktur:** `src/calc` (Rechenkern), `src/game` (Spiellogik, LCD-Renderer, Konfiguration), `src/leaderboard` (Top-3-Speicher und Validierung), `src/ui` (DOM-Ansicht, Tastatur, CSS), `src/app` (Modus-Steuerung, Spielschleife, Speicherwahl), `src/contracts` (gemeinsame Typen/Verträge), `src/main.ts` (Einstieg), `docs/` (Bauplan); je eine Zeile, nur was tatsächlich existiert.
+  8. **Datenschutz und Hinweise:** alle Daten nur im `localStorage` des Browsers (Schlüssel und Inhalt laut `src/leaderboard`), keine Übertragung, keine externen Ressourcen, kein Tracking, keine Cookies; Löschen per zweimal „AC“ in der Bestenliste (oder Browserdaten löschen); ohne `localStorage` gilt die Liste nur bis zum Neuladen.
+  9. **Status und Branches:** M1 abgeschlossen; Branches `dev` (Entwicklung), `stage` (Test), `master` (stabil), lokal gepflegt; kein Hinweis auf eine Veröffentlichung oder einen Live-Stand.
+  10. **Lizenz (PE-26):** neue Datei `LICENSE` mit dem unveränderten Standardtext der MIT-Lizenz und der Zeile „Copyright (c) 2026 CemDogan“ (Name aus der Git-Konfiguration des Nutzers), LF-Zeilenenden. README-Abschnitt „Lizenz“: „MIT – siehe [LICENSE](LICENSE)“. Im Bericht nennen, dass der Nutzer den Namen in `LICENSE` anpassen kann und dass `"license": "MIT"` in `package.json` optional wäre (nicht umsetzen).
+  11. **Badges/Bilder:** nur, wenn ohne externe Dienste (keine Remote-Bilder, keine Shields-URLs, keine Tracker); im Zweifel weglassen. Keine Screenshots erfinden oder verlinken.
+  12. README und `LICENSE` mit dem **Write-Tool** schreiben (Wächter-Hinweis unten), danach `npx prettier --check .` ausführen; meldet Prettier `README.md`, Tabellen von Hand anpassen und erneut prüfen (kein `npm run format`).
+- **Schnittstellen:** keine.
+- **Akzeptanzkriterien:**
+  - README nennt nur Skripte, die in `package.json` stehen, mit korrekten Ports (5173 dev, 4173 preview).
+  - Tastenbelegung im README stimmt mit `src/ui/keyboard.ts` und dem Verhalten in `src/app/modes.ts` überein (im Bericht als Abgleich-Liste).
+  - Keine erfundenen Aussagen, keine externen Bilder/Links mit Tracking.
+  - `LICENSE` enthält den Standardtext der MIT-Lizenz (wörtlich, nur Jahr und Name eingesetzt); README verlinkt `LICENSE`.
+  - `npx prettier --check .` sauber (`LICENSE` wird von Prettier nicht erfasst; falls doch, muss sie sauber sein); `npm run lint`, `npm run typecheck`, `npm test` (264/264), `npm run build` unverändert grün.
+  - Nur `README.md` und `LICENSE` im Diff (`git diff --stat dev` zeigt genau diese zwei Dateien).
+- **Tests:** keine neuen; bestehende 264 unverändert grün.
+- **Review-Schwerpunkte:** sachliche Richtigkeit gegen Code und `package.json`, Datenschutzaussagen korrekt (nur lokal), keine Remote-Ressourcen, MIT-Text unverändert, nur `README.md` und `LICENSE` geändert.
+- **Doku-Pflichten:** die README ist das Ergebnis; Abweichungen zwischen altem README und Code im Bericht melden.
+- **Aufwand:** S/M · **Modell:** sonnet · **Effort:** medium
+- **Kürzbar bei Budgetnot:** ja (Projektstruktur und Fehlerhilfe knapp halten)
+- **Wächter-Hinweise:** Bash-Befehle mit dem Wort „format“ werden geblockt – README und `LICENSE` mit dem Write-Tool schreiben, nicht per Bash; `git add README.md LICENSE` und `git commit` getrennt ausführen; keine spitzen Klammern in Commit-Nachricht oder Trailer (Trailer nur `Agent: coder-cN` mit echter Nummer).
+- **Commit-Typ:** `docs(AP-11): make readme github ready and add start guide`; für die Lizenz optional getrennt `docs(AP-11): add mit license`
+
 ---
 
 ## 13. Menschliche Schritte
@@ -795,6 +843,7 @@ Keine Konten, Käufe oder Secrets nötig. Kein Remote (PE-24).
 | **Gesamt M1** | 8 | **≈ 16,6 h** | **≈ 11 Fenster** |
 | N1 (M1-Nachsorge) | AP-09 (S) | ≈ 0,9 h | ≈ 1 |
 | N2 (M1-Nachsorge) | AP-10 (M, opus) | ≈ 1,9 h | ≈ 1–2 |
+| N3 (M1-Nachsorge) | AP-11 (S/M, sonnet) | ≈ 1,3 h | ≈ 1 |
 
 **Zeit des Nutzers:** Freigabe, Antworten auf Rückfragen, 1–2 Handtests, 1 Deployment mit Smoke-Test ≈ 1–1,5 h.
 
@@ -858,6 +907,7 @@ Keine Konten, Käufe oder Secrets nötig. Kein Remote (PE-24).
 | PE-23 | Team-Budget für dieses Projekt: 30 % des 5-Stunden-Limits (ursprünglich 50 % am 2026-10-21; zurückgesetzt, Wächter steht bewusst auf 30 %) | Erster Durchlauf; Nutzer belässt den Standardwert | Nutzer am 2026-10-22 |
 | PE-24 | Rein lokal, kein Remote, kein Push. Gearbeitet wird nur auf `dev`, bis der Meilenstein fertig ist; danach merged der Nutzer lokal nach `stage` und `master` | Wunsch des Nutzers (Q-09) | Nutzer am 2026-10-21 |
 | PE-25 | Spielablauf AP-08: „🐦“/„C“ beenden ohne Wertung; „%“ pausiert und zeigt Liste, „%“ erneut setzt fort; 800 ms Sperre nach Game Over; Kürzel mit „⌫“/„=“/„C“; in der Liste Ziffer/„=“ = neues Spiel, „C“ = Rechner, Doppel-„AC“ binnen 2 s löscht; 0 Punkte nie in der Liste | Folgt aus PE-10/PE-11; Frage 20a | Nutzer am 2026-10-21 |
+| PE-26 | Lizenz: MIT („Copyright (c) 2026 CemDogan“, Name anpassbar); Datei `LICENSE`, README verlinkt sie; `package.json` bleibt unverändert. Keine Veröffentlichung damit verbunden (PE-02, PE-24 gelten weiter) | „mir egal welche Lizenz, mach open source, die Leute können damit machen was sie wollen“ (über den Lead) | Nutzer am 2026-10-23 |
 
 ### Offene Fragen
 
@@ -900,6 +950,8 @@ Keine Konten, Käufe oder Secrets nötig. Kein Remote (PE-24).
 | R4 Secrets | alle (Review); keine Secrets nötig |
 | R5 Handeln außerhalb der Rolle | alle (Prozess §7.3) |
 | R6 Prompt-Injection / OWASP | AP-01, AP-02, AP-03, AP-07, alle (Review) |
+| README / Startanleitung | AP-01, AP-08, AP-11 |
+| Lizenz (PE-26) | AP-11 |
 
 ---
 
@@ -925,3 +977,4 @@ Keine Konten, Käufe oder Secrets nötig. Kein Remote (PE-24).
 | 2026-10-23 | M1-Nachsorge angelegt (§8, §9.2, §10, §11, §12, §14, §0): AP-09 Prettier-Aufräumen (SH, N1, S, sonnet/low, `bereit`; `prettier --check .` meldet inzwischen 51 Dateien) und AP-10 Code-Vereinfachung (CORE/WEB, N2, M, opus/high, `offen`, hängt an AP-09; bezieht die niedrigen Reviewer-Befunde Timer-Fallback, `setItem`-Zwischenspeicher, NaN-`dt` ein; `eslint.config.js` und `src/contracts/**` nur melden bzw. nach Rückfrage). Keine Änderung an Umfang, Architektur, Verträgen oder bestehenden Paketen | Anweisung des Nutzers („Prettier-Befund aufräumen lassen und Code generell prüfen, ob man Sachen vereinfachen, kürzen, zusammenfassen kann“), Pflegeauftrag Lead | AP-09, AP-10 | Nutzer |
 | 2026-10-23 | N1 fertig: AP-09 (c10, `agent/AP-09-c10`) gemergt, Review Runde 1 bestanden, 253/253 Tests, `npx prettier --check .` sauber; AP-10 `bereit` (N2). Erkenntnisse: (a) Ursache des Prettier-Befunds war CRLF im Arbeitsverzeichnis (Index LF) plus 3 echte Umbruch-Abweichungen; Lösung `.gitattributes` (`* text=auto eol=lf`), `core.autocrlf` unverändert; (b) nach dem Merge zeigte der Hauptcheckout 48 Dateien als geändert (Arbeitsverzeichnis CRLF); der Lead hat mit `npx prettier --write .` und `git add --renormalize .` bereinigt; andere Checkouts/Worktrees können bis zum Neuanlegen noch CRLF haben (AP-10-Worktree frisch von `dev` anlegen); (c) role-guard blockiert Commit-Trailer mit spitzen Klammern sowie Pfade mit dem Wort „format“ | Merge AP-09, Pflegeauftrag Lead | AP-09, AP-10 | Lead |
 | 2026-10-23 | N2 fertig: AP-10 (c11, `agent/AP-10-c11`) gemergt (d05a01e), Review Runde 1 bestanden, 264/264 Tests, lint/typecheck/build/prettier grün; **M1-Nachsorge abgeschlossen** (§0, §9.2, §10). Erkenntnisse: (a) umgesetzt: nicht-endliches `dt` in `engine.ts` wird wie 0 behandelt; Bestenliste behält den Zwischenspeicher bei `setItem`-/`removeItem`-Fehler (Flag `unsaved`, Löschen bleibt in der Anzeige gelöscht); gemeinsame Zeitquelle `nowMs()` in `src/app/gameLoop.ts`; `isDigit`/`trailingNumber()` im Rechenkern zusammengefasst; kleine Vereinfachungen in `render.ts`, `modes.ts`, `keyboard.ts`, `ui.css` (`.key-op` entfernt, optisch identisch); +11 Tests; (b) bewusst nicht umgesetzt: LCD-Farben aus einer Quelle (nur Querverweis-Kommentare), ungenutzte Re-Exporte in `calc/index.ts`, Datumsplausibilität (wäre Verhaltensänderung); (c) offener optionaler Vorschlag, **kein Paket**, nur nach Freigabe des Nutzers (Lane SH): `eslint.config.js` um Browser-Globals ergänzen, damit `no-eval`/`no-implied-eval` auch `setTimeout('str')`/`window.eval` erfassen; (d) Hinweis für den Nutzer: `dev` ist jetzt neuer als `stage`/`master` (Zeilenenden/Prettier, Fixes, Vereinfachung); erneutes `dev` → `stage` → `master` mit kurzem Smoke-Test optional, empfohlen vor jeder Nutzung von `master`; (e) Maschine zeitweise sehr langsam (Testlauf ca. 70 s), ein Lauf meldete unter Last einmal „no tests“, Wiederholung 264/264 grün | Merge AP-10, Pflegeauftrag Lead | AP-10 | Lead |
+| 2026-10-23 | N3 angelegt (§0, §8, §9.2, §10, §11, §12, §14, §16, §17): AP-11 README GitHub-bereit und Startanleitung (SH, N3, S/M, sonnet/medium, hängt an AP-10, `bereit`); Eigentum `README.md` und neue `LICENSE`. Lizenzentscheidung PE-26: MIT, „Copyright (c) 2026 CemDogan“ (Name aus der Git-Konfiguration, anpassbar), README verlinkt `LICENSE`, `package.json` unverändert. Keine Änderung an Umfang, Architektur, Verträgen oder Code; PE-02/PE-24 (nur lokal, kein Remote) gelten weiter. Danach will der Nutzer `dev` → `stage` → `master` erneut lokal mergen und das Projekt abschließen | Anweisung des Nutzers („schreib noch eine Anleitung zum Start und mach das README GitHub-bereit, dann dev erneut nach stage und master mergen und das Projekt abschließen“; Lizenz: „mir egal welche Lizenz, mach open source, die Leute können damit machen was sie wollen“), Pflegeauftrag Lead | AP-11 | Nutzer |
