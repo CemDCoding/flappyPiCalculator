@@ -115,6 +115,16 @@ describe('gameEngine', () => {
     expect(a).toEqual(b);
   });
 
+  it.each([NaN, Infinity, -Infinity, -16])('treats invalid dt %s like 0', (dt) => {
+    const s0 = running({ birdVy: 20, pipes: [{ x: 60, gapY: 10, passed: false }] });
+    const a = e.step(s0, dt, false, C, rng);
+    const b = e.step(s0, 0, false, C, rng);
+    expect(a).toEqual(b);
+    expect(a.birdY).toBe(s0.birdY);
+    expect(a.birdVy).toBe(20);
+    expect(a.pipes[0]!.x).toBe(60);
+  });
+
   it('is deterministic for a fixed rng', () => {
     const run = () => {
       let s = e.create(C);
