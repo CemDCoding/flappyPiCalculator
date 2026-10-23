@@ -52,16 +52,34 @@ describe('renderGame', () => {
 
   it('uses integer coordinates for pipes', () => {
     const { ctx, calls } = mockCtx();
-    renderGame(ctx, state({ pipes: [{ x: 60.4, gapY: 10.6, passed: false }] }), DEFAULT_GAME_CONFIG);
+    renderGame(
+      ctx,
+      state({ pipes: [{ x: 60.4, gapY: 10.6, passed: false }] }),
+      DEFAULT_GAME_CONFIG,
+    );
     for (const c of calls.filter((k) => k.name === 'fillRect')) {
       expect(c.args.every((a) => Number.isInteger(a))).toBe(true);
     }
   });
 
+  it('places pipe rects above and below the gap down to the ground', () => {
+    const { ctx, calls } = mockCtx();
+    const C = DEFAULT_GAME_CONFIG;
+    renderGame(ctx, state({ pipes: [{ x: 60.4, gapY: 10.6, passed: false }] }), C);
+    const rects = calls.filter((c) => c.name === 'fillRect').map((c) => c.args);
+    const groundTop = C.height - C.groundHeight;
+    const gapBottom = Math.round(10.6 + C.pipeGap);
+    expect(rects[0]).toEqual([0, 0, C.width, C.height]);
+    expect(rects[1]).toEqual([60, 0, C.pipeWidth, 11]);
+    expect(rects[2]).toEqual([60, gapBottom, C.pipeWidth, groundTop - gapBottom]);
+  });
+
   it('shows hint when ready and GAME OVER when over', () => {
     const r = mockCtx();
     renderGame(r.ctx, state({ status: 'ready' }), DEFAULT_GAME_CONFIG);
-    expect(r.calls.some((c) => c.name === 'fillText' && String(c.args[0]).includes('0-9'))).toBe(true);
+    expect(r.calls.some((c) => c.name === 'fillText' && String(c.args[0]).includes('0-9'))).toBe(
+      true,
+    );
     const o = mockCtx();
     renderGame(o.ctx, state({ status: 'over' }), DEFAULT_GAME_CONFIG);
     expect(o.calls.some((c) => c.name === 'fillText' && c.args[0] === 'GAME OVER')).toBe(true);

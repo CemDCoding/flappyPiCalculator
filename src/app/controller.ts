@@ -6,7 +6,7 @@ import type { CalculatorView } from '../contracts/ui';
 import { DEFAULT_GAME_CONFIG, gameEngine } from '../game';
 import { renderGame } from '../game/render';
 import { createLeaderboard, formatEntry } from '../leaderboard';
-import { createGameLoop, defaultScheduler } from './gameLoop';
+import { createGameLoop, defaultScheduler, nowMs } from './gameLoop';
 import { createMemoryStorage } from './memoryStorage';
 import {
   acHintLines,
@@ -38,10 +38,6 @@ export interface App {
   destroy(): void;
 }
 
-function defaultNow(): number {
-  return typeof performance !== 'undefined' ? performance.now() : Date.now();
-}
-
 /** Wires keys, calculator, game, leaderboard and display. Dependencies are injected. */
 export function createApp(deps: AppDeps): App {
   const { view, calc } = deps;
@@ -49,7 +45,7 @@ export function createApp(deps: AppDeps): App {
   const engine = deps.game ?? gameEngine;
   const config = deps.gameConfig ?? DEFAULT_GAME_CONFIG;
   const draw = deps.render ?? renderGame;
-  const now = deps.now ?? defaultNow;
+  const now = deps.now ?? nowMs;
   const rng = deps.rng ?? Math.random;
   const display = view.display;
 

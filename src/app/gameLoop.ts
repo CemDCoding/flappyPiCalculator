@@ -36,6 +36,11 @@ export function createGameLoop(scheduler: Scheduler, onFrame: (timeMs: number) =
   };
 }
 
+/** Current time in ms on the same timeline as requestAnimationFrame timestamps. */
+export function nowMs(): number {
+  return typeof performance !== 'undefined' ? performance.now() : Date.now();
+}
+
 /** Browser scheduler (requestAnimationFrame), fallback to timers outside the browser. */
 export function defaultScheduler(): Scheduler {
   const g = globalThis as Partial<typeof globalThis>;
@@ -48,7 +53,7 @@ export function defaultScheduler(): Scheduler {
     };
   }
   return {
-    request: (cb) => Number(setTimeout(() => cb(Date.now()), 16)),
+    request: (cb) => Number(setTimeout(() => cb(nowMs()), 16)),
     cancel: (id) => clearTimeout(id),
   };
 }

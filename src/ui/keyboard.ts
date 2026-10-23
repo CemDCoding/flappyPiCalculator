@@ -26,7 +26,8 @@ const SPECIAL: Record<string, Key> = {
   B: 'BIRD',
 };
 
-const DIRECT = new Set<string>(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '+', '-', '*', '/', '(', ')', '%']);
+/** Single characters that map to the Key of the same name. */
+const DIRECT = new Set<string>('0123456789.+-*/()%');
 
 /** Maps a KeyboardEvent.key value to a calculator Key, or null if unmapped. */
 export function mapKeyboardKey(eventKey: string): Key | null {
