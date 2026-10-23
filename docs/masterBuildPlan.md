@@ -67,7 +67,7 @@ Status: `leer` · `in Klärung` · `fertig` · `angenommen` (fertig, aber mit un
 | 17 | Abdeckungsmatrix | fertig | – | G2 |
 | 18 | Änderungsprotokoll | laufend | – | laufend |
 
-**Gate-Stand:** G1 **erfüllt** (2026-10-21). G2(M1) **erfüllt aus Plannersicht** (Prüfung durch den Lead): alle Pakete vollständig, Schnitt vom Nutzer bestätigt (PE-21); Spielablauf in AP-08 bestätigt (PE-25). Keine offenen Annahmen. Interview am 2026-10-21 mit „stop“ beendet.
+**Gate-Stand:** G1 **erfüllt** (2026-10-21). G2(M1) **erfüllt aus Plannersicht** (Prüfung durch den Lead): alle Pakete vollständig, Schnitt vom Nutzer bestätigt (PE-21); Spielablauf in AP-08 bestätigt (PE-25). Keine offenen Annahmen. Interview am 2026-10-21 mit „stop“ beendet. **M1 abgeschlossen (2026-10-23).** G3 **erfüllt** (2026-10-23, Nutzer): `dev` → `stage` (4e8deaa) → `master` (c6dfe9c) lokal gemergt, beide Smoke-Tests bestanden. Plan eingefroren; optionale Folgepunkte siehe §18 (2026-10-23).
 
 | Gate | Bedingung | Wer prüft | Folge |
 |---|---|---|---|
@@ -356,7 +356,7 @@ Bei Budgetengpass startet der Lead zuerst den kritischen Pfad (AP-02 in W2, AP-0
 - nach W3: `npm ci` + alle Checks grün; kein Handtest (H-02 ist ans Meilensteinende verlegt). Erfüllt am 2026-10-22 (195/195 Tests, Checks grün); Rechner-Booten im Browser noch unbelegt, prüft H-02.
 - nach W4: Handtest Rechner (H-02) und vollständiger Handtest (H-03) gemeinsam im Dev-Checkout inkl. Spielbarkeit. Checks erfüllt am 2026-10-22 (253/253 Tests, Checks grün); Handtest offen (erster echter Bootnachweis im Browser). Handtests H-02 und H-03 am 2026-10-23 vom Nutzer erfolgreich durchgeführt, M1 freigegeben.
 
-**Stand 2026-10-23:** M1 ist bis auf M1-DEP (H-04, Nutzer) abgeschlossen. G3 wird nach den Smoke-Tests auf `stage` und `master` bestätigt.
+**Stand 2026-10-23:** M1 **abgeschlossen**. M1-DEP (H-04) vom Nutzer erledigt: `dev` → `stage` (4e8deaa) → `master` (c6dfe9c), Smoke-Tests auf `stage` und `master` bestanden, G3 erfüllt.
 
 ##### M1-DEP – Deployment [Mensch]
 
@@ -397,9 +397,9 @@ Status: `offen` · `bereit` · `in Arbeit` · `Review` · `fertig` (gemergt in d
 | AP-05 | Spiellogik | M1 | CORE | W2 (vorgezogen aus W3) | AP-01 | M | sonnet / high | c5 / agent/AP-05-c5 | fertig |
 | AP-06 | LCD-Renderer | M1 | CORE | W3 | AP-01 | M | sonnet / medium | c8 / agent/AP-06-c8 | fertig |
 | AP-08 | App-Steuerung Spiel und Bestenliste | M1 | WEB | W4 | AP-04, AP-05, AP-06, AP-07 | L | opus / high | c9 / agent/AP-08-c9 | fertig |
-| M1-DEP | Deployment M1 | M1 | HUM | W5 | AP-08, H-02, H-03 | H | – | Nutzer | bereit |
+| M1-DEP | Deployment M1 | M1 | HUM | W5 | AP-08, H-02, H-03 | H | – | Nutzer | fertig |
 
-Stand 2026-10-23: H-02 und H-03 erfolgreich (Nutzer), M1 freigegeben. M1 ist bis auf M1-DEP (H-04, Nutzer) abgeschlossen; G3 wird nach den Smoke-Tests auf `stage`/`master` bestätigt.
+Stand 2026-10-23: H-02 und H-03 erfolgreich (Nutzer), M1 freigegeben. M1-DEP (H-04) erledigt: `stage` (4e8deaa) und `master` (c6dfe9c) gemergt, Smoke-Tests bestanden. **M1 abgeschlossen, G3 erfüllt.**
 
 ---
 
@@ -679,7 +679,7 @@ AP-05 und AP-06 hängen nur an AP-01; der Lead darf sie bei freien Plätzen und 
 | H-01 | M1 freigeben (beim Lead) | sofort | AP-01 | ☐ |
 | H-02 | Handtest Rechner im Dev-Checkout (Rechner-Punkte des Smoke-Tests) – zusammen mit H-03 am Meilensteinende | nach AP-08 (mit H-03) | M1-DEP | ☑ 2026-10-23 (alle Punkte erfolgreich, Nutzer) |
 | H-03 | Vollständiger Handtest im Dev-Checkout inkl. Spielbarkeit (Schwierigkeit ok?) | nach AP-08 | M1-DEP | ☑ 2026-10-23 (alle Punkte erfolgreich, Nutzer) |
-| H-04 | M1-DEP: `dev` → `stage` → `master` lokal mergen, Smoke-Tests, G3 bestätigen | nach H-03 | – | ☐ |
+| H-04 | M1-DEP: `dev` → `stage` → `master` lokal mergen, Smoke-Tests, G3 bestätigen | nach H-03 | – | ☑ 2026-10-23 (stage 4e8deaa, master c6dfe9c, beide Smoke-Tests bestanden, G3 bestätigt, Nutzer) |
 | H-05 | ~~Budget-Grenze des Wächters für dieses Projekt auf 50 % stellen~~ – entfallen: Plan auf 30 % angepasst, Wächter steht bewusst auf 30 % (PE-23, Nutzer am 2026-10-22) | – | – | entfallen |
 
 Keine Konten, Käufe oder Secrets nötig. Kein Remote (PE-24).
@@ -823,3 +823,4 @@ Keine Konten, Käufe oder Secrets nötig. Kein Remote (PE-24).
 | 2026-10-22 | Team-Budgetgrenze von 50 % auf 30 % gesetzt (§0, §7.2, §14, PE-23); §14-Rechnung auf 1,5 Agent-Stunden pro Fenster umgestellt (≈ 11 statt 7–8 Fenster, keine Kürzungen); H-05 entfallen, Vorschlag zur Wächter-Konfiguration aus §16 entfernt (Wächter steht bewusst auf 30 %) | Wunsch des Nutzers („Plan auf 30 % anpassen“), Pflegeauftrag Lead | AP-08, H-05 | Nutzer |
 | 2026-10-22 | W4 fertig: AP-08 (c9, opus) gemergt, Review Runde 1 bestanden, 253/253 Tests, alle Checks grün; alle Wellen W1–W4 abgeschlossen, offen nur H-02/H-03 (Handtest) und M1-DEP (Nutzer). Smoke-Test §9.2 um die Tastenzuordnung ergänzt (`Esc` = „AC“, `Entf` = „C“, `F9` = „±“, `b` = „🐦“, laut `src/ui/keyboard.ts`, README stimmt). Erkenntnisse: (a) AP-08: `src/app/modes.ts` ist eine reine Funktion `transition(state, event)`, die Effekte zurückgibt; der Controller führt die Effekte aus. Neue optionale `AppDeps` (leaderboard, game, gameConfig, render, scheduler, now, rng); `pickStorage` mit `memoryStorage.ts` als Fallback (RI-8); (b) Reviewer-Befunde niedrig, akzeptiert: Timer-Fallback im Scheduler nutzt `Date.now()` statt `performance.now()` (nur ohne rAF relevant); die 800-ms-Sperre nach Game Over blockiert auch „C“/„🐦“/„%“ (so geplant, PE-25); (c) `prettier --check .` meldet 42 nicht angefasste Dateien (kein Plan-Check, vermutlich gemischte Zeilenenden CRLF/LF) – nicht blockierend, optionales Folge-Paket (z. B. `.gitattributes`/`.prettierrc` `endOfLine` + einmal formatieren), nur nach Freigabe des Nutzers; (d) kein Coder konnte die App im Browser starten – H-02/H-03 sind der erste echte Bootnachweis | Merge W4, Pflegeauftrag Lead | AP-08, H-02, H-03, M1-DEP | Lead |
 | 2026-10-23 | Handtests H-02 und H-03 erfolgreich (alle Punkte), §13 abgehakt; M1 freigegeben, bis auf M1-DEP (H-04) abgeschlossen; M1-DEP in §10 auf `bereit`; G3 wird nach den Smoke-Tests auf `stage`/`master` bestätigt | Mitteilung des Nutzers, Pflegeauftrag Lead | H-02, H-03, M1-DEP | Nutzer |
+| 2026-10-23 | M1-DEP (H-04) erledigt: `dev` → `stage` (4e8deaa) → `master` (c6dfe9c) lokal gemergt, beide Smoke-Tests bestanden (Lead hat Branch-Stände und leeren Diff dev↔stage↔master geprüft); M1-DEP `fertig`, **M1 abgeschlossen, G3 erfüllt**, Plan eingefroren (§0, §9.2, §10, §13). Optionale Folgepunkte, **keine Pakete**, nur nach Freigabe des Nutzers: (a) Prettier-Befund: `prettier --check .` meldet 42 Dateien (vermutlich CRLF/LF, siehe 2026-10-22 W4 (c)); (b) Timer-Fallback im Scheduler `Date.now()` statt `performance.now()`; (c) Reviewer-Befunde niedrig aus W1–W4, u. a. `no-eval`/`no-implied-eval` ohne Browser-Globals in `eslint.config.js`, Zwischenspeicher der Bestenliste geht bei `setItem`-Fehler verloren, Datum nur formgeprüft, fehlende Gleichstand-Tests, NaN-`dt` in der Spiellogik, kein Positionstest Röhrengeometrie | Mitteilung des Nutzers, Pflegeauftrag Lead | M1-DEP, H-04 | Nutzer |
