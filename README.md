@@ -19,7 +19,7 @@ Taschenrechner mit LCD-Display und verstecktem Flappy-π-Spiel. Das Programm lä
 1. Repository klonen und in den Ordner wechseln. Setze anstelle von `REPOSITORY-URL` die URL deines eigenen Repositorys ein (derzeit ist kein Remote eingerichtet):
 
    ```
-   git clone REPOSITORY-URL
+   git clone [REPOSITORY-URL](https://github.com/CemDCoding/flappyPiCalculator)
    cd mAtaschenRechnerFlappybird
    ```
 
