@@ -7,7 +7,7 @@ Grundlage der Regeln: MultiAgent/entscheidungen.md
 
 # Master-Build-Plan mAtaschenRechnerFlappybird
 
-**Stand:** 2026-10-22 · **Planversion:** 1.1 · **Gepflegt von:** ma-planner · **Gesteuert von:** ma-lead · **Nutzer:** Cem Dogan
+**Stand:** 2026-10-23 · **Planversion:** 1.2 · **Gepflegt von:** ma-planner · **Gesteuert von:** ma-lead · **Nutzer:** Cem Dogan
 
 Ein Taschenrechner als lokale Web-App (TypeScript + Vite, `localhost`) mit eingebautem Flappy-Bird-Spiel: Das Spiel läuft im LCD-Display des Rechners, der Vogel ist ein π, gesteuert wird nur über Rechnertasten. Eine lokale Top-3-Bestenliste (Ziffern-Kürzel, Punkte, Datum) liegt im `localStorage`.
 Für den Nutzer selbst, privat, ohne Veröffentlichung.
@@ -67,7 +67,7 @@ Status: `leer` · `in Klärung` · `fertig` · `angenommen` (fertig, aber mit un
 | 17 | Abdeckungsmatrix | fertig | – | G2 |
 | 18 | Änderungsprotokoll | laufend | – | laufend |
 
-**Gate-Stand:** G1 **erfüllt** (2026-10-21). G2(M1) **erfüllt aus Plannersicht** (Prüfung durch den Lead): alle Pakete vollständig, Schnitt vom Nutzer bestätigt (PE-21); Spielablauf in AP-08 bestätigt (PE-25). Keine offenen Annahmen. Interview am 2026-10-21 mit „stop“ beendet. **M1 abgeschlossen (2026-10-23).** G3 **erfüllt** (2026-10-23, Nutzer): `dev` → `stage` (4e8deaa) → `master` (c6dfe9c) lokal gemergt, beide Smoke-Tests bestanden. Plan eingefroren; optionale Folgepunkte siehe §18 (2026-10-23).
+**Gate-Stand:** G1 **erfüllt** (2026-10-21). G2(M1) **erfüllt aus Plannersicht** (Prüfung durch den Lead): alle Pakete vollständig, Schnitt vom Nutzer bestätigt (PE-21); Spielablauf in AP-08 bestätigt (PE-25). Keine offenen Annahmen. Interview am 2026-10-21 mit „stop“ beendet. **M1 abgeschlossen (2026-10-23).** G3 **erfüllt** (2026-10-23, Nutzer): `dev` → `stage` (4e8deaa) → `master` (c6dfe9c) lokal gemergt, beide Smoke-Tests bestanden. Plan eingefroren; optionale Folgepunkte siehe §18 (2026-10-23). **M1-Nachsorge** (AP-09, AP-10, §9.2) am 2026-10-23 vom Nutzer freigegeben; kein neuer Umfang, G3 bleibt erfüllt.
 
 | Gate | Bedingung | Wer prüft | Folge |
 |---|---|---|---|
@@ -315,6 +315,8 @@ flowchart TD
 | `src/main.ts` | AP-01 (Platzhalter) → AP-04 → AP-08 | W1 → W3 → W4 |
 | `src/app/controller.ts` | AP-04 → AP-08 | W3 → W4 |
 | `README.md` | AP-01 → AP-08 (Abschnitt „Bedienung“) | W1 → W4 |
+| Alle von Prettier erfassten Dateien (nur Formatierung), `.prettierrc.json`, `.prettierignore`, `.gitattributes`, `package.json` (falls nötig) | AP-09 | N1 (M1-Nachsorge) |
+| `src/calc/**`, `src/game/**`, `src/leaderboard/**`, `src/ui/**`, `src/app/**`, `src/main.ts` | AP-10 (`src/contracts/**` nur nach Rückfrage beim Lead) | N2 (M1-Nachsorge) |
 
 ---
 
@@ -379,6 +381,17 @@ Erst wenn M1 vollständig auf `dev` fertig ist (PE-24):
   - [ ] Bei angezeigter Liste zweimal „AC“ → Liste leer; „AC“ im Rechnermodus löscht keine Liste
   - [ ] Alle Abnahmekriterien §1 erfüllt → G3
 
+#### M1-Nachsorge – Aufräumen und Vereinfachen
+
+Freigegeben vom Nutzer am 2026-10-23 („Prettier-Befund aufräumen lassen und Code generell prüfen, ob man Sachen vereinfachen, kürzen, zusammenfassen kann“). Kein neuer Funktionsumfang, Verhalten und Verträge bleiben unverändert.
+
+| Welle | Pakete |
+|---|---|
+| N1 | AP-09 Prettier-Aufräumen |
+| N2 | AP-10 Code-Vereinfachung |
+
+**Integration:** nach N1 und nach N2 jeweils `npm ci` + alle Checks grün. Ob nach N2 ein kurzer Handtest und ein erneutes `dev` → `stage` → `master` nötig sind, entscheidet der Nutzer (kein eigenes [Mensch]-Paket, da kein neuer Umfang).
+
 ---
 
 ## 10. Statusübersicht
@@ -398,6 +411,8 @@ Status: `offen` · `bereit` · `in Arbeit` · `Review` · `fertig` (gemergt in d
 | AP-06 | LCD-Renderer | M1 | CORE | W3 | AP-01 | M | sonnet / medium | c8 / agent/AP-06-c8 | fertig |
 | AP-08 | App-Steuerung Spiel und Bestenliste | M1 | WEB | W4 | AP-04, AP-05, AP-06, AP-07 | L | opus / high | c9 / agent/AP-08-c9 | fertig |
 | M1-DEP | Deployment M1 | M1 | HUM | W5 | AP-08, H-02, H-03 | H | – | Nutzer | fertig |
+| AP-09 | Prettier-Aufräumen | M1-Nachsorge | SH | N1 | M1-DEP | S | sonnet / low | – | bereit |
+| AP-10 | Code-Vereinfachung | M1-Nachsorge | CORE/WEB | N2 | AP-09 | M | opus / high | – | offen |
 
 Stand 2026-10-23: H-02 und H-03 erfolgreich (Nutzer), M1 freigegeben. M1-DEP (H-04) erledigt: `stage` (4e8deaa) und `master` (c6dfe9c) gemergt, Smoke-Tests bestanden. **M1 abgeschlossen, G3 erfüllt.**
 
@@ -421,6 +436,10 @@ flowchart LR
     AP07 --> AP08
     AP08 --> M1DEP["M1-DEP [Mensch] (W5)"]
   end
+  subgraph NS["M1-Nachsorge"]
+    AP09["AP-09 Prettier-Aufräumen (N1)"] --> AP10["AP-10 Code-Vereinfachung (N2)"]
+  end
+  M1DEP --> AP09
 ```
 
 **Kritischer Pfad:** AP-01 → AP-02 → AP-04 → AP-08 → M1-DEP (≈ 8 h Agent-Zeit + Reviews).
@@ -670,6 +689,81 @@ AP-05 und AP-06 hängen nur an AP-01; der Lead darf sie bei freien Plätzen und 
 - **Kürzbar bei Budgetnot:** nein; Pause-Fortsetzen bei `%` kürzbar (K3: `%` beendet stattdessen das Spiel)
 - **Commit-Typ:** `feat(AP-08): add game and leaderboard modes`
 
+#### AP-09 – Prettier-Aufräumen
+
+- **Meilenstein, Lane, Welle:** M1-Nachsorge · SH · N1
+- **Ziel:** `npx prettier --check .` ist sauber (aktuell 51 Dateien gemeldet, vermutlich CRLF/LF unter Windows), ohne inhaltliche Code-Änderung.
+- **Pflichtlektüre:** §3, §8; §18 (2026-10-21 Erkenntnis (a), 2026-10-22 W4 (c)); `.prettierrc.json`, `.prettierignore`, `package.json`
+- **Abhängigkeiten:** M1-DEP (M1 abgeschlossen)
+- **Parallel möglich mit:** – (allein in N1, weil `prettier --write .` fast alle Dateien berührt)
+- **Dateien (Eigentum):** `.prettierrc.json`, `.prettierignore`, `.gitattributes` (neu, falls gewählt), `package.json` (nur falls nötig); dazu **nur Formatierungsänderungen** an allen Dateien, die Prettier erfasst (alles außer `docs/`, `.claude/`, `package-lock.json`, `node_modules/`, `dist/`, `coverage/`)
+- **Nicht anfassen:** `docs/`, `.claude/`, `package-lock.json`, `.env*`, `.git/` (inkl. `.git/config`, keine `git config`-Änderung); keine inhaltlichen Änderungen an Code, Tests oder README
+- **Freigegebene Abhängigkeiten:** keine (kein Install; `prettier` ist bereits devDependency)
+- **Umsetzung:**
+  1. **Ursache klären** (nur lesend): `npx prettier --check .` (Liste sichern), `git ls-files --eol` (zeigt Zeilenenden im Index und im Arbeitsverzeichnis). Prüfen, ob die Meldungen nur Zeilenenden betreffen oder auch echte Abweichungen (z. B. per Stichprobe `npx prettier --end-of-line auto --check .`).
+  2. **Lösung wählen und im Bericht begründen:**
+     - Variante A (kleinste Änderung): in `.prettierrc.json` `"endOfLine": "auto"` ergänzen.
+     - Variante B (dauerhaft einheitlich): neue `.gitattributes` mit `* text=auto eol=lf` (ggf. Ausnahmen für Binärdateien), Prettier-Standard `lf` bleibt.
+     - Kein Eingriff in die Git-Konfiguration (`core.autocrlf`) – das wäre Sache des Nutzers.
+  3. `.prettierignore` prüfen: `docs`, `.claude`, `package-lock.json`, `node_modules`, `dist`, `coverage` müssen drin sein (sind es bereits); nur ergänzen, falls Prettier weitere Build-/Fremddateien erfasst.
+  4. Einmal `npx prettier --write .` ausführen. **Wächter-Hinweis:** Bash-Befehle, die das Wort „format“ enthalten, blockiert der role-guard – daher nicht `npm run format` nutzen, sondern `npx prettier --write .`; beim Stagen nicht einzelne Pfade wie `src/calc/format.ts` nennen, sondern `git add -A` (danach `git status` prüfen: nichts aus `docs/`, `.claude/`, `package-lock.json`). Bei Variante B vorher bzw. danach `git add --renormalize .`, damit der Index LF enthält.
+  5. Optional: Script `format:check` (`prettier --check .`) nur, wenn `package.json` ohnehin geändert wird – Änderung dann per Edit-Tool, nicht per Bash.
+  6. Plausibilität: `git diff -w --ignore-cr-at-eol --stat` (bzw. vor dem Commit mit `--cached`) zeigt nur Formatierung (Leerraum, Kommas, Umbrüche); bei unerwarteten inhaltlichen Diffs stoppen und dem Lead melden.
+- **Schnittstellen:** keine (reine Formatierung).
+- **Akzeptanzkriterien:**
+  - `npx prettier --check .` meldet keine Datei.
+  - `npm run lint`, `npm run typecheck`, `npm test` (253/253), `npm run build` grün.
+  - Kein inhaltlicher Code-Diff außer Formatierung (per `git diff -w --ignore-cr-at-eol --stat` plausibel, im Bericht genannt).
+  - Keine neuen Abhängigkeiten, `package-lock.json` unverändert.
+- **Tests:** keine neuen; bestehende 253 müssen unverändert grün sein.
+- **Review-Schwerpunkte:** nur Formatierung im Diff, keine Steuerdateien, kein `git config`, Lockfile unverändert, gewählte Variante begründet.
+- **Doku-Pflichten:** keine; im Bericht Ursache und gewählte Variante (A/B) nennen. Falls der Nutzer `core.autocrlf` anpassen sollte, als Hinweis an den Lead melden.
+- **Aufwand:** S · **Modell:** sonnet · **Effort:** low (haiku reicht wegen der Wächter-Eigenheiten nicht)
+- **Kürzbar bei Budgetnot:** ja (ganz, rein kosmetisch)
+- **Commit-Typ:** `chore(AP-09): normalize line endings and apply prettier` (das Wort „format“ in der Commit-Nachricht vermeiden, Wächter)
+
+#### AP-10 – Code-Vereinfachung
+
+- **Meilenstein, Lane, Welle:** M1-Nachsorge · CORE/WEB (übergreifend) · N2
+- **Ziel:** Quellcode unter `src/` vereinfachen, kürzen und Duplikate zusammenfassen, ohne Verhalten oder öffentliche Verträge zu ändern; nur risikoarme Änderungen.
+- **Pflichtlektüre:** §4, §5, §8; §18 (Reviewer-Befunde W1–W4, insbesondere 2026-10-21 (c), 2026-10-21 W2 (d)/(e), 2026-10-22 W3 (b), W4 (b), 2026-10-23); `src/contracts/*`
+- **Abhängigkeiten:** AP-09 (Code ist dann einheitlich formatiert, Diffs bleiben lesbar)
+- **Parallel möglich mit:** – (allein in N2)
+- **Dateien (Eigentum):** `src/calc/**`, `src/game/**`, `src/leaderboard/**`, `src/ui/**`, `src/app/**`, `src/main.ts`; `src/contracts/**` **nur nach Rückfrage beim Lead** (ohne Freigabe nur lesen und Befunde melden)
+- **Nicht anfassen:** `src/contracts/**` (ohne Freigabe), `src/styles/base.css`, `src/vite-env.d.ts`, `eslint.config.js`, `package.json`, `package-lock.json`, `tsconfig.json`, `vite.config.ts`, `index.html`, `README.md`, `docs/`, `.claude/`
+- **Freigegebene Abhängigkeiten:** keine
+- **Umsetzung:**
+  1. **Bestandsaufnahme:** gesamten Code unter `src/` lesen und eine Liste möglicher Vereinfachungen anlegen: Duplikate, tote/ungenutzte Exporte (auch in `src/contracts/**` – dort nur melden), überflüssige Abstraktionen oder Zwischenschichten, doppelte Konstanten, unnötig komplizierte Bedingungen, überflüssige Kommentare.
+  2. **Bekannte Kandidaten prüfen:**
+     - LCD-Farben doppelt in `src/game/render.ts` (`LCD_BACKGROUND`/`LCD_INK`) und `src/ui/ui.css`: zusammenführen nur, wenn risikoarm (z. B. eine TS-Konstante als einzige Quelle, CSS-Variable bleibt sichtbar gleich); sonst einen Querverweis-Kommentar an beiden Stellen und begründen.
+     - Scheduler-Timer-Fallback (`src/app/`): `performance.now()` statt `Date.now()`, wenn verfügbar (gleiche Zeitbasis wie rAF).
+  3. **Niedrige Reviewer-Befunde einbeziehen, falls einfach:**
+     - `src/leaderboard/store.ts`: Zwischenspeicher im Speicher behalten, wenn nur `setItem` fehlschlägt (Test mit werfendem `setItem`, nachfolgendes `load()` liefert den neuen Eintrag).
+     - `src/game/engine.ts`: NaN-/nicht-endliches/negatives `dtMs` abfangen (z. B. wie 0 behandeln), mit Tests.
+     - Optional, falls einfach: Gleichstand-Tests in der Bestenliste, Positionstest Röhrengeometrie in `render.test.ts`.
+     - `eslint.config.js` (Browser-Globals für `no-eval`/`no-implied-eval`): **nicht im Eigentum** – nur als Vorschlag im Bericht melden (Folge-Paket Lane SH).
+  4. **Nur risikoarme Änderungen umsetzen.** Harte Regeln:
+     - Verhalten und öffentliche Verträge (`src/contracts/**`, Exporte, die andere Bausteine nutzen) unverändert.
+     - Bestehende Tests nur anpassen, wenn sie interne Details prüfen (dann im Bericht pro Test begründen); nie abschwächen (keine entfernten Assertions, keine gelockerten Erwartungen).
+     - Test-Anzahl sinkt nicht ohne Begründung (Ausgangswert 253).
+     - Keine neuen Abhängigkeiten.
+     - Kleine, thematisch getrennte Commits (je Baustein oder Thema), damit der Reviewer einzelne Schritte prüfen kann.
+  5. **Bericht** mit zwei Listen: „umgesetzt“ (Datei, Änderung, Nutzen) und „bewusst nicht umgesetzt“ (Kandidat, Grund: Risiko/Nutzen), dazu Meldungen zu `src/contracts/**` und `eslint.config.js` sowie Testzahl vorher/nachher.
+  6. **Wächter-Hinweis:** Bash-Befehle mit dem Wort „format“ (auch Pfade wie `src/calc/format.ts`, `src/leaderboard/format.ts`) blockiert der role-guard – stagen mit `git add -A` bzw. `git add src/calc` (Ordner), Commit-Nachrichten ohne dieses Wort.
+- **Schnittstellen:** unverändert; nutzt und implementiert dieselben Verträge wie AP-02 bis AP-08.
+- **Akzeptanzkriterien:**
+  - `npm run lint`, `npm run typecheck`, `npm test`, `npm run build` grün; `npx prettier --check .` bleibt sauber.
+  - Test-Anzahl ≥ 253 (neue Tests für NaN-`dt`/Zwischenspeicher zählen dazu) oder Abweichung begründet.
+  - Kein Test abgeschwächt; angepasste Tests einzeln begründet.
+  - Öffentliche Verträge und Verhalten unverändert; Handtest-Regressionen sind durch die unveränderten Tests ausgeschlossen.
+  - Bericht mit „umgesetzt“ / „bewusst nicht umgesetzt“ liegt vor.
+- **Tests:** bestehende Testdateien bleiben; neue Tests in `src/game/engine.test.ts` (NaN-`dt`) und `src/leaderboard/store.test.ts` (`setItem`-Fehler), optional Gleichstand und Röhrengeometrie.
+- **Review-Schwerpunkte:** Verhaltensgleichheit (Diff gegen Tests lesen), keine abgeschwächten Tests, Verträge unverändert, §5-Regeln weiter eingehalten (kein `eval`, kein `innerHTML`, Validierung), kein Eingriff außerhalb des Eigentums.
+- **Doku-Pflichten:** keine (README unverändert; ändert sich dort etwas, nur melden).
+- **Aufwand:** M · **Modell:** opus · **Effort:** high
+- **Kürzbar bei Budgetnot:** ja (auf die genannten Reviewer-Befunde und die beiden Duplikate beschränken)
+- **Commit-Typ:** `refactor(AP-10): <what>` je Thema, für neue Tests `test(AP-10): <what>`, für Befund-Fixes `fix(AP-10): <what>`
+
 ---
 
 ## 13. Menschliche Schritte
@@ -697,6 +791,8 @@ Keine Konten, Käufe oder Secrets nötig. Kein Remote (PE-24).
 | W3 | AP-04 (S), AP-05 (M), AP-06 (M) | ≈ 4,7 h | ≈ 3 |
 | W4 | AP-08 (L) | ≈ 3,1 h | ≈ 2 |
 | **Gesamt M1** | 8 | **≈ 16,6 h** | **≈ 11 Fenster** |
+| N1 (M1-Nachsorge) | AP-09 (S) | ≈ 0,9 h | ≈ 1 |
+| N2 (M1-Nachsorge) | AP-10 (M, opus) | ≈ 1,9 h | ≈ 1–2 |
 
 **Zeit des Nutzers:** Freigabe, Antworten auf Rückfragen, 1–2 Handtests, 1 Deployment mit Smoke-Test ≈ 1–1,5 h.
 
@@ -824,3 +920,4 @@ Keine Konten, Käufe oder Secrets nötig. Kein Remote (PE-24).
 | 2026-10-22 | W4 fertig: AP-08 (c9, opus) gemergt, Review Runde 1 bestanden, 253/253 Tests, alle Checks grün; alle Wellen W1–W4 abgeschlossen, offen nur H-02/H-03 (Handtest) und M1-DEP (Nutzer). Smoke-Test §9.2 um die Tastenzuordnung ergänzt (`Esc` = „AC“, `Entf` = „C“, `F9` = „±“, `b` = „🐦“, laut `src/ui/keyboard.ts`, README stimmt). Erkenntnisse: (a) AP-08: `src/app/modes.ts` ist eine reine Funktion `transition(state, event)`, die Effekte zurückgibt; der Controller führt die Effekte aus. Neue optionale `AppDeps` (leaderboard, game, gameConfig, render, scheduler, now, rng); `pickStorage` mit `memoryStorage.ts` als Fallback (RI-8); (b) Reviewer-Befunde niedrig, akzeptiert: Timer-Fallback im Scheduler nutzt `Date.now()` statt `performance.now()` (nur ohne rAF relevant); die 800-ms-Sperre nach Game Over blockiert auch „C“/„🐦“/„%“ (so geplant, PE-25); (c) `prettier --check .` meldet 42 nicht angefasste Dateien (kein Plan-Check, vermutlich gemischte Zeilenenden CRLF/LF) – nicht blockierend, optionales Folge-Paket (z. B. `.gitattributes`/`.prettierrc` `endOfLine` + einmal formatieren), nur nach Freigabe des Nutzers; (d) kein Coder konnte die App im Browser starten – H-02/H-03 sind der erste echte Bootnachweis | Merge W4, Pflegeauftrag Lead | AP-08, H-02, H-03, M1-DEP | Lead |
 | 2026-10-23 | Handtests H-02 und H-03 erfolgreich (alle Punkte), §13 abgehakt; M1 freigegeben, bis auf M1-DEP (H-04) abgeschlossen; M1-DEP in §10 auf `bereit`; G3 wird nach den Smoke-Tests auf `stage`/`master` bestätigt | Mitteilung des Nutzers, Pflegeauftrag Lead | H-02, H-03, M1-DEP | Nutzer |
 | 2026-10-23 | M1-DEP (H-04) erledigt: `dev` → `stage` (4e8deaa) → `master` (c6dfe9c) lokal gemergt, beide Smoke-Tests bestanden (Lead hat Branch-Stände und leeren Diff dev↔stage↔master geprüft); M1-DEP `fertig`, **M1 abgeschlossen, G3 erfüllt**, Plan eingefroren (§0, §9.2, §10, §13). Optionale Folgepunkte, **keine Pakete**, nur nach Freigabe des Nutzers: (a) Prettier-Befund: `prettier --check .` meldet 42 Dateien (vermutlich CRLF/LF, siehe 2026-10-22 W4 (c)); (b) Timer-Fallback im Scheduler `Date.now()` statt `performance.now()`; (c) Reviewer-Befunde niedrig aus W1–W4, u. a. `no-eval`/`no-implied-eval` ohne Browser-Globals in `eslint.config.js`, Zwischenspeicher der Bestenliste geht bei `setItem`-Fehler verloren, Datum nur formgeprüft, fehlende Gleichstand-Tests, NaN-`dt` in der Spiellogik, kein Positionstest Röhrengeometrie | Mitteilung des Nutzers, Pflegeauftrag Lead | M1-DEP, H-04 | Nutzer |
+| 2026-10-23 | M1-Nachsorge angelegt (§8, §9.2, §10, §11, §12, §14, §0): AP-09 Prettier-Aufräumen (SH, N1, S, sonnet/low, `bereit`; `prettier --check .` meldet inzwischen 51 Dateien) und AP-10 Code-Vereinfachung (CORE/WEB, N2, M, opus/high, `offen`, hängt an AP-09; bezieht die niedrigen Reviewer-Befunde Timer-Fallback, `setItem`-Zwischenspeicher, NaN-`dt` ein; `eslint.config.js` und `src/contracts/**` nur melden bzw. nach Rückfrage). Keine Änderung an Umfang, Architektur, Verträgen oder bestehenden Paketen | Anweisung des Nutzers („Prettier-Befund aufräumen lassen und Code generell prüfen, ob man Sachen vereinfachen, kürzen, zusammenfassen kann“), Pflegeauftrag Lead | AP-09, AP-10 | Nutzer |
