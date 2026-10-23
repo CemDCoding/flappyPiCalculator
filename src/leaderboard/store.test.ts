@@ -114,6 +114,82 @@ describe('leaderboard', () => {
     expect(() => lb.clear()).not.toThrow();
   });
 
+  it('keeps a new entry in memory when only setItem fails', () => {
+    const stored = JSON.stringify([{ initials: '1', score: 10, date: '2026-01-01' }]);
+    const s = fake(stored);
+    const lb = createLeaderboard(
+      {
+        ...s,
+        setItem: () => {
+          throw new Error('quota');
+        },
+      },
+      today,
+    );
+    lb.add('2', 20);
+    expect(lb.load().map((e) => e.score)).toEqual([20, 10]);
+    expect(lb.qualifies(5)).toBe(true);
+    lb.add('3', 5);
+    expect(lb.load().map((e) => e.score)).toEqual([20, 10, 5]);
+    expect(lb.qualifies(5)).toBe(false);
+    expect(s.data.get(LEADERBOARD_KEY)).toBe(stored);
+  });
+
+  it('writes the in-memory list once setItem works again', () => {
+    const s = fake();
+    let fail = true;
+    const lb = createLeaderboard(
+      {
+        ...s,
+        setItem: (k, v) => {
+          if (fail) throw new Error('quota');
+          s.setItem(k, v);
+        },
+      },
+      today,
+    );
+    lb.add('1', 10);
+    fail = false;
+    lb.add('2', 20);
+    expect(JSON.parse(s.data.get(LEADERBOARD_KEY) ?? '[]')).toEqual([
+      { initials: '2', score: 20, date: '2026-10-21' },
+      { initials: '1', score: 10, date: '2026-10-21' },
+    ]);
+    expect(lb.load().map((e) => e.score)).toEqual([20, 10]);
+  });
+
+  it('keeps the list cleared in memory when only removeItem fails', () => {
+    const s = fake(JSON.stringify([{ initials: '1', score: 10, date: '2026-01-01' }]));
+    const lb = createLeaderboard(
+      {
+        ...s,
+        removeItem: () => {
+          throw new Error('denied');
+        },
+      },
+      today,
+    );
+    lb.clear();
+    expect(lb.load()).toEqual([]);
+  });
+
+  it('keeps older entries first on equal scores', () => {
+    const lb = createLeaderboard(fake(), today);
+    lb.add('1', 10);
+    lb.add('2', 10);
+    expect(lb.load().map((e) => e.initials)).toEqual(['1', '2']);
+  });
+
+  it('does not qualify a score equal to the third place', () => {
+    const lb = createLeaderboard(fake(), today);
+    lb.add('1', 30);
+    lb.add('2', 20);
+    lb.add('3', 10);
+    expect(lb.qualifies(10)).toBe(false);
+    const r = lb.add('4', 10);
+    expect(r.map((e) => e.initials)).toEqual(['1', '2', '3']);
+  });
+
   it('uses default date', () => {
     const r = createLeaderboard(fake()).add('1', 5);
     expect(r[0]?.date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
