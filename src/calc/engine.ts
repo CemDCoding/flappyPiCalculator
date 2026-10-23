@@ -2,17 +2,21 @@ import { MAX_EXPRESSION_LENGTH, type CalcState } from '../contracts/calc';
 import type { CalcKey } from '../contracts/keys';
 import { format } from './format';
 import { evaluate } from './parser';
-
-type Op = '+' | '-' | '*' | '/';
+import { isDigit, type Operator as Op } from './tokenizer';
 
 const isOp = (c: string | undefined): c is Op => c === '+' || c === '-' || c === '*' || c === '/';
-const isDigit = (c: string | undefined): boolean => c !== undefined && c >= '0' && c <= '9';
 /** Zeichen, nach denen ein Wert (Operand) endet. */
 const endsValue = (c: string | undefined): boolean =>
   isDigit(c) || c === '.' || c === ')' || c === '%';
 
 /** Letzte Zahl (inkl. Exponent) und folgende `%` am Ende des Ausdrucks. */
 const TRAILING_ENTRY = /(\d+(?:\.\d*)?(?:e[+-]?\d+)?)(%*)$/;
+
+/** Zahl ganz am Ende des Ausdrucks (ohne folgendes `%`), sonst `null`. */
+function trailingNumber(expr: string): string | null {
+  const m = TRAILING_ENTRY.exec(expr);
+  return m && m[2] === '' && m[1] !== undefined ? m[1] : null;
+}
 
 /**
  * Darstellung eines ASCII-Ausdrucks für das Display: `×`, `÷`, `−`,
@@ -70,9 +74,8 @@ function openParens(expr: string): number {
 function pressDigit(state: CalcState, digit: string): CalcState {
   if (state.error || state.justEvaluated) return withExpression(initialState(), digit);
   const expr = state.expression;
-  const m = TRAILING_ENTRY.exec(expr);
-  if (m && m[2] === '' && m[1] !== undefined) {
-    const num = m[1];
+  const num = trailingNumber(expr);
+  if (num !== null) {
     if (num.includes('e')) return copy(state); // Exponent-Ergebnis ist abgeschlossen
     if (num === '0') return withExpression(state, expr.slice(0, -1) + digit);
     return withExpression(state, expr + digit);
@@ -86,9 +89,9 @@ function pressDot(state: CalcState): CalcState {
   if (state.error) return copy(state);
   if (state.justEvaluated) return withExpression(initialState(), '0.');
   const expr = state.expression;
-  const m = TRAILING_ENTRY.exec(expr);
-  if (m && m[2] === '' && m[1] !== undefined) {
-    if (m[1].includes('.') || m[1].includes('e')) return copy(state);
+  const num = trailingNumber(expr);
+  if (num !== null) {
+    if (num.includes('.') || num.includes('e')) return copy(state);
     return withExpression(state, expr + '.');
   }
   const last = expr[expr.length - 1];
@@ -169,10 +172,8 @@ function pressEquals(state: CalcState): CalcState {
 function pressBack(state: CalcState): CalcState {
   if (state.error) return copy(state);
   const expr = state.expression;
-  const m = TRAILING_ENTRY.exec(expr);
-  if (m && m[2] === '' && m[1]?.includes('e')) {
-    return fromExpression(expr.slice(0, m.index));
-  }
+  const num = trailingNumber(expr);
+  if (num?.includes('e')) return fromExpression(expr.slice(0, expr.length - num.length));
   return fromExpression(expr.slice(0, -1));
 }
 
