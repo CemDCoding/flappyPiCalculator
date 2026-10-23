@@ -4,3 +4,8 @@
 .env.*
 !.env.example
 .claude/
+
+# Build- und Abhängigkeitsordner
+node_modules/
+dist/
+coverage/
